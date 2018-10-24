@@ -1,7 +1,10 @@
-import QtQuick 2.0
+import QtQuick 2.9
 import QtGraphicalEffects 1.0
 
 LinearGradient {
+    property string startColor: '#303434'
+    property string endColor: '#0B4A60'
+
     anchors {
         left: parent.left
         right: parent.right
@@ -10,8 +13,9 @@ LinearGradient {
     }
     start: Qt.point(0, 0)
     end: Qt.point(0, height)
+
     gradient: Gradient {
-        GradientStop { position: 0.0; color: "#303434" }
-        GradientStop { position: 1.0; color: "#0B4A60" }
+        GradientStop { position: 0.0; color: startColor }
+        GradientStop { position: 1.0; color: endColor }
     }
 }

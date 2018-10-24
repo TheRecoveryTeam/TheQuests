@@ -13,4 +13,13 @@ ApplicationWindow {
 
     }
 
+    CardToolbar {
+        id: cardToolbar
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+    }
+
 }

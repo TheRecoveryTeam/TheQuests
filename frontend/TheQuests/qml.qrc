@@ -1,7 +1,9 @@
 <RCC>
     <qresource prefix="/">
+        <file>qtquickcontrols2.conf</file>
         <file>qml/main.qml</file>
         <file>qml/components/BackgroundCardGradient.qml</file>
+        <file>qml/components/CardToolbar.qml</file>
     </qresource>
     <qresource prefix="/views"/>
 </RCC>
