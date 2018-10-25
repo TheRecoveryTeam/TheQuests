@@ -1,9 +1,15 @@
 <RCC>
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
-        <file>qml/main.qml</file>
-        <file>qml/components/BackgroundCardGradient.qml</file>
-        <file>qml/components/CardToolbar.qml</file>
+        <file alias="main.qml">qml/main.qml</file>
+    </qresource>
+    <qresource prefix="/components">
+        <file alias="BackgroundCardGradient.qml">qml/components/BackgroundCardGradient.qml</file>
+        <file alias="CardToolbar.qml">qml/components/CardToolbar.qml</file>
+        <file alias="CardHeading.qml">qml/components/CardHeading.qml</file>
+    </qresource>
+    <qresource prefix="/media">
+        <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>
     </qresource>
     <qresource prefix="/views"/>
 </RCC>

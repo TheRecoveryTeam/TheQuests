@@ -22,4 +22,8 @@ ApplicationWindow {
         }
     }
 
+    CardHeading {
+        id: title
+        label: 'MyCustomText'
+    }
 }
