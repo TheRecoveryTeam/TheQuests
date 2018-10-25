@@ -12,7 +12,11 @@ Label {
     id: title
     text: label
     color: 'white'
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
     font {
+        letterSpacing: 5
         family: robotoSlabBold.name
+        pixelSize: 16
     }
 }

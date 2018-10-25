@@ -4,12 +4,14 @@
         <file alias="main.qml">qml/main.qml</file>
     </qresource>
     <qresource prefix="/components">
-        <file alias="BackgroundCardGradient.qml">qml/components/BackgroundCardGradient.qml</file>
-        <file alias="CardToolbar.qml">qml/components/CardToolbar.qml</file>
-        <file alias="CardHeading.qml">qml/components/CardHeading.qml</file>
+        <file alias="Card/BackgroundCardGradient.qml">qml/components/Card/BackgroundCardGradient.qml</file>
+        <file alias="Card/CardToolbar.qml">qml/components/Card/CardToolbar.qml</file>
+        <file alias="Card/CardHeading.qml">qml/components/Card/CardHeading.qml</file>
+        <file alias="Card/Card.qml">qml/components/Card/index.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>
+        <file alias="Exo2-Regular.ttf">qml/media/Exo2-Regular.ttf</file>
     </qresource>
     <qresource prefix="/views"/>
 </RCC>
