@@ -16,7 +16,8 @@ SOURCES += \
         src/main.cpp \
     src/models/CardModel/cardmodel.cpp \
     src/engine/App/app.cpp \
-    src/engine/Store/store.cpp
+    src/engine/Store/store.cpp \
+    src/models/QuestShortModel/questshortmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -34,4 +35,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     src/models/CardModel/cardmodel.h \
     src/engine/App/app.h \
-    src/engine/Store/store.h
+    src/engine/Store/store.h \
+    src/models/QuestShortModel/questshortmodel.h
