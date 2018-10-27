@@ -17,7 +17,9 @@ SOURCES += \
     src/models/CardModel/cardmodel.cpp \
     src/engine/App/app.cpp \
     src/engine/Store/store.cpp \
-    src/models/QuestShortModel/questshortmodel.cpp
+    src/models/QuestShortModel/questshortmodel.cpp \
+    src/models/QuestDetailModel/questdetailmodel.cpp \
+    src/models/QuestListModel/questlistmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -36,4 +38,6 @@ HEADERS += \
     src/models/CardModel/cardmodel.h \
     src/engine/App/app.h \
     src/engine/Store/store.h \
-    src/models/QuestShortModel/questshortmodel.h
+    src/models/QuestShortModel/questshortmodel.h \
+    src/models/QuestDetailModel/questdetailmodel.h \
+    src/models/QuestListModel/questlistmodel.h
