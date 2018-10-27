@@ -35,7 +35,7 @@ Rectangle {
 
         Rectangle {
             id: cardDescription
-            property string text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ultricies auctor tortor at elementum. In ac viverra felis, ut mollis nulla."
+            property string text: currentCard.description
             Text {
                 FontLoader {
                     id: robotoSlabBold
@@ -95,7 +95,7 @@ Rectangle {
 
             CardHeading {
                 anchors.fill: parent
-                label: 'Card Heading'
+                label: currentCard.title
             }
             color: 'transparent'
         }
