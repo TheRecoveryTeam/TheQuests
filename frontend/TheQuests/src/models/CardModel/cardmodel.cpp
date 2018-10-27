@@ -1,6 +1,18 @@
 #include "cardmodel.h"
 
-CardModel::CardModel(const QString &id, const QString &questId, const QString &title, const QString &imagePath, const QString &description, const QString &type):
+CardModel::CardModel(QObject* parent): QObject(parent)
+{ }
+
+CardModel::CardModel(
+        const QString &id,
+        const QString &questId,
+        const QString &title,
+        const QString &imagePath,
+        const QString &description,
+        const QString &type,
+        QObject* parent
+    ):
+    QObject(parent),
     id(id),
     questId(questId),
     title(title),

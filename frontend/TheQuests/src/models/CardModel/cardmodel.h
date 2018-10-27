@@ -15,13 +15,16 @@ class CardModel : public QObject
 
 public:
 
-    explicit CardModel(
+    explicit CardModel(QObject* parent = nullptr);
+
+    CardModel(
             const QString& id,
             const QString& questId,
             const QString& title,
             const QString& imagePath,
             const QString& description,
-            const QString& type);
+            const QString& type,
+            QObject* parent = nullptr);
     virtual ~CardModel() = default;
 
     const QString& getId() const;

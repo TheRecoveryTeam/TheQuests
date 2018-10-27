@@ -14,7 +14,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         src/main.cpp \
-    src/models/CardModel/cardmodel.cpp
+    src/models/CardModel/cardmodel.cpp \
+    src/engine/App/app.cpp \
+    src/engine/Store/store.cpp
 
 RESOURCES += qml.qrc
 
@@ -30,4 +32,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    src/models/CardModel/cardmodel.h
+    src/models/CardModel/cardmodel.h \
+    src/engine/App/app.h \
+    src/engine/Store/store.h

@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Controls.Material 2.3
+import models 1.0
 
 Rectangle {
     BackgroundCardGradient {
@@ -35,7 +36,7 @@ Rectangle {
 
         Rectangle {
             id: cardDescription
-            property string text: currentCard.description
+            property string text: application.store.get('loadedCard').description
             Text {
                 FontLoader {
                     id: robotoSlabBold
@@ -95,7 +96,7 @@ Rectangle {
 
             CardHeading {
                 anchors.fill: parent
-                label: currentCard.title
+                label: application.store.get('loadedCard').title
             }
             color: 'transparent'
         }
