@@ -17,7 +17,7 @@ CardShortModel::CardShortModel(const QString& id,
     description(description)
 { }
 
-QString CardShortModel::getId() const
+const QString& CardShortModel::getId() const
 {
     return id;
 }
@@ -27,7 +27,7 @@ void CardShortModel::setId(const QString& value)
     id = value;
 }
 
-QString CardShortModel::getTitle() const
+const QString& CardShortModel::getTitle() const
 {
     return title;
 }
@@ -37,7 +37,7 @@ void CardShortModel::setTitle(const QString& value)
     title = value;
 }
 
-QString CardShortModel::getImagePath() const
+const QString& CardShortModel::getImagePath() const
 {
     return imagePath;
 }
@@ -47,7 +47,7 @@ void CardShortModel::setImagePath(const QString& value)
     imagePath = value;
 }
 
-QString CardShortModel::getDescription() const
+const QString& CardShortModel::getDescription() const
 {
     return description;
 }
