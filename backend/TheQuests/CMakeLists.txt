@@ -19,6 +19,7 @@ endif()
 set(CMAKE_AUTOMOC ON)
 
 find_package(TreeFrog REQUIRED)
+find_package(Qt5 REQUIRED Core)
 add_subdirectory(helpers)
 add_subdirectory(models)
 add_subdirectory(views)
