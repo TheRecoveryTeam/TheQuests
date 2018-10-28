@@ -2,70 +2,136 @@
 #include "questcollection.h"
 #include "questcollectionobject.h"
 
-QuestCollection::QuestCollection()
-    : TAbstractModel(), d(new QuestCollectionObject())
+Questcollection::Questcollection()
+    : TAbstractModel(), d(new QuestcollectionObject())
 {
     d->lockRevision = 0;
 }
 
-QuestCollection::QuestCollection(const QuestCollection &other)
-    : TAbstractModel(), d(new QuestCollectionObject(*other.d))
+Questcollection::Questcollection(const Questcollection &other)
+    : TAbstractModel(), d(new QuestcollectionObject(*other.d))
 { }
 
-QuestCollection::QuestCollection(const QuestCollectionObject &object)
-    : TAbstractModel(), d(new QuestCollectionObject(object))
+Questcollection::Questcollection(const QuestcollectionObject &object)
+    : TAbstractModel(), d(new QuestcollectionObject(object))
 { }
 
-QuestCollection::~QuestCollection()
+Questcollection::~Questcollection()
 {
     // If the reference count becomes 0,
-    // the shared data object 'QuestCollectionObject' is deleted.
+    // the shared data object 'QuestcollectionObject' is deleted.
 }
 
-QString QuestCollection::id() const
+QString Questcollection::id() const
 {
     return d->_id;
 }
 
-QDateTime QuestCollection::createdAt() const
+QString Questcollection::title() const
+{
+    return d->title;
+}
+
+void Questcollection::setTitle(const QString &title)
+{
+    d->title = title;
+}
+
+QString Questcollection::description() const
+{
+    return d->description;
+}
+
+void Questcollection::setDescription(const QString &description)
+{
+    d->description = description;
+}
+
+QString Questcollection::imagePath() const
+{
+    return d->imagePath;
+}
+
+void Questcollection::setImagePath(const QString &imagePath)
+{
+    d->imagePath = imagePath;
+}
+
+QString Questcollection::firstCardId() const
+{
+    return d->firstCardId;
+}
+
+void Questcollection::setFirstCardId(const QString &firstCardId)
+{
+    d->firstCardId = firstCardId;
+}
+
+QString Questcollection::anotherId() const
+{
+    return d->anotherId;
+}
+
+void Questcollection::setAnotherId(const QString &anotherId)
+{
+    d->anotherId = anotherId;
+}
+
+QVariantMap Questcollection::resources() const
+{
+    return d->resources;
+}
+
+void Questcollection::setResources(const QVariantMap &resources)
+{
+    d->resources = resources;
+}
+
+QDateTime Questcollection::createdAt() const
 {
     return d->createdAt;
 }
 
-QDateTime QuestCollection::updatedAt() const
+QDateTime Questcollection::updatedAt() const
 {
     return d->updatedAt;
 }
 
-int QuestCollection::lockRevision() const
+int Questcollection::lockRevision() const
 {
     return d->lockRevision;
 }
 
-QuestCollection &QuestCollection::operator=(const QuestCollection &other)
+Questcollection &Questcollection::operator=(const Questcollection &other)
 {
     d = other.d;  // increments the reference count of the data
     return *this;
 }
 
-bool QuestCollection::upsert(const QVariantMap &criteria)
+bool Questcollection::upsert(const QVariantMap &criteria)
 {
     auto *obj = dynamic_cast<TMongoObject*>(modelData());
     return (obj) ? obj->upsert(criteria) : false;
 }
 
-QuestCollection QuestCollection::create(const QString &)
+Questcollection Questcollection::create(const QString &title, const QString &description, const QString &imagePath, const QString &firstCardId, const QString &anotherId, const QVariantMap &resources)
 {
-    QuestCollectionObject obj;
+    QuestcollectionObject obj;
+    obj.title = title;
+    obj.description = description;
+    obj.imagePath = imagePath;
+    obj.firstCardId = firstCardId;
+    obj.anotherId = anotherId;
+    obj.resources = resources;
     if (!obj.create()) {
-        return QuestCollection();
+        return Questcollection();
     }
-    return QuestCollection(obj);
+    return Questcollection(obj);
 }
 
-QuestCollection QuestCollection::create(const QVariantMap &values)
+Questcollection Questcollection::create(const QVariantMap &values)
 {
-    QuestCollection model;
+    Questcollection model;
     model.setProperties(values);
     if (!model.d->create()) {
         model.d->clear();
@@ -73,63 +139,63 @@ QuestCollection QuestCollection::create(const QVariantMap &values)
     return model;
 }
 
-QuestCollection QuestCollection::get(const QString &id)
+Questcollection Questcollection::get(const QString &id)
 {
-    TMongoODMapper<QuestCollectionObject> mapper;
-    return QuestCollection(mapper.findByObjectId(id));
+    TMongoODMapper<QuestcollectionObject> mapper;
+    return Questcollection(mapper.findByObjectId(id));
 }
 
-QuestCollection QuestCollection::get(const QString &id, int lockRevision)
+Questcollection Questcollection::get(const QString &id, int lockRevision)
 {
-    TMongoODMapper<QuestCollectionObject> mapper;
+    TMongoODMapper<QuestcollectionObject> mapper;
     TCriteria cri;
-    cri.add(QuestCollectionObject::Id, id);
-    cri.add(QuestCollectionObject::LockRevision, lockRevision);
-    return QuestCollection(mapper.findFirst(cri));
+    cri.add(QuestcollectionObject::Id, id);
+    cri.add(QuestcollectionObject::LockRevision, lockRevision);
+    return Questcollection(mapper.findFirst(cri));
 }
 
-int QuestCollection::count()
+int Questcollection::count()
 {
-    TMongoODMapper<QuestCollectionObject> mapper;
+    TMongoODMapper<QuestcollectionObject> mapper;
     return mapper.findCount();
 }
 
-QList<QuestCollection> QuestCollection::getAll()
+QList<Questcollection> Questcollection::getAll()
 {
-    return tfGetModelListByMongoCriteria<QuestCollection, QuestCollectionObject>(TCriteria());
+    return tfGetModelListByMongoCriteria<Questcollection, QuestcollectionObject>(TCriteria());
 }
 
-QJsonArray QuestCollection::getAllJson()
+QJsonArray Questcollection::getAllJson()
 {
     QJsonArray array;
-    TMongoODMapper<QuestCollectionObject> mapper;
+    TMongoODMapper<QuestcollectionObject> mapper;
 
     if (mapper.find()) {
         while (mapper.next()) {
-            array.append(QJsonValue(QJsonObject::fromVariantMap(QuestCollection(mapper.value()).toVariantMap())));
+            array.append(QJsonValue(QJsonObject::fromVariantMap(Questcollection(mapper.value()).toVariantMap())));
         }
     }
     return array;
 }
 
-TModelObject *QuestCollection::modelData()
+TModelObject *Questcollection::modelData()
 {
     return d.data();
 }
 
-const TModelObject *QuestCollection::modelData() const
+const TModelObject *Questcollection::modelData() const
 {
     return d.data();
 }
 
-QDataStream &operator<<(QDataStream &ds, const QuestCollection &model)
+QDataStream &operator<<(QDataStream &ds, const Questcollection &model)
 {
     auto varmap = model.toVariantMap();
     ds << varmap;
     return ds;
 }
 
-QDataStream &operator>>(QDataStream &ds, QuestCollection &model)
+QDataStream &operator>>(QDataStream &ds, Questcollection &model)
 {
     QVariantMap varmap;
     ds >> varmap;
@@ -138,4 +204,4 @@ QDataStream &operator>>(QDataStream &ds, QuestCollection &model)
 }
 
 // Don't remove below this line
-T_REGISTER_STREAM_OPERATORS(QuestCollection)
+T_REGISTER_STREAM_OPERATORS(Questcollection)

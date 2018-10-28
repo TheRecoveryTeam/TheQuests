@@ -2,70 +2,103 @@
 #include "userscollection.h"
 #include "userscollectionobject.h"
 
-UsersCollection::UsersCollection()
-    : TAbstractModel(), d(new UsersCollectionObject())
+Userscollection::Userscollection()
+    : TAbstractModel(), d(new UserscollectionObject())
 {
     d->lockRevision = 0;
 }
 
-UsersCollection::UsersCollection(const UsersCollection &other)
-    : TAbstractModel(), d(new UsersCollectionObject(*other.d))
+Userscollection::Userscollection(const Userscollection &other)
+    : TAbstractModel(), d(new UserscollectionObject(*other.d))
 { }
 
-UsersCollection::UsersCollection(const UsersCollectionObject &object)
-    : TAbstractModel(), d(new UsersCollectionObject(object))
+Userscollection::Userscollection(const UserscollectionObject &object)
+    : TAbstractModel(), d(new UserscollectionObject(object))
 { }
 
-UsersCollection::~UsersCollection()
+Userscollection::~Userscollection()
 {
     // If the reference count becomes 0,
-    // the shared data object 'UsersCollectionObject' is deleted.
+    // the shared data object 'UserscollectionObject' is deleted.
 }
 
-QString UsersCollection::id() const
+QString Userscollection::id() const
 {
     return d->_id;
 }
 
-QDateTime UsersCollection::createdAt() const
+QString Userscollection::username() const
+{
+    return d->username;
+}
+
+void Userscollection::setUsername(const QString &username)
+{
+    d->username = username;
+}
+
+QString Userscollection::email() const
+{
+    return d->email;
+}
+
+void Userscollection::setEmail(const QString &email)
+{
+    d->email = email;
+}
+
+QString Userscollection::password() const
+{
+    return d->password;
+}
+
+void Userscollection::setPassword(const QString &password)
+{
+    d->password = password;
+}
+
+QDateTime Userscollection::createdAt() const
 {
     return d->createdAt;
 }
 
-QDateTime UsersCollection::updatedAt() const
+QDateTime Userscollection::updatedAt() const
 {
     return d->updatedAt;
 }
 
-int UsersCollection::lockRevision() const
+int Userscollection::lockRevision() const
 {
     return d->lockRevision;
 }
 
-UsersCollection &UsersCollection::operator=(const UsersCollection &other)
+Userscollection &Userscollection::operator=(const Userscollection &other)
 {
     d = other.d;  // increments the reference count of the data
     return *this;
 }
 
-bool UsersCollection::upsert(const QVariantMap &criteria)
+bool Userscollection::upsert(const QVariantMap &criteria)
 {
     auto *obj = dynamic_cast<TMongoObject*>(modelData());
     return (obj) ? obj->upsert(criteria) : false;
 }
 
-UsersCollection UsersCollection::create(const QString &)
+Userscollection Userscollection::create(const QString &username, const QString &email, const QString &password)
 {
-    UsersCollectionObject obj;
+    UserscollectionObject obj;
+    obj.username = username;
+    obj.email = email;
+    obj.password = password;
     if (!obj.create()) {
-        return UsersCollection();
+        return Userscollection();
     }
-    return UsersCollection(obj);
+    return Userscollection(obj);
 }
 
-UsersCollection UsersCollection::create(const QVariantMap &values)
+Userscollection Userscollection::create(const QVariantMap &values)
 {
-    UsersCollection model;
+    Userscollection model;
     model.setProperties(values);
     if (!model.d->create()) {
         model.d->clear();
@@ -73,63 +106,63 @@ UsersCollection UsersCollection::create(const QVariantMap &values)
     return model;
 }
 
-UsersCollection UsersCollection::get(const QString &id)
+Userscollection Userscollection::get(const QString &id)
 {
-    TMongoODMapper<UsersCollectionObject> mapper;
-    return UsersCollection(mapper.findByObjectId(id));
+    TMongoODMapper<UserscollectionObject> mapper;
+    return Userscollection(mapper.findByObjectId(id));
 }
 
-UsersCollection UsersCollection::get(const QString &id, int lockRevision)
+Userscollection Userscollection::get(const QString &id, int lockRevision)
 {
-    TMongoODMapper<UsersCollectionObject> mapper;
+    TMongoODMapper<UserscollectionObject> mapper;
     TCriteria cri;
-    cri.add(UsersCollectionObject::Id, id);
-    cri.add(UsersCollectionObject::LockRevision, lockRevision);
-    return UsersCollection(mapper.findFirst(cri));
+    cri.add(UserscollectionObject::Id, id);
+    cri.add(UserscollectionObject::LockRevision, lockRevision);
+    return Userscollection(mapper.findFirst(cri));
 }
 
-int UsersCollection::count()
+int Userscollection::count()
 {
-    TMongoODMapper<UsersCollectionObject> mapper;
+    TMongoODMapper<UserscollectionObject> mapper;
     return mapper.findCount();
 }
 
-QList<UsersCollection> UsersCollection::getAll()
+QList<Userscollection> Userscollection::getAll()
 {
-    return tfGetModelListByMongoCriteria<UsersCollection, UsersCollectionObject>(TCriteria());
+    return tfGetModelListByMongoCriteria<Userscollection, UserscollectionObject>(TCriteria());
 }
 
-QJsonArray UsersCollection::getAllJson()
+QJsonArray Userscollection::getAllJson()
 {
     QJsonArray array;
-    TMongoODMapper<UsersCollectionObject> mapper;
+    TMongoODMapper<UserscollectionObject> mapper;
 
     if (mapper.find()) {
         while (mapper.next()) {
-            array.append(QJsonValue(QJsonObject::fromVariantMap(UsersCollection(mapper.value()).toVariantMap())));
+            array.append(QJsonValue(QJsonObject::fromVariantMap(Userscollection(mapper.value()).toVariantMap())));
         }
     }
     return array;
 }
 
-TModelObject *UsersCollection::modelData()
+TModelObject *Userscollection::modelData()
 {
     return d.data();
 }
 
-const TModelObject *UsersCollection::modelData() const
+const TModelObject *Userscollection::modelData() const
 {
     return d.data();
 }
 
-QDataStream &operator<<(QDataStream &ds, const UsersCollection &model)
+QDataStream &operator<<(QDataStream &ds, const Userscollection &model)
 {
     auto varmap = model.toVariantMap();
     ds << varmap;
     return ds;
 }
 
-QDataStream &operator>>(QDataStream &ds, UsersCollection &model)
+QDataStream &operator>>(QDataStream &ds, Userscollection &model)
 {
     QVariantMap varmap;
     ds >> varmap;
@@ -138,4 +171,4 @@ QDataStream &operator>>(QDataStream &ds, UsersCollection &model)
 }
 
 // Don't remove below this line
-T_REGISTER_STREAM_OPERATORS(UsersCollection)
+T_REGISTER_STREAM_OPERATORS(Userscollection)

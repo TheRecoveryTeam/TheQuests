@@ -9,23 +9,29 @@
 #include <TAbstractModel>
 
 class TModelObject;
-class UsersCollectionObject;
+class UserscollectionObject;
 class QJsonArray;
 
 
-class T_MODEL_EXPORT UsersCollection : public TAbstractModel
+class T_MODEL_EXPORT Userscollection : public TAbstractModel
 {
 public:
-    UsersCollection();
-    UsersCollection(const UsersCollection &other);
-    UsersCollection(const UsersCollectionObject &object);
-    ~UsersCollection();
+    Userscollection();
+    Userscollection(const Userscollection &other);
+    Userscollection(const UserscollectionObject &object);
+    ~Userscollection();
 
     QString id() const;
+    QString username() const;
+    void setUsername(const QString &username);
+    QString email() const;
+    void setEmail(const QString &email);
+    QString password() const;
+    void setPassword(const QString &password);
     QDateTime createdAt() const;
     QDateTime updatedAt() const;
     int lockRevision() const;
-    UsersCollection &operator=(const UsersCollection &other);
+    Userscollection &operator=(const Userscollection &other);
 
     bool create() override { return TAbstractModel::create(); }
     bool update() override { return TAbstractModel::update(); }
@@ -33,24 +39,24 @@ public:
     bool save()   override { return TAbstractModel::save(); }
     bool remove() override { return TAbstractModel::remove(); }
 
-    static UsersCollection create(const QString &);
-    static UsersCollection create(const QVariantMap &values);
-    static UsersCollection get(const QString &id);
-    static UsersCollection get(const QString &id, int lockRevision);
+    static Userscollection create(const QString &username, const QString &email, const QString &password);
+    static Userscollection create(const QVariantMap &values);
+    static Userscollection get(const QString &id);
+    static Userscollection get(const QString &id, int lockRevision);
     static int count();
-    static QList<UsersCollection> getAll();
+    static QList<Userscollection> getAll();
     static QJsonArray getAllJson();
 
 private:
-    QSharedDataPointer<UsersCollectionObject> d;
+    QSharedDataPointer<UserscollectionObject> d;
 
     TModelObject *modelData() override;
     const TModelObject *modelData() const override;
-    friend QDataStream &operator<<(QDataStream &ds, const UsersCollection &model);
-    friend QDataStream &operator>>(QDataStream &ds, UsersCollection &model);
+    friend QDataStream &operator<<(QDataStream &ds, const Userscollection &model);
+    friend QDataStream &operator>>(QDataStream &ds, Userscollection &model);
 };
 
-Q_DECLARE_METATYPE(UsersCollection)
-Q_DECLARE_METATYPE(QList<UsersCollection>)
+Q_DECLARE_METATYPE(Userscollection)
+Q_DECLARE_METATYPE(QList<Userscollection>)
 
 #endif // USERSCOLLECTION_H

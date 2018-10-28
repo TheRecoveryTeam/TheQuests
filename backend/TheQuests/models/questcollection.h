@@ -9,23 +9,35 @@
 #include <TAbstractModel>
 
 class TModelObject;
-class QuestCollectionObject;
+class QuestcollectionObject;
 class QJsonArray;
 
 
-class T_MODEL_EXPORT QuestCollection : public TAbstractModel
+class T_MODEL_EXPORT Questcollection : public TAbstractModel
 {
 public:
-    QuestCollection();
-    QuestCollection(const QuestCollection &other);
-    QuestCollection(const QuestCollectionObject &object);
-    ~QuestCollection();
+    Questcollection();
+    Questcollection(const Questcollection &other);
+    Questcollection(const QuestcollectionObject &object);
+    ~Questcollection();
 
     QString id() const;
+    QString title() const;
+    void setTitle(const QString &title);
+    QString description() const;
+    void setDescription(const QString &description);
+    QString imagePath() const;
+    void setImagePath(const QString &imagePath);
+    QString firstCardId() const;
+    void setFirstCardId(const QString &firstCardId);
+    QString anotherId() const;
+    void setAnotherId(const QString &anotherId);
+    QVariantMap resources() const;
+    void setResources(const QVariantMap &resources);
     QDateTime createdAt() const;
     QDateTime updatedAt() const;
     int lockRevision() const;
-    QuestCollection &operator=(const QuestCollection &other);
+    Questcollection &operator=(const Questcollection &other);
 
     bool create() override { return TAbstractModel::create(); }
     bool update() override { return TAbstractModel::update(); }
@@ -33,24 +45,24 @@ public:
     bool save()   override { return TAbstractModel::save(); }
     bool remove() override { return TAbstractModel::remove(); }
 
-    static QuestCollection create(const QString &);
-    static QuestCollection create(const QVariantMap &values);
-    static QuestCollection get(const QString &id);
-    static QuestCollection get(const QString &id, int lockRevision);
+    static Questcollection create(const QString &title, const QString &description, const QString &imagePath, const QString &firstCardId, const QString &anotherId, const QVariantMap &resources);
+    static Questcollection create(const QVariantMap &values);
+    static Questcollection get(const QString &id);
+    static Questcollection get(const QString &id, int lockRevision);
     static int count();
-    static QList<QuestCollection> getAll();
+    static QList<Questcollection> getAll();
     static QJsonArray getAllJson();
 
 private:
-    QSharedDataPointer<QuestCollectionObject> d;
+    QSharedDataPointer<QuestcollectionObject> d;
 
     TModelObject *modelData() override;
     const TModelObject *modelData() const override;
-    friend QDataStream &operator<<(QDataStream &ds, const QuestCollection &model);
-    friend QDataStream &operator>>(QDataStream &ds, QuestCollection &model);
+    friend QDataStream &operator<<(QDataStream &ds, const Questcollection &model);
+    friend QDataStream &operator>>(QDataStream &ds, Questcollection &model);
 };
 
-Q_DECLARE_METATYPE(QuestCollection)
-Q_DECLARE_METATYPE(QList<QuestCollection>)
+Q_DECLARE_METATYPE(Questcollection)
+Q_DECLARE_METATYPE(QList<Questcollection>)
 
 #endif // QUESTCOLLECTION_H

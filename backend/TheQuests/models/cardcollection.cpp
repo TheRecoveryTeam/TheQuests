@@ -2,70 +2,119 @@
 #include "cardcollection.h"
 #include "cardcollectionobject.h"
 
-CardCollection::CardCollection()
-    : TAbstractModel(), d(new CardCollectionObject())
-{
-    d->lockRevision = 0;
-}
-
-CardCollection::CardCollection(const CardCollection &other)
-    : TAbstractModel(), d(new CardCollectionObject(*other.d))
+Cardcollection::Cardcollection()
+    : TAbstractModel(), d(new CardcollectionObject())
 { }
 
-CardCollection::CardCollection(const CardCollectionObject &object)
-    : TAbstractModel(), d(new CardCollectionObject(object))
+Cardcollection::Cardcollection(const Cardcollection &other)
+    : TAbstractModel(), d(new CardcollectionObject(*other.d))
 { }
 
-CardCollection::~CardCollection()
+Cardcollection::Cardcollection(const CardcollectionObject &object)
+    : TAbstractModel(), d(new CardcollectionObject(object))
+{ }
+
+Cardcollection::~Cardcollection()
 {
     // If the reference count becomes 0,
-    // the shared data object 'CardCollectionObject' is deleted.
+    // the shared data object 'CardcollectionObject' is deleted.
 }
 
-QString CardCollection::id() const
+QString Cardcollection::id() const
 {
     return d->_id;
 }
 
-QDateTime CardCollection::createdAt() const
+QString Cardcollection::questId() const
 {
-    return d->createdAt;
+    return d->questId;
 }
 
-QDateTime CardCollection::updatedAt() const
+void Cardcollection::setQuestId(const QString &questId)
 {
-    return d->updatedAt;
+    d->questId = questId;
 }
 
-int CardCollection::lockRevision() const
+QString Cardcollection::title() const
 {
-    return d->lockRevision;
+    return d->title;
 }
 
-CardCollection &CardCollection::operator=(const CardCollection &other)
+void Cardcollection::setTitle(const QString &title)
+{
+    d->title = title;
+}
+
+QString Cardcollection::imagePath() const
+{
+    return d->imagePath;
+}
+
+void Cardcollection::setImagePath(const QString &imagePath)
+{
+    d->imagePath = imagePath;
+}
+
+QString Cardcollection::description() const
+{
+    return d->description;
+}
+
+void Cardcollection::setDescription(const QString &description)
+{
+    d->description = description;
+}
+
+QVariantMap Cardcollection::links() const
+{
+    return d->links;
+}
+
+void Cardcollection::setLinks(const QVariantMap &links)
+{
+    d->links = links;
+}
+
+QString Cardcollection::type() const
+{
+    return d->type;
+}
+
+void Cardcollection::setType(const QString &type)
+{
+    d->type = type;
+}
+
+Cardcollection &Cardcollection::operator=(const Cardcollection &other)
 {
     d = other.d;  // increments the reference count of the data
     return *this;
 }
 
-bool CardCollection::upsert(const QVariantMap &criteria)
+bool Cardcollection::upsert(const QVariantMap &criteria)
 {
     auto *obj = dynamic_cast<TMongoObject*>(modelData());
     return (obj) ? obj->upsert(criteria) : false;
 }
 
-CardCollection CardCollection::create(const QString &)
+Cardcollection Cardcollection::create(const QString &questId, const QString &title, const QString &imagePath, const QString &description, const QVariantMap &links, const QString &type)
 {
-    CardCollectionObject obj;
+    CardcollectionObject obj;
+    obj.questId = questId;
+    obj.title = title;
+    obj.imagePath = imagePath;
+    obj.description = description;
+    obj.links = links;
+    obj.type = type;
     if (!obj.create()) {
-        return CardCollection();
+        return Cardcollection();
     }
-    return CardCollection(obj);
+    return Cardcollection(obj);
 }
 
-CardCollection CardCollection::create(const QVariantMap &values)
+Cardcollection Cardcollection::create(const QVariantMap &values)
 {
-    CardCollection model;
+    Cardcollection model;
     model.setProperties(values);
     if (!model.d->create()) {
         model.d->clear();
@@ -73,63 +122,54 @@ CardCollection CardCollection::create(const QVariantMap &values)
     return model;
 }
 
-CardCollection CardCollection::get(const QString &id)
+Cardcollection Cardcollection::get(const QString &id)
 {
-    TMongoODMapper<CardCollectionObject> mapper;
-    return CardCollection(mapper.findByObjectId(id));
+    TMongoODMapper<CardcollectionObject> mapper;
+    return Cardcollection(mapper.findByObjectId(id));
 }
 
-CardCollection CardCollection::get(const QString &id, int lockRevision)
+int Cardcollection::count()
 {
-    TMongoODMapper<CardCollectionObject> mapper;
-    TCriteria cri;
-    cri.add(CardCollectionObject::Id, id);
-    cri.add(CardCollectionObject::LockRevision, lockRevision);
-    return CardCollection(mapper.findFirst(cri));
-}
-
-int CardCollection::count()
-{
-    TMongoODMapper<CardCollectionObject> mapper;
+    TMongoODMapper<CardcollectionObject> mapper;
     return mapper.findCount();
 }
 
-QList<CardCollection> CardCollection::getAll()
+QList<Cardcollection> Cardcollection::getAll()
 {
-    return tfGetModelListByMongoCriteria<CardCollection, CardCollectionObject>(TCriteria());
+    return tfGetModelListByMongoCriteria<Cardcollection, CardcollectionObject>(TCriteria());
 }
 
-QJsonArray CardCollection::getAllJson()
+QJsonArray Cardcollection::getAllJson()
 {
     QJsonArray array;
-    TMongoODMapper<CardCollectionObject> mapper;
+    TMongoODMapper<CardcollectionObject> mapper;
 
     if (mapper.find()) {
         while (mapper.next()) {
-            array.append(QJsonValue(QJsonObject::fromVariantMap(CardCollection(mapper.value()).toVariantMap())));
+            array.append(QJsonValue(QJsonObject::fromVariantMap(Cardcollection(mapper.value()).toVariantMap())));
         }
     }
     return array;
 }
 
-TModelObject *CardCollection::modelData()
+TModelObject *Cardcollection::modelData()
 {
     return d.data();
 }
 
-const TModelObject *CardCollection::modelData() const
+const TModelObject *Cardcollection::modelData() const
 {
     return d.data();
 }
 
-QDataStream &operator<<(QDataStream &ds, const CardCollection &model)
+QDataStream &operator<<(QDataStream &ds, const Cardcollection &model)
 {
     auto varmap = model.toVariantMap();
     ds << varmap;
     return ds;
 }
 
-QDataStream &operator>>(QDataStream &ds, CardCollection &model)
+QDataStream &operator>>(QDataStream &ds, Cardcollection &model)
 {
     QVariantMap varmap;
     ds >> varmap;
@@ -138,4 +178,4 @@ QDataStream &operator>>(QDataStream &ds, CardCollection &model)
 }
 
 // Don't remove below this line
-T_REGISTER_STREAM_OPERATORS(CardCollection)
+T_REGISTER_STREAM_OPERATORS(Cardcollection)

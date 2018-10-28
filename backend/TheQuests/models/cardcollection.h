@@ -9,23 +9,32 @@
 #include <TAbstractModel>
 
 class TModelObject;
-class CardCollectionObject;
+class CardcollectionObject;
 class QJsonArray;
 
 
-class T_MODEL_EXPORT CardCollection : public TAbstractModel
+class T_MODEL_EXPORT Cardcollection : public TAbstractModel
 {
 public:
-    CardCollection();
-    CardCollection(const CardCollection &other);
-    CardCollection(const CardCollectionObject &object);
-    ~CardCollection();
+    Cardcollection();
+    Cardcollection(const Cardcollection &other);
+    Cardcollection(const CardcollectionObject &object);
+    ~Cardcollection();
 
     QString id() const;
-    QDateTime createdAt() const;
-    QDateTime updatedAt() const;
-    int lockRevision() const;
-    CardCollection &operator=(const CardCollection &other);
+    QString questId() const;
+    void setQuestId(const QString &questId);
+    QString title() const;
+    void setTitle(const QString &title);
+    QString imagePath() const;
+    void setImagePath(const QString &imagePath);
+    QString description() const;
+    void setDescription(const QString &description);
+    QVariantMap links() const;
+    void setLinks(const QVariantMap &links);
+    QString type() const;
+    void setType(const QString &type);
+    Cardcollection &operator=(const Cardcollection &other);
 
     bool create() override { return TAbstractModel::create(); }
     bool update() override { return TAbstractModel::update(); }
@@ -33,24 +42,23 @@ public:
     bool save()   override { return TAbstractModel::save(); }
     bool remove() override { return TAbstractModel::remove(); }
 
-    static CardCollection create(const QString &);
-    static CardCollection create(const QVariantMap &values);
-    static CardCollection get(const QString &id);
-    static CardCollection get(const QString &id, int lockRevision);
+    static Cardcollection create(const QString &questId, const QString &title, const QString &imagePath, const QString &description, const QVariantMap &links, const QString &type);
+    static Cardcollection create(const QVariantMap &values);
+    static Cardcollection get(const QString &id);
     static int count();
-    static QList<CardCollection> getAll();
+    static QList<Cardcollection> getAll();
     static QJsonArray getAllJson();
 
 private:
-    QSharedDataPointer<CardCollectionObject> d;
+    QSharedDataPointer<CardcollectionObject> d;
 
     TModelObject *modelData() override;
     const TModelObject *modelData() const override;
-    friend QDataStream &operator<<(QDataStream &ds, const CardCollection &model);
-    friend QDataStream &operator>>(QDataStream &ds, CardCollection &model);
+    friend QDataStream &operator<<(QDataStream &ds, const Cardcollection &model);
+    friend QDataStream &operator>>(QDataStream &ds, Cardcollection &model);
 };
 
-Q_DECLARE_METATYPE(CardCollection)
-Q_DECLARE_METATYPE(QList<CardCollection>)
+Q_DECLARE_METATYPE(Cardcollection)
+Q_DECLARE_METATYPE(QList<Cardcollection>)
 
 #endif // CARDCOLLECTION_H
