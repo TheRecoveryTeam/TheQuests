@@ -14,8 +14,7 @@ class QuestShortModel : public QObject
     Q_PROPERTY(const QString& imagePath READ getImagePath NOTIFY imagePathChanged)
 public:
     explicit QuestShortModel(QObject *parent = nullptr);
-    QuestShortModel(const QuestShortModel &other, QObject *parent = nullptr);
-    ~QuestShortModel();
+    ~QuestShortModel() = default;
     QuestShortModel(
             const QString& id,
             const QString& title,
@@ -43,20 +42,6 @@ public:
     const QString& getImagePath() const;
     void setImagePath(const QString &value);
 
-
-    QuestShortModel& operator=(const QuestShortModel& right){
-        if (this == &right)
-            return *this;
-        id = right.id;
-        title = right.title;
-        description = right.description;
-        authorNickName = right.authorNickName;
-        playerCount = right.playerCount;
-        imagePath = right.imagePath;
-
-        return *this;
-    }
-
 signals:
     void idChanged(const QString&);
     void titleChanged(const QString&);
@@ -74,5 +59,4 @@ protected:
     QString imagePath;
 };
 
-Q_DECLARE_METATYPE(QuestShortModel);
 #endif // QUESTSHORTMODEL_H

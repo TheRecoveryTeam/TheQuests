@@ -3,21 +3,6 @@
 QuestShortModel::QuestShortModel(QObject *parent) : QObject(parent)
 {}
 
-
-QuestShortModel::QuestShortModel(const QuestShortModel &other, QObject *parent):
-    QObject (parent)
-{
-    id = other.id;
-    title = other.title;
-    description = other.description;
-    authorNickName = other.authorNickName;
-    playerCount = other.playerCount;
-    imagePath = other.imagePath;
-}
-
-QuestShortModel::~QuestShortModel()
-{}
-
 QuestShortModel::QuestShortModel(
         const QString &id,
         const QString &title,

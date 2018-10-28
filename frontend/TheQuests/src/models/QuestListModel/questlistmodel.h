@@ -5,11 +5,11 @@
 
 class QuestListModel: public QAbstractListModel
 {
-
+    Q_OBJECT
 public:
 
     explicit QuestListModel(QObject* parent = nullptr);
-    QuestListModel(QVector<QuestShortModel> listQuests,
+    QuestListModel(QVector<QuestShortModel*> listQuests,
                    QObject* parent = nullptr);
 
     enum Roles{
@@ -19,10 +19,13 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     QHash<int, QByteArray> roleNames() const;
-    Q_INVOKABLE void add(QuestShortModel &quest);
+    void add(QuestShortModel* quest);
+
+    const QVector<QuestShortModel*>& getListQuests() const;
+    void setListQuests(const QVector<QuestShortModel*> &value);
 
 private:
-    QVector<QuestShortModel> listQuests;
+    QVector<QuestShortModel*> listQuests;
 };
 
 #endif // QUESTLISTMODEL_H
