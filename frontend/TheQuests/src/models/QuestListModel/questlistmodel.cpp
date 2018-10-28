@@ -6,7 +6,7 @@ QuestListModel::QuestListModel(
 {}
 
 QuestListModel::QuestListModel(
-        QVector<QuestShortModel> listQuests,
+        QVector<QuestShortModel*> listQuests,
         QObject *parent):
     QAbstractListModel (parent),
     listQuests(listQuests)
@@ -28,7 +28,7 @@ QVariant QuestListModel::data(const QModelIndex &index, int role) const
 
     switch (role) {
     case questRole:
-        return QVariant::fromValue(listQuests.at(index.row()));
+        return QVariant(QMetaType::QObjectStar, listQuests.at(index.row()));
     default:
         return QVariant();
     }
@@ -41,9 +41,21 @@ QHash<int, QByteArray> QuestListModel::roleNames() const
     return roles;
 }
 
-void QuestListModel::add(QuestShortModel &quest)
+void QuestListModel::add(QuestShortModel* quest)
 {
-    beginInsertRows(QModelIndex(), listQuests.size(), listQuests.size());
-    listQuests.append(quest);
-    endInsertRows();
+    if (quest) {
+        beginInsertRows(QModelIndex(), listQuests.size(), listQuests.size());
+        listQuests.append(quest);
+        endInsertRows();
+    }
+}
+
+const QVector<QuestShortModel*>& QuestListModel::getListQuests() const
+{
+    return listQuests;
+}
+
+void QuestListModel::setListQuests(const QVector<QuestShortModel*> &value)
+{
+    listQuests = value;
 }
