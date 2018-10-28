@@ -57,7 +57,6 @@ public:
         return *this;
     }
 
-
 signals:
     void idChanged(const QString&);
     void titleChanged(const QString&);

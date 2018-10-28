@@ -21,7 +21,6 @@ public:
     QHash<int, QByteArray> roleNames() const;
     Q_INVOKABLE void add(QuestShortModel &quest);
 
-
 private:
     QVector<QuestShortModel> listQuests;
 };
