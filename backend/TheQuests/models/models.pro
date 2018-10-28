@@ -12,3 +12,12 @@ MOC_DIR = .obj/
 OBJECTS_DIR = .obj/
 
 include(../appbase.pri)
+HEADERS += mongoobjects/userscollectionobject.h
+HEADERS += userscollection.h
+SOURCES += userscollection.cpp
+HEADERS += mongoobjects/questcollectionobject.h
+HEADERS += questcollection.h
+SOURCES += questcollection.cpp
+HEADERS += mongoobjects/cardcollectionobject.h
+HEADERS += cardcollection.h
+SOURCES += cardcollection.cpp
