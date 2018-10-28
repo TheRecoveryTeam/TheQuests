@@ -11,6 +11,7 @@ class CardModel : public CardShortModel
     Q_OBJECT
     Q_PROPERTY(const QString& questId READ getQuestId NOTIFY questIdChanged)
     Q_PROPERTY(const QString& type READ getType NOTIFY typeChanged)
+    Q_PROPERTY(AbstractCardController* controller READ getController NOTIFY controllerChanged)
 
 public:
 
