@@ -21,7 +21,10 @@ SOURCES += \
     src/models/CardModel/controllers/abstractcardcontroller.cpp \
     src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.cpp \
     src/models/CardModel/controllers/ChooseCardModel/cardlinklist.cpp \
-    src/models/CardModel/controllers/ChooseCardModel/cardlink.cpp
+    src/models/CardModel/controllers/ChooseCardModel/cardlink.cpp \
+    src/models/QuestShortModel/questshortmodel.cpp \
+    src/models/QuestDetailModel/questdetailmodel.cpp \
+    src/models/QuestListModel/questlistmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -47,4 +50,7 @@ HEADERS += \
     src/config/questcardtypes.h \
     src/models/structures/resourceitem.h \
     src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h \
-    src/models/CardModel/controllers/ChooseCardModel/cardlink.h
+    src/models/CardModel/controllers/ChooseCardModel/cardlink.h \
+    src/models/QuestShortModel/questshortmodel.h \
+    src/models/QuestDetailModel/questdetailmodel.h \
+    src/models/QuestListModel/questlistmodel.h
