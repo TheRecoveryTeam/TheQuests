@@ -4,9 +4,7 @@
 
 QuestDetailModel::QuestDetailModel(QObject *parent):
     QuestShortModel (parent)
-{
-
-}
+{}
 
 QuestDetailModel::QuestDetailModel(
         const QString &id,

@@ -4,6 +4,9 @@
 
 class QuestDetailModel: public QuestShortModel
 {
+    Q_PROPERTY(const QString& currCardId READ getCurrCardId NOTIFY currCardIdChanged)
+    Q_PROPERTY(const QString& stage READ getStage NOTIFY stageChanged)
+
 public:
     explicit QuestDetailModel(QObject* parent = nullptr);
 
@@ -23,6 +26,10 @@ public:
 
     const QString& getStage() const;
     void setStage(const QString &value);
+
+signals:
+    void currCardIdChanged (const QString&);
+    void stageChanged (const QString&);
 
 private:
     QString currCardId;
