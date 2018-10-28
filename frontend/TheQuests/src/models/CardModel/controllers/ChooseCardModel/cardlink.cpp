@@ -1,15 +1,48 @@
 #include "cardlink.h"
 
-CardLink::CardLink(QObject *parent) : QObject(parent)
+CardLink::CardLink(QObject* parent):
+    QAbstractListModel (parent)
 { }
 
 CardLink::CardLink(const QString& answer,
-                   const std::map<config::ResourceTypes, int>& influenceMap,
+                   const QVector<structures::ResourceItem>& resources,
                    QObject* parent):
-    QObject (parent),
+    QAbstractListModel(parent),
     answer(answer),
-    influenceMap(influenceMap)
+    resources(resources)
 { }
+
+int CardLink::rowCount(const QModelIndex& parent) const
+{
+    Q_UNUSED(parent);
+    return resources.count();
+}
+
+QVariant CardLink::data(const QModelIndex& index, int role) const
+{
+    if(!index.isValid())
+        return QVariant();
+
+    if(index.row() >= resources.count())
+        return QVariant();
+
+    switch (role) {
+    case typeRole:
+        return static_cast<int>(resources.at(index.row()).type);
+    case valueRole:
+        return resources[index.row()].value;
+    default:
+        return QVariant();
+    }
+}
+
+QHash<int, QByteArray> CardLink::rolenames() const
+{
+    QHash <int, QByteArray> roles = QAbstractListModel::roleNames();
+    roles[typeRole] = "type";
+    roles[valueRole] = "value";
+    return roles;
+}
 
 const QString& CardLink::getAnswer() const
 {
@@ -19,23 +52,4 @@ const QString& CardLink::getAnswer() const
 void CardLink::setAnswer(const QString& value)
 {
     answer = value;
-}
-
-int CardLink::getInfluence(const config::ResourceTypes& rt) const
-{
-    if (influenceMap.find(rt) == influenceMap.end()) {
-        // Значит, на этот ресурс не влияет
-        return 0;
-    }
-    return influenceMap.at(rt);
-}
-
-void CardLink::setInfluenceMap(const std::map<config::ResourceTypes, int>& value)
-{
-    influenceMap = value;
-}
-
-void CardLink::rewriteInfluence(const config::ResourceTypes& rt, int magnitude)
-{
-    influenceMap[rt] = magnitude;
 }

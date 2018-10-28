@@ -9,6 +9,7 @@ class AbstractCardController : public QObject
     Q_PROPERTY(const QString& type READ getType)
 public:
     explicit AbstractCardController(QObject *parent = nullptr);
+    virtual ~AbstractCardController() = default;
 
     virtual const QString& getType() const = 0;
 };

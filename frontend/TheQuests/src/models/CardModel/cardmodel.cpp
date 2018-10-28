@@ -1,6 +1,8 @@
 #include "cardmodel.h"
 
-CardModel::CardModel(QObject* parent): CardShortModel(parent)
+CardModel::CardModel(QObject* parent):
+    CardShortModel(parent),
+    controller(nullptr)
 { }
 
 CardModel::CardModel(
@@ -10,11 +12,13 @@ CardModel::CardModel(
         const QString &imagePath,
         const QString &description,
         const QString &type,
+        AbstractCardController* controller,
         QObject* parent
     ):
     CardShortModel(id, title, imagePath, description, parent),
     questId(questId),
-    type(type)
+    type(type),
+    controller(controller)
 { }
 
 const QString& CardModel::getQuestId() const
@@ -35,4 +39,14 @@ const QString& CardModel::getType() const
 void CardModel::setType(const QString &value)
 {
     type = value;
+}
+
+AbstractCardController* CardModel::getController() const
+{
+    return controller;
+}
+
+void CardModel::setController(AbstractCardController* value)
+{
+    controller = value;
 }

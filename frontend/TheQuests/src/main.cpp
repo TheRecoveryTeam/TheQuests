@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
                 "http://localhost:3000",
                 "Very long description aa bb cc dd kek lol azaza, Lorem Ipsum dolor sit amet",
                 "choose",
+                nullptr,
                 store);
     store->addModel("loadedCard", loadedCard);
 

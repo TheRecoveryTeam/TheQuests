@@ -1,32 +1,42 @@
 #ifndef CARDLINK_H
 #define CARDLINK_H
 
-#include <QObject>
-#include <map>
-#include <src/config/resourcetypes.h>
+#include <QAbstractListModel>
+#include <QVector>
+#include "src/config/resourcetypes.h"
+#include "src/models/structures/resourceitem.h"
 
-class CardLink : public QObject
+class CardLink : public QAbstractListModel
 {
     Q_OBJECT
+    Q_PROPERTY(const QString& answer READ getAnswer NOTIFY answerChanged)
+
 public:
-    explicit CardLink(QObject *parent = nullptr);
+    enum {
+        typeRole = Qt::UserRole + 1,
+        valueRole
+    };
+
+    explicit CardLink(QObject* parent = nullptr);
     CardLink(const QString& answer,
-             const std::map<config::ResourceTypes, int>& influenceMap,
+             const QVector<structures::ResourceItem>& resources,
              QObject* parent = nullptr);
+    ~CardLink() = default;
+
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role) const;
 
     const QString& getAnswer() const;
     void setAnswer(const QString& value);
 
-    Q_INVOKABLE int getInfluence(const config::ResourceTypes& rt) const;
-
-    void setInfluenceMap(const std::map<config::ResourceTypes, int>& value);
-    void rewriteInfluence(const config::ResourceTypes& rt, int magnitude);
-
 signals:
+    void answerChanged(const QString& newAnswer);
 
 private:
+    QHash <int, QByteArray> rolenames() const;
+
     QString answer;
-    std::map<config::ResourceTypes, int> influenceMap;
+    QVector<structures::ResourceItem> resources;
 };
 
 #endif // CARDLINK_H

@@ -2,7 +2,9 @@
 #define CARDMODEL_H
 
 #include <QObject>
-#include "src/models/CardShortModel/cardshortmodel.h"
+#include "../CardShortModel/cardshortmodel.h"
+#include "./controllers/abstractcardcontroller.h"
+#include "./controllers/ChooseCardModel/choosecardmodel.h"
 
 class CardModel : public CardShortModel
 {
@@ -21,6 +23,7 @@ public:
             const QString& imagePath,
             const QString& description,
             const QString& type,
+            AbstractCardController* controller = nullptr,
             QObject* parent = nullptr);
 
     const QString& getQuestId() const;
@@ -29,19 +32,20 @@ public:
     const QString& getType() const;
     void setType(const QString &value);
 
+    AbstractCardController* getController() const;
+    void setController(AbstractCardController* value);
+
 signals:
 
-    void idChanged(const QString&);
     void questIdChanged(const QString&);
-    void titleChanged(const QString&);
-    void imagePathChanged(const QString&);
-    void descriptionChanged(const QString&);
     void typeChanged(const QString&);
+    void controllerChanged(AbstractCardController*);
 
 private:
 
     QString questId;
     QString type;
+    AbstractCardController* controller;
 };
 
 #endif // CARDMODEL_H
