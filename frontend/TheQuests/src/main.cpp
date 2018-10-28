@@ -5,6 +5,8 @@
 #include "src/engine/App/app.h"
 #include "src/engine/Store/store.h"
 #include "src/models/CardModel/cardmodel.h"
+#include "src/models/QuestShortModel/questshortmodel.h"
+
 
 int main(int argc, char *argv[])
 {
