@@ -12,7 +12,7 @@ file(GLOB controller_srcs ${PROJECT_SOURCE_DIR}/controllers/*.cpp)
 add_library(controller SHARED
   ${controller_headers}
   ${controller_srcs}
-        UserController.cpp UserController.h QuestController.cpp QuestController.h CardController.cpp CardController.h ../test/TestUserController.cpp ../test/TestQuestController.cpp)
+        UserController.cpp UserController.h QuestController.cpp QuestController.h CardController.cpp CardController.h)
 target_include_directories(controller PUBLIC
   ${Qt5Core_INCLUDE_DIRS}
   ${Qt5Network_INCLUDE_DIRS}
