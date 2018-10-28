@@ -19,7 +19,8 @@ SOURCES += \
     src/engine/Store/store.cpp \
     src/models/QuestShortModel/questshortmodel.cpp \
     src/models/QuestDetailModel/questdetailmodel.cpp \
-    src/models/QuestListModel/questlistmodel.cpp
+    src/models/QuestListModel/questlistmodel.cpp \
+    src/models/UserModel/usermodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -40,4 +41,5 @@ HEADERS += \
     src/engine/Store/store.h \
     src/models/QuestShortModel/questshortmodel.h \
     src/models/QuestDetailModel/questdetailmodel.h \
-    src/models/QuestListModel/questlistmodel.h
+    src/models/QuestListModel/questlistmodel.h \
+    src/models/UserModel/usermodel.h

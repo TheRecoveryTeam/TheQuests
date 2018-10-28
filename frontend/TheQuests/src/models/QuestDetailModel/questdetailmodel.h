@@ -4,6 +4,7 @@
 
 class QuestDetailModel: public QuestShortModel
 {
+    Q_OBJECT
     Q_PROPERTY(const QString& currCardId READ getCurrCardId NOTIFY currCardIdChanged)
     Q_PROPERTY(const QString& stage READ getStage NOTIFY stageChanged)
 
