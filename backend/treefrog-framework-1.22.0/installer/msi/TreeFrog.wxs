@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+
+  <!-- *** 8行目,12行目,30行目,36行目,44行目,59行目を修正せよ *** -->
+  <!-- *** 基本的に 9行目,10行目,42行目,54行目も修正する (guidgen使用) *** -->
+
+  <!-- プロダクト情報 -->
+  <Product Name='TreeFrog Framework 1.22.0'
+           Id="9CA055D2-4E8C-4352-8025-9995074CCEE0"
+           UpgradeCode="AF34058A-D931-4867-9752-2FC937835126"
+           Language='1041' Codepage='932'
+           Version='1.22.0' Manufacturer='TreeFrog Framework Project'>
+
+    <!-- パッケージ情報 -->
+    <Package Id='*' Keywords='Installer'
+             Description="TreeFrog Framework Installer"
+             Comments='TreeFrog Framework is open source software.'
+             Manufacturer='TreeFrog Framework Project' InstallerVersion='100'
+             Languages='1041' Compressed='yes' SummaryCodepage='932' />
+
+    <!-- メディア情報（変更しなくてよい） -->
+    <Media Id='1' Cabinet='Sample.cab' EmbedCab='yes' DiskPrompt='First media' />
+    <Property Id='DiskPrompt' Value="TreeFrog Framework Installer [1]" />
+
+    <!-- インストールファイル -->
+    <SetDirectory Id="WINDOWSVOLUME" Value="[WindowsVolume]"/>
+    <Directory Id='TARGETDIR' Name='SourceDir'>
+      <Directory Id='WINDOWSVOLUME'>
+        <Directory Id='INSTALLDIR' Name='TreeFrog'>
+          <Directory Id='VERSIONDIR' Name='1.22.0'>
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="DesktopFolder"  SourceName="Desktop"/>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="TreeFrog Framework 1.22.0"/>
+      </Directory>
+    </Directory>
+
+    <!-- デスクトップショートカット -->
+    <DirectoryRef Id="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="6176E56A-C607-4587-9829-A367D59688DD">
+        <Shortcut Id="PromptDesktopShortcut"
+                  Name="TreeFrog Prompt 1.22.0"
+                  Description="TreeFrog Framework Prompt"
+                  Target="[SystemFolder]cmd.exe" Arguments="/K [VERSIONDIR]bin\\tfenv.bat"
+                  WorkingDirectory="PersonalFolder"/>
+        <RegistryValue Root="HKCU" Key="Software\TreeFrog" Name="DTSC" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <!-- プログラムメニューショートカット -->
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="EE1C326F-E294-42AF-8131-96C5E0DD7EF9">
+        <CreateFolder Directory="ApplicationProgramsFolder"/>
+
+        <!-- Shortcut to TF prompt-->
+        <Shortcut Id="PromptProgramMenuShortcut"
+                  Name="TreeFrog Prompt 1.22.0"
+                  Description="TreeFrog Framework Prompt"
+                  Target="[SystemFolder]cmd.exe" Arguments="/K [VERSIONDIR]bin\\tfenv.bat"
+                  WorkingDirectory="PersonalFolder"/>
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue Root="HKCU" Key="Software\TreeFrog" Name="PMSC" Type="integer" Value="1" KeyPath="yes"/>
+      </Component>
+    </DirectoryRef>
+
+    <!-- フィーチャー -->
+    <Feature Id='Complete' Title='TreeFrog Fromework'
+             Description='Complete Package' Display='expand'
+             Level='1' ConfigurableDirectory='INSTALLDIR'>
+
+      <Feature Id='TreeFrogSDK' Title='SDK' Description='TreeFrog Fromework' Level='1'>
+        <ComponentGroupRef Id='TreeFrogFiles' />
+        <ComponentRef Id='DesktopShortcut' />
+        <ComponentRef Id='ApplicationShortcut' />
+      </Feature>
+
+    </Feature>
+
+    <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
+    <UIRef Id="WixUI_Minimal" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+  </Product>
+</Wix>
