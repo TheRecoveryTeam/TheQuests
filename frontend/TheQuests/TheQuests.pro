@@ -26,8 +26,10 @@ SOURCES += \
     src/models/QuestDetailModel/questdetailmodel.cpp \
     src/models/QuestListModel/questlistmodel.cpp \
     src/models/UserModel/usermodel.cpp \
-    src/engine/Requester/requester.cpp \
-    src/engine/HttpRequester/httprequester.cpp
+    src/engine/HttpRequester/httprequester.cpp \
+    src/controllers/AbstractController/abstractcontoller.cpp \
+    src/controllers/UserController/usercontroller.cpp \
+    src/controllers/CardController/cardcontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -58,6 +60,8 @@ HEADERS += \
     src/models/QuestDetailModel/questdetailmodel.h \
     src/models/QuestListModel/questlistmodel.h \
     src/models/UserModel/usermodel.h \
-    src/engine/Requester/requester.h \
     src/config/network.h \
-    src/engine/HttpRequester/httprequester.h
+    src/engine/HttpRequester/httprequester.h \
+    src/controllers/AbstractController/abstractcontoller.h \
+    src/controllers/UserController/usercontroller.h \
+    src/controllers/CardController/cardcontroller.h
