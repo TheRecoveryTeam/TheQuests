@@ -8,4 +8,5 @@ TARGET = testusers
  INCLUDEPATH += ../..
  LIBS += -L../../lib -lmodel
  include(../../appbase.pri)
- SOURCES = testusers.cpp      # Specifying the file name
+ SOURCES = testusers.cpp    # Specifying the file name
+# SOURCES = testusers.cpp ../../models/userscollection.cpp

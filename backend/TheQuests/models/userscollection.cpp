@@ -1,6 +1,6 @@
 #include <TreeFrogModel>
 #include "userscollection.h"
-#include "userscollectionobject.h"
+#include "mongoobjects/userscollectionobject.h"
 
 Userscollection::Userscollection()
     : TAbstractModel(), d(new UserscollectionObject())
@@ -86,24 +86,24 @@ bool Userscollection::upsert(const QVariantMap &criteria)
 
 Userscollection Userscollection::create(const QString &username, const QString &email, const QString &password)
 {
-    UserscollectionObject obj;
-    obj.username = username;
-    obj.email = email;
-    obj.password = password;
-    if (!obj.create()) {
-        return Userscollection();
-    }
-    return Userscollection(obj);
+//    UserscollectionObject obj;
+//    obj.username = username;
+//    obj.email = email;
+//    obj.password = password;
+//    if (!obj.create()) {
+//        return Userscollection();
+//    }
+//    return Userscollection(obj);
 }
 
 Userscollection Userscollection::create(const QVariantMap &values)
 {
-    Userscollection model;
-    model.setProperties(values);
-    if (!model.d->create()) {
-        model.d->clear();
-    }
-    return model;
+//    Userscollection model;
+//    model.setProperties(values);
+//    if (!model.d->create()) {
+//        model.d->clear();
+//    }
+//    return model;
 }
 
 Userscollection Userscollection::get(const QString &id)
@@ -147,12 +147,12 @@ QJsonArray Userscollection::getAllJson()
 
 TModelObject *Userscollection::modelData()
 {
-    return d.data();
+//    return d.data();
 }
 
 const TModelObject *Userscollection::modelData() const
 {
-    return d.data();
+//    return d.data();
 }
 
 QDataStream &operator<<(QDataStream &ds, const Userscollection &model)

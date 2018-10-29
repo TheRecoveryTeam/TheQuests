@@ -5,7 +5,7 @@
 #include <QSharedData>
 
 
-class T_MODEL_EXPORT UsersCollectionObject : public TMongoObject, public QSharedData
+class T_MODEL_EXPORT UserscollectionObject : public TMongoObject, public QSharedData
 {
 public:
     QString _id;
