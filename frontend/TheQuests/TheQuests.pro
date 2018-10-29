@@ -25,7 +25,9 @@ SOURCES += \
     src/models/QuestShortModel/questshortmodel.cpp \
     src/models/QuestDetailModel/questdetailmodel.cpp \
     src/models/QuestListModel/questlistmodel.cpp \
-    src/models/UserModel/usermodel.cpp
+    src/models/UserModel/usermodel.cpp \
+    src/engine/Requester/requester.cpp \
+    src/engine/HttpRequester/httprequester.cpp
 
 RESOURCES += qml.qrc
 
@@ -55,4 +57,7 @@ HEADERS += \
     src/models/QuestShortModel/questshortmodel.h \
     src/models/QuestDetailModel/questdetailmodel.h \
     src/models/QuestListModel/questlistmodel.h \
-    src/models/UserModel/usermodel.h
+    src/models/UserModel/usermodel.h \
+    src/engine/Requester/requester.h \
+    src/config/network.h \
+    src/engine/HttpRequester/httprequester.h
