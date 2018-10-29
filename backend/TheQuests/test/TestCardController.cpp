@@ -39,7 +39,7 @@ void test_add_invalid_type() {
     assert(r.status_code == 400);
 }
 
-void test_edit_valid(){
+void test_edit_valid() {
     auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/edit"},
                        cpr::Body{
                                R"({"id": "1", "questId": "1", "title": "NewCardTitle", "description": "New Sample description", "type": "choose"})"},
@@ -47,7 +47,48 @@ void test_edit_valid(){
     assert(r.status_code == 200);
 }
 
-void test_remove_valid(){
+void test_edit_invalid_id() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/edit"},
+                       cpr::Body{
+                               R"({"questId": "1", "title": "NewCardTitle", "description": "New Sample description", "type": "choose"})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+void test_edit_invalid_questId() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/edit"},
+                       cpr::Body{
+                               R"({"id": "1", "title": "NewCardTitle", "description": "New Sample description", "type": "choose"})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+
+void test_edit_invalid_title() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/edit"},
+                       cpr::Body{
+                               R"({"id": "1", "questId": "1", "description": "New Sample description", "type": "choose"})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+void test_edit_invalid_description() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/edit"},
+                       cpr::Body{
+                               R"({"id":"1", "questId": "1", "title": "NewCardTitle", "type": "choose"})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+void test_edit_invalid_type() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/edit"},
+                       cpr::Body{
+                               R"({"id":"1", "questId": "1", "title": "NewCardTitle", "description": "New Sample description"})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+void test_remove_valid() {
     auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/remove"},
                        cpr::Body{
                                R"({"id": "1"})"},
@@ -55,12 +96,20 @@ void test_remove_valid(){
     assert(r.status_code == 200);
 }
 
-void test_get_valid(){
+void test_remove_invalid() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/remove"},
+                       cpr::Body{
+                               R"({})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+void test_get_valid() {
     auto r = cpr::Get(cpr::Url{"http://localhost:8800/card/get/1"});
     assert(r.status_code == 200);
 }
 
-void test_do_answer_valid(){
+void test_do_answer_valid() {
     auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/do_answer"},
                        cpr::Body{
                                R"({"id": "1", "answer":"Pretty answer"})"},
@@ -68,7 +117,23 @@ void test_do_answer_valid(){
     assert(r.status_code == 200);
 }
 
-void test_links_upsert_valid(){
+void test_do_answer_invalid_id() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/do_answer"},
+                       cpr::Body{
+                               R"({"answer":"Pretty answer"})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+void test_do_answer_invalid_answer() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/do_answer"},
+                       cpr::Body{
+                               R"({"id": "1"})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+void test_links_upsert_valid() {
     auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/links_upsert"},
                        cpr::Body{
                                R"({"id": "1", "links":{"newAnswer": "link"})"},
@@ -76,9 +141,22 @@ void test_links_upsert_valid(){
     assert(r.status_code == 200);
 }
 
-void test_list_valid(){
-    auto r = cpr::Get(cpr::Url{"http://localhost:8800/card/list/1s"});
+void test_links_upsert_invalid() {
+    auto r = cpr::Post(cpr::Url{"http://localhost:8800/card/links_upsert"},
+                       cpr::Body{
+                               R"({"links":{"newAnswer": "link"})"},
+                       cpr::Header{{"Content-Type", "application/json"}});
+    assert(r.status_code == 400);
+}
+
+void test_list_valid() {
+    auto r = cpr::Get(cpr::Url{"http://localhost:8800/card/list/1"});
     assert(r.status_code == 200);
+}
+
+void test_list_invalid() {
+    auto r = cpr::Get(cpr::Url{"http://localhost:8800/card/list/"});
+    assert(r.status_code == 400);
 }
 
 int main() {
@@ -94,15 +172,34 @@ int main() {
 
     test_edit_valid();
 
+    test_edit_invalid_description();
+
+    test_edit_invalid_id();
+
+    test_edit_invalid_questId();
+
+    test_edit_invalid_title();
+
+    test_edit_invalid_title();
+
     test_do_answer_valid();
+
+    test_do_answer_invalid_answer();
+
+    test_do_answer_invalid_id();
 
     test_get_valid();
 
     test_links_upsert_valid();
 
+    test_links_upsert_invalid();
+
     test_list_valid();
+
+    test_list_invalid();
 
     test_remove_valid();
 
+    test_remove_invalid();
     return 0;
 }
