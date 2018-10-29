@@ -6,6 +6,7 @@ class TestUsersCollection : public QObject {
 private slots:
     void createData();
     void create();
+    void remove();
 };
 
 
@@ -18,6 +19,7 @@ void TestUsersCollection::createData() {
     QTest::newRow("Test1") << "admin" << "admin@mail.ru" << "admin";
 }
 
+
 void TestUsersCollection::create() {
     QFETCH(QString, username);
     QFETCH(QString, email);
@@ -26,10 +28,10 @@ void TestUsersCollection::create() {
     Userscollection created = Userscollection::create(username, email, password);
     QString id = created.id();
     Userscollection usersCollection = Userscollection::get(id);
-
     QCOMPARE(usersCollection.username(), username);
     QCOMPARE(usersCollection.email(), email);
     QCOMPARE(usersCollection.password(), password);
 }
+
 
 TF_TEST_MAIN(TestUsersCollection);
