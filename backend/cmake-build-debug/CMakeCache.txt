@@ -266,8 +266,17 @@ ZLIB_LIBRARY_DEBUG:FILEPATH=ZLIB_LIBRARY_DEBUG-NOTFOUND
 //Path to a library.
 ZLIB_LIBRARY_RELEASE:FILEPATH=/usr/lib/libz.dylib
 
+//The directory containing a CMake configuration file for cpprestsdk.
+cpprestsdk_DIR:PATH=cpprestsdk_DIR-NOTFOUND
+
+//The directory containing a CMake configuration file for libbson-1.0.
+libbson-1.0_DIR:PATH=/usr/local/lib/cmake/libbson-1.0
+
 //The directory containing a CMake configuration file for libbsoncxx.
 libbsoncxx_DIR:PATH=/usr/local/lib/cmake/libbsoncxx-3.3.1
+
+//The directory containing a CMake configuration file for libmongoc.
+libmongoc_DIR:PATH=/usr/local/lib/cmake/libmongoc-1.0
 
 //The directory containing a CMake configuration file for libmongocxx.
 libmongocxx_DIR:PATH=/usr/local/lib/cmake/libmongocxx-3.3.1

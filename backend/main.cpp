@@ -9,7 +9,7 @@
 
 int main(int, char**) {
   mongocxx::instance inst{};
-  mongocxx::client conn{mongocxx::uri{"mongodb://localhost:27018"}};
+  mongocxx::client conn{mongocxx::uri{"mongodb://localhost:27017"}};
 
   bsoncxx::builder::stream::document document{};
 
