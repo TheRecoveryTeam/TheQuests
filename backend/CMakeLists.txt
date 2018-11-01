@@ -87,6 +87,7 @@ set(cpprestsdk_DIR "${THIRD_PARTY_DIR}/cpprestsdk-install/lib/cpprestsdk")
 
 # Все ниже закоментить и запустить make в папке cmake-build-debug.
 # Когда все библиотеки скачаются, раскоментить.
+# TODO: убрать этот костыль
 
 find_package(libmongoc REQUIRED NAMES libmongoc libmongoc-1.0)
 find_package(libmongocxx REQUIRED NAMES libmongocxx libmongocxx-1.0)
