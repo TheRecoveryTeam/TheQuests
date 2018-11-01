@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="TheQuests"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\cmake-build-debug\;CMake Files\cmake-build-debug\libmongoc-prefix\;CMake Files\cmake-build-debug\libmongoc-prefix\tmp\;CMake Files\cmake-build-debug\libmongocxx-prefix\;CMake Files\cmake-build-debug\libmongocxx-prefix\tmp\;CMake Files\cmake-build-debug\cpprestsdk-prefix\;CMake Files\cmake-build-debug\cpprestsdk-prefix\tmp\;CMake Files\cmake-build-debug\thirdparty\;CMake Files\cmake-build-debug\thirdparty\libmongoc-install\;CMake Files\cmake-build-debug\thirdparty\libmongoc-install\lib\;CMake Files\cmake-build-debug\thirdparty\libmongoc-install\lib\cmake\;CMake Files\cmake-build-debug\thirdparty\libmongoc-install\lib\cmake\libmongoc-1.0\;CMake Files\cmake-build-debug\thirdparty\libmongoc-install\lib\cmake\libbson-1.0\;CMake Files\cmake-build-debug\thirdparty\cpprestsdk-install\;CMake Files\cmake-build-debug\thirdparty\cpprestsdk-install\lib\;CMake Files\cmake-build-debug\thirdparty\cpprestsdk-install\lib\cpprestsdk\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\libmongocxx-3.3.1\;CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\libbsoncxx-3.3.1\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TheQuests">
+				<Option output="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/TheQuests" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCPPREST_FORCE_HTTP_CLIENT_ASIO"/>
+					<Add option="-DCPPREST_FORCE_HTTP_LISTENER_ASIO"/>
+					<Add directory="/usr/local/include/mongocxx/v_noabi"/>
+					<Add directory="/usr/local/include/bsoncxx/v_noabi"/>
+					<Add directory="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/cpprestsdk-install/include"/>
+					<Add directory="/opt/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 TheQuests"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="TheQuests/fast">
+				<Option output="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/TheQuests" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DCPPREST_FORCE_HTTP_CLIENT_ASIO"/>
+					<Add option="-DCPPREST_FORCE_HTTP_LISTENER_ASIO"/>
+					<Add directory="/usr/local/include/mongocxx/v_noabi"/>
+					<Add directory="/usr/local/include/bsoncxx/v_noabi"/>
+					<Add directory="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/cpprestsdk-install/include"/>
+					<Add directory="/opt/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../lib/clang/8.1.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 TheQuests/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="cpprestsdk">
+				<Option working_dir="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 cpprestsdk"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="libmongocxx">
+				<Option working_dir="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 libmongocxx"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="libmongoc">
+				<Option working_dir="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 libmongoc"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/main.cpp">
+			<Option target="TheQuests"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp/libmongoc-cfgcmd.txt.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\libmongoc-prefix\tmp\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/tmp/libmongocxx-cfgcmd.txt.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\libmongocxx-prefix\tmp\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/cpprestsdk-prefix/tmp/cpprestsdk-cfgcmd.txt.in">
+			<Option virtualFolder="CMake Files\cmake-build-debug\cpprestsdk-prefix\tmp\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-install/lib/cmake/libmongoc-1.0/libmongoc-1.0-config-version.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\thirdparty\libmongoc-install\lib\cmake\libmongoc-1.0\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-install/lib/cmake/libmongoc-1.0/libmongoc-1.0-config.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\thirdparty\libmongoc-install\lib\cmake\libmongoc-1.0\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-install/lib/cmake/libbson-1.0/libbson-1.0-config-version.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\thirdparty\libmongoc-install\lib\cmake\libbson-1.0\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-install/lib/cmake/libbson-1.0/libbson-1.0-config.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\thirdparty\libmongoc-install\lib\cmake\libbson-1.0\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/cpprestsdk-install/lib/cpprestsdk/cpprestsdk-config.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\thirdparty\cpprestsdk-install\lib\cpprestsdk\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/cpprestsdk-install/lib/cpprestsdk/cpprestsdk-targets-debug.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\thirdparty\cpprestsdk-install\lib\cpprestsdk\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/cpprestsdk-install/lib/cpprestsdk/cpprestsdk-targets.cmake">
+			<Option virtualFolder="CMake Files\cmake-build-debug\thirdparty\cpprestsdk-install\lib\cpprestsdk\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/../../../../../../usr/local/lib/cmake/libmongocxx-3.3.1/libmongocxx-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\libmongocxx-3.3.1\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/../../../../../../usr/local/lib/cmake/libmongocxx-3.3.1/libmongocxx-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\libmongocxx-3.3.1\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/../../../../../../usr/local/lib/cmake/libbsoncxx-3.3.1/libbsoncxx-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\libbsoncxx-3.3.1\"/>
+		</Unit>
+		<Unit filename="/Users/zorin/Desktop/project/TheQuests/backend/../../../../../../usr/local/lib/cmake/libbsoncxx-3.3.1/libbsoncxx-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\usr\local\lib\cmake\libbsoncxx-3.3.1\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,13 @@
+# Target labels
+ cpprestsdk
+# Source files and their labels
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/cpprestsdk
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/cpprestsdk.rule
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/cpprestsdk-complete.rule
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/cpprestsdk-prefix/src/cpprestsdk-stamp/cpprestsdk-install.rule
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/cpprestsdk-prefix/src/cpprestsdk-stamp/cpprestsdk-mkdir.rule
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/cpprestsdk-prefix/src/cpprestsdk-stamp/cpprestsdk-download.rule
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/cpprestsdk-prefix/src/cpprestsdk-stamp/cpprestsdk-update.rule
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/cpprestsdk-prefix/src/cpprestsdk-stamp/cpprestsdk-patch.rule
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/cpprestsdk-prefix/src/cpprestsdk-stamp/cpprestsdk-configure.rule
+/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/cpprestsdk-prefix/src/cpprestsdk-stamp/cpprestsdk-build.rule
