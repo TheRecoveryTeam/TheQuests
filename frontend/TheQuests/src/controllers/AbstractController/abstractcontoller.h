@@ -10,7 +10,7 @@ class AbstractContoller : public QObject
     Q_OBJECT
 public:
     explicit AbstractContoller(QObject *parent = nullptr);
-    virtual ~AbstractContoller() = 0;
+    virtual ~AbstractContoller();
 
 protected:
     HttpRequester* httpRequester;

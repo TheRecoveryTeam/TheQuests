@@ -9,7 +9,7 @@ class CardController: public AbstractContoller
 {
 public:
     CardController(QObject* parent = nullptr);
-    ~CardController() = default;
+    ~CardController();
 
     void get(const QString& cardId);
 

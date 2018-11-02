@@ -12,6 +12,7 @@ class UserController: public AbstractContoller
     Q_OBJECT
 public:
     explicit UserController(QObject *parent = nullptr);
+    ~UserController();
 
     void authenticate(const QString& email, const QString& password) const;
     void logout() const;

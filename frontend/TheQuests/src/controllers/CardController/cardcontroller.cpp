@@ -1,6 +1,11 @@
 #include "cardcontroller.h"
 
-CardController::CardController()
+CardController::CardController(QObject *parent):AbstractContoller (parent)
+{}
+
+CardController::~CardController()
 {
 
 }
+
+

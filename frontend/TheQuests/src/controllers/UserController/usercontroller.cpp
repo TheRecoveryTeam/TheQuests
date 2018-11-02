@@ -1,6 +1,12 @@
 #include "usercontroller.h"
 
-UserController::UserController(QObject *parent) : QObject(parent)
+UserController::UserController(QObject *parent) : AbstractContoller (parent)
 {
 
 }
+
+UserController::~UserController()
+{
+
+}
+

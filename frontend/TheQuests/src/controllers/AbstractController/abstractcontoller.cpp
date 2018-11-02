@@ -4,3 +4,8 @@ AbstractContoller::AbstractContoller(QObject *parent) : QObject(parent)
 {
 
 }
+
+AbstractContoller::~AbstractContoller()
+{
+
+}
