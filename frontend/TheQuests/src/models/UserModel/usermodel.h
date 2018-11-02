@@ -13,16 +13,16 @@ class UserModel : public QObject
 public:
     explicit UserModel(QObject *parent = nullptr);
 
-    QString getId() const;
+    const QString& getId() const;
     void setId(const QString &value);
 
-    QString getNickName() const;
+    const QString& getNickName() const;
     void setNickName(const QString &value);
 
-    QString getEMail() const;
+    const QString& getEMail() const;
     void setEMail(const QString &value);
 
-    QString getToken() const;
+    const QString& getToken() const;
     void setToken(const QString &value);
 
 signals:
