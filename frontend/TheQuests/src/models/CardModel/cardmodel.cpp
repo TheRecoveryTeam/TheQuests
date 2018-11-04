@@ -1,25 +1,35 @@
 #include "cardmodel.h"
 
-CardModel::CardModel(QObject* parent):
-    CardShortModel(parent),
-    controller(nullptr)
-{ }
+//CardModel::CardModel(QObject* parent):
+//    CardShortModel(parent),
+//    controller(nullptr)
+//{ }
 
-CardModel::CardModel(
-        const QString &id,
-        const QString &questId,
-        const QString &title,
-        const QString &imagePath,
-        const QString &description,
-        const QString &type,
-        AbstractCardController* controller,
-        QObject* parent
-    ):
-    CardShortModel(id, title, imagePath, description, parent),
-    questId(questId),
-    type(type),
-    controller(controller)
-{ }
+//CardModel::CardModel(
+//        const QString &id,
+//        const QString &questId,
+//        const QString &title,
+//        const QString &imagePath,
+//        const QString &description,
+//        const QString &type,
+//        AbstractCardController* controller,
+//        QObject* parent
+//    ):
+//    CardShortModel(id, title, imagePath, description, parent),
+//    questId(questId),
+//    type(type),
+//    controller(controller)
+//{ }
+
+CardModel *CardModel::createInstance()
+{
+    return new CardModel();
+}
+
+CardModel *CardModel::instance()
+{
+    return Singleton<CardModel>::instance(CardModel::createInstance);
+}
 
 const QString& CardModel::getQuestId() const
 {
@@ -49,4 +59,21 @@ AbstractCardController* CardModel::getController() const
 void CardModel::setController(AbstractCardController* value)
 {
     controller = value;
+}
+
+void CardModel::setAll(const QString &id,
+                       const QString &questId,
+                       const QString &title,
+                       const QString &imagePath,
+                       const QString &description,
+                       const QString &type,
+                       AbstractCardController *controller)
+{  this->id = id;
+   this->questId = questId;
+   this->title = title;
+   this->imagePath = imagePath;
+   this->description = description;
+   this->questId = questId;
+   this->type = type;
+   this->controller = controller;
 }

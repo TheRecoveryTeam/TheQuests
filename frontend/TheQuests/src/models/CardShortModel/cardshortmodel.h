@@ -10,8 +10,7 @@ class CardShortModel : public QObject
     Q_PROPERTY(const QString& title READ getTitle NOTIFY titleChanged)
     Q_PROPERTY(const QString& imagePath READ getImagePath NOTIFY imagePathChanged)
     Q_PROPERTY(const QString& description READ getDescription NOTIFY descriptionChanged)
-public:
-
+protected:
     explicit CardShortModel(QObject *parent = nullptr);
 
     CardShortModel(const QString& id,
@@ -19,7 +18,6 @@ public:
                    const QString& imagePath,
                    const QString& description,
                    QObject* parent = nullptr);
-
     const QString& getId() const;
     void setId(const QString& value);
 

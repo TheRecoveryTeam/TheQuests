@@ -5,6 +5,7 @@
 #include "../CardShortModel/cardshortmodel.h"
 #include "./controllers/abstractcardcontroller.h"
 #include "./controllers/ChooseCardModel/choosecardmodel.h"
+#include "./src/utils/singleton.h"
 
 class CardModel : public CardShortModel
 {
@@ -13,19 +14,28 @@ class CardModel : public CardShortModel
     Q_PROPERTY(const QString& type READ getType NOTIFY typeChanged)
     Q_PROPERTY(AbstractCardController* controller READ getController NOTIFY controllerChanged)
 
-public:
 
+private:
     explicit CardModel(QObject* parent = nullptr);
+//    CardModel(
+//            const QString& id,
+//            const QString& questId,
+//            const QString& title,
+//            const QString& imagePath,
+//            const QString& description,
+//            const QString& type,
+//            AbstractCardController* controller = nullptr,
+//            QObject* parent = nullptr);
 
-    CardModel(
-            const QString& id,
-            const QString& questId,
-            const QString& title,
-            const QString& imagePath,
-            const QString& description,
-            const QString& type,
-            AbstractCardController* controller = nullptr,
-            QObject* parent = nullptr);
+    static CardModel* createInstance();
+
+    signals:
+        void questIdChanged(const QString&);
+        void typeChanged(const QString&);
+        void controllerChanged(AbstractCardController*);
+
+public:
+    static CardModel* instance();
 
     const QString& getQuestId() const;
     void setQuestId(const QString &value);
@@ -36,11 +46,14 @@ public:
     AbstractCardController* getController() const;
     void setController(AbstractCardController* value);
 
-signals:
+    void setAll (const QString& id,
+                 const QString& questId,
+                 const QString& title,
+                 const QString& imagePath,
+                 const QString& description,
+                 const QString& type,
+                 AbstractCardController* controller = nullptr);
 
-    void questIdChanged(const QString&);
-    void typeChanged(const QString&);
-    void controllerChanged(AbstractCardController*);
 
 private:
 

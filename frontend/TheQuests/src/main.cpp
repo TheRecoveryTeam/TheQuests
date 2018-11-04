@@ -7,6 +7,7 @@
 #include "src/models/CardModel/cardmodel.h"
 #include "src/models/QuestShortModel/questshortmodel.h"
 
+#define MyClassInstance Singleton<MyClass>::instance()
 
 int main(int argc, char *argv[])
 {
@@ -26,16 +27,20 @@ int main(int argc, char *argv[])
     auto store = new Store(&application);
     application.setStore(store);
 
-    auto loadedCard = new CardModel(
-                "id_12345",
-                "questId_12345",
-                "Card title from C++",
-                "http://localhost:3000",
-                "Very long description aa bb cc dd kek lol azaza, Lorem Ipsum dolor sit amet",
-                "choose",
-                nullptr,
-                store);
-    store->addModel("loadedCard", loadedCard);
+//    auto loadedCard = new CardModel(
+//                "id_12345",
+//                "questId_12345",
+//                "Card title from C++",
+//                "http://localhost:3000",
+//                "Very long description aa bb cc dd kek lol azaza, Lorem Ipsum dolor sit amet",
+//                "choose",
+//                nullptr,
+//                store);
+;
+    CardModel::instance()->setAll("id_12345", "questId_12345", "Card title from C++", "http://localhost:3000", "Very long description aa bb cc dd kek lol azaza, Lorem Ipsum dolor sit amet",
+                                                  "choose",
+                                                  nullptr);
+    store->addModel("loadedCard", CardModel::instance());
 
     engine.rootContext()->setContextProperty("application", &application);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
