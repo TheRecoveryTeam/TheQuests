@@ -1,9 +1,10 @@
 #include "cardmodel.h"
 
-//CardModel::CardModel(QObject* parent):
-//    CardShortModel(parent),
-//    controller(nullptr)
-//{ }
+
+CardModel::CardModel(QObject* parent):
+    CardShortModel(parent),
+   controller(nullptr)
+{ }
 
 //CardModel::CardModel(
 //        const QString &id,
@@ -24,6 +25,10 @@
 CardModel *CardModel::createInstance()
 {
     return new CardModel();
+}
+
+CardModel::~CardModel()
+{
 }
 
 CardModel *CardModel::instance()

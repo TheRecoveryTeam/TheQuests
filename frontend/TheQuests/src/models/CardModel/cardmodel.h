@@ -35,6 +35,8 @@ private:
         void controllerChanged(AbstractCardController*);
 
 public:
+    ~CardModel();
+
     static CardModel* instance();
 
     const QString& getQuestId() const;
@@ -56,7 +58,6 @@ public:
 
 
 private:
-
     QString questId;
     QString type;
     AbstractCardController* controller;
