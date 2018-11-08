@@ -116,7 +116,6 @@ if (${PROJECT_NAME}_SUPERBUILD)
             libmongocxx
             )
     ExternalProject_AlwaysConfigure(${PROJECT_NAME})
-    return()
 endif ()
 
 find_package(libmongocxx REQUIRED)
@@ -153,13 +152,13 @@ add_subdirectory(${THIRD_PARTY_DIR}/googletest-src
         ${THIRD_PARTY_DIR}/googletest-build
         EXCLUDE_FROM_ALL)
 
+add_executable(test main.cpp)
+
 add_custom_target(run
         COMMAND test
         DEPENDS test
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
         )
-
-add_executable(test main.cpp)
 
 target_link_libraries(test LINK_PUBLIC cpprest ${Boost_LIBRARIES} OpenSSL::Crypto ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES})
 target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
