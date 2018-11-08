@@ -9,6 +9,7 @@ file(GLOB SOURCES
 set(SOURCE_FILES main.cpp)
 set(THIRD_PARTY_DIR ${CMAKE_BINARY_DIR}/thirdparty)
 
+
 if (APPLE)
     set(BOOST_ROOT /opt/local/include/boost/)
 endif()
@@ -95,7 +96,14 @@ find_package(Boost REQUIRED)
 find_package(Boost REQUIRED system)
 find_package(cpprestsdk REQUIRED)
 
+
+include_directories(${PROJECT_SOURCE_DIR}/src/storage/)
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES})
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/storage/)
+target_link_libraries(${PROJECT_NAME} cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} models)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
+
+#add_executable(UserModel src/storage/models/UserModel.cpp)
+#target_link_libraries(UserModel ${LIBMONGOCXX_LIBRARIES})
+#target_include_directories(UserModel PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
