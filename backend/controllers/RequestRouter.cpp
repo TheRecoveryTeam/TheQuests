@@ -1,0 +1,20 @@
+//
+// Created by dpudov on 08.11.18.
+//
+
+#include "RequestRouter.h"
+
+RequestRouter::RequestRouter() = default;
+
+void RequestRouter::handle_get_request(http_request message) {
+
+
+}
+
+void RequestRouter::handle_post_request(http_request message) {
+
+}
+
+bool RequestRouter::isValid(http_request get_message) {
+    return false;
+}

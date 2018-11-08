@@ -1,0 +1,8 @@
+//
+// Created by dpudov on 08.11.18.
+//
+
+#ifndef THEQUESTS_ABSTRACTACTION_H
+#define THEQUESTS_ABSTRACTACTION_H
+
+#endif //THEQUESTS_ABSTRACTACTION_H

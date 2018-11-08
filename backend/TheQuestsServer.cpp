@@ -11,7 +11,8 @@ std::unique_ptr<TheQuestsServer> g_httpServer;
 
 void on_initialize(const string_t &address) {
     uri_builder uri(address);
-//    uri.append_path(U(""));
+    uri.append_path(U("card/add"));
+
 
     auto addr = uri.to_uri().to_string();
     g_httpServer = std::make_unique<TheQuestsServer>(addr);
@@ -36,7 +37,7 @@ int wmain(int argc, wchar_t *argv[])
 int main(int argc, char *argv[])
 #endif
 {
-    utility::string_t port = U("34568");
+    utility::string_t port = U("8080");
     if (argc == 2) {
         port = argv[1];
     }

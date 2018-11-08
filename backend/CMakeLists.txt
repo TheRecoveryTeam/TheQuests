@@ -135,16 +135,16 @@ link_directories(${INCLUDE_DIR})
 configure_file(CMakeLists.txt.in ${THIRD_PARTY_DIR}/googletest-download/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
         RESULT_VARIABLE result
-        WORKING_DIRECTORY ${THIRD_PARTY_DIR}/googletest-download )
-if(result)
+        WORKING_DIRECTORY ${THIRD_PARTY_DIR}/googletest-download)
+if (result)
     message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-endif()
+endif ()
 execute_process(COMMAND ${CMAKE_COMMAND} --build .
         RESULT_VARIABLE result
-        WORKING_DIRECTORY ${THIRD_PARTY_DIR}/googletest-download )
-if(result)
+        WORKING_DIRECTORY ${THIRD_PARTY_DIR}/googletest-download)
+if (result)
     message(FATAL_ERROR "Build step for googletest failed: ${result}")
-endif()
+endif ()
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
@@ -152,7 +152,29 @@ add_subdirectory(${THIRD_PARTY_DIR}/googletest-src
         ${THIRD_PARTY_DIR}/googletest-build
         EXCLUDE_FROM_ALL)
 
-add_executable(test TheQuestsServer.cpp)
+add_executable(test
+        TheQuestsServer.cpp
+        controllers/AbstractAction.h
+        controllers/AbstractController.h
+        controllers/CardController.cpp
+        controllers/CardController.h
+        controllers/RequestRouter.cpp
+        controllers/RequestRouter.h
+        controllers/card/actions/CardAddAction.cpp
+        controllers/card/actions/CardAddAction.h
+        controllers/card/actions/CardDoAnswerAction.cpp
+        controllers/card/actions/CardDoAnswerAction.h
+        controllers/card/actions/CardEditAction.cpp
+        controllers/card/actions/CardEditAction.h
+        controllers/card/actions/CardGetAction.cpp
+        controllers/card/actions/CardGetAction.h
+        controllers/card/actions/CardLinksUpsertAction.cpp
+        controllers/card/actions/CardLinksUpsertAction.h
+        controllers/card/actions/CardListAction.cpp
+        controllers/card/actions/CardListAction.h
+        controllers/card/actions/CardRemoveAction.cpp
+        controllers/card/actions/CardRemoveAction.h
+        )
 
 add_custom_target(run
         COMMAND test

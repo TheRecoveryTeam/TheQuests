@@ -1,0 +1,14 @@
+//
+// Created by dpudov on 08.11.18.
+//
+
+#ifndef THEQUESTS_CARDLINKSUPSERTACTION_H
+#define THEQUESTS_CARDLINKSUPSERTACTION_H
+
+
+class CardLinksUpsertAction {
+
+};
+
+
+#endif //THEQUESTS_CARDLINKSUPSERTACTION_H
