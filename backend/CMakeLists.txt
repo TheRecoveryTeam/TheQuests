@@ -152,7 +152,7 @@ add_subdirectory(${THIRD_PARTY_DIR}/googletest-src
         ${THIRD_PARTY_DIR}/googletest-build
         EXCLUDE_FROM_ALL)
 
-add_executable(test main.cpp)
+add_executable(test TheQuestsServer.cpp)
 
 add_custom_target(run
         COMMAND test
