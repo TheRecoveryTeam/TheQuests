@@ -1,8 +1,8 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/zorin/Desktop/project/TheQuests/backend
--- Boost version: 1.67.0
--- Boost version: 1.67.0
+/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /media/dpudov/media/project/TheQuests/backend
+-- Boost version: 1.65.1
 -- Found the following Boost libraries:
 --   system
+Found CppRest /media/dpudov/media/project/TheQuests/backend/lib/cpprestsdk/Release/include /media/dpudov/media/project/TheQuests/backend/lib/cpprestsdk/build.release/Binaries/libcpprest.a
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug
+-- Build files have been written to: /media/dpudov/media/project/TheQuests/backend/cmake-build-debug

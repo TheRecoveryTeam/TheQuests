@@ -39,19 +39,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
+CMAKE_COMMAND = /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
+RM = /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/zorin/Desktop/project/TheQuests/backend
+CMAKE_SOURCE_DIR = /media/dpudov/media/project/TheQuests/backend
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug
+CMAKE_BINARY_DIR = /media/dpudov/media/project/TheQuests/backend/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-de
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -70,7 +70,7 @@ rebuild_cache/fast: rebuild_cache
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,30 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named TheQuests
+# Target rules for targets named libmongoc
 
 # Build rule for target.
-TheQuests: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 TheQuests
-.PHONY : TheQuests
+libmongoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 libmongoc
+.PHONY : libmongoc
 
 # fast build rule for target.
-TheQuests/fast:
-	$(MAKE) -f CMakeFiles/TheQuests.dir/build.make CMakeFiles/TheQuests.dir/build
-.PHONY : TheQuests/fast
-
-#=============================================================================
-# Target rules for targets named cpprestsdk
-
-# Build rule for target.
-cpprestsdk: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 cpprestsdk
-.PHONY : cpprestsdk
-
-# fast build rule for target.
-cpprestsdk/fast:
-	$(MAKE) -f CMakeFiles/cpprestsdk.dir/build.make CMakeFiles/cpprestsdk.dir/build
-.PHONY : cpprestsdk/fast
+libmongoc/fast:
+	$(MAKE) -f CMakeFiles/libmongoc.dir/build.make CMakeFiles/libmongoc.dir/build
+.PHONY : libmongoc/fast
 
 #=============================================================================
 # Target rules for targets named libmongocxx
@@ -150,44 +137,17 @@ libmongocxx/fast:
 .PHONY : libmongocxx/fast
 
 #=============================================================================
-# Target rules for targets named libmongoc
+# Target rules for targets named TheQuests
 
 # Build rule for target.
-libmongoc: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 libmongoc
-.PHONY : libmongoc
+TheQuests: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 TheQuests
+.PHONY : TheQuests
 
 # fast build rule for target.
-libmongoc/fast:
-	$(MAKE) -f CMakeFiles/libmongoc.dir/build.make CMakeFiles/libmongoc.dir/build
-.PHONY : libmongoc/fast
-
-main.o: main.cpp.o
-
-.PHONY : main.o
-
-# target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/TheQuests.dir/build.make CMakeFiles/TheQuests.dir/main.cpp.o
-.PHONY : main.cpp.o
-
-main.i: main.cpp.i
-
-.PHONY : main.i
-
-# target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/TheQuests.dir/build.make CMakeFiles/TheQuests.dir/main.cpp.i
-.PHONY : main.cpp.i
-
-main.s: main.cpp.s
-
-.PHONY : main.s
-
-# target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/TheQuests.dir/build.make CMakeFiles/TheQuests.dir/main.cpp.s
-.PHONY : main.cpp.s
+TheQuests/fast:
+	$(MAKE) -f CMakeFiles/TheQuests.dir/build.make CMakeFiles/TheQuests.dir/build
+.PHONY : TheQuests/fast
 
 # Help Target
 help:
@@ -196,14 +156,10 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... TheQuests"
-	@echo "... edit_cache"
-	@echo "... cpprestsdk"
-	@echo "... libmongocxx"
 	@echo "... libmongoc"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... edit_cache"
+	@echo "... libmongocxx"
+	@echo "... TheQuests"
 .PHONY : help
 
 

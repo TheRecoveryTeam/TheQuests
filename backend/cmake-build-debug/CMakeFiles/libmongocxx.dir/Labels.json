@@ -2,34 +2,34 @@
 	"sources" : 
 	[
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongocxx"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongocxx"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongocxx.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongocxx.rule"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongocxx-complete.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongocxx-complete.rule"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-install.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-install.rule"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-mkdir.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-mkdir.rule"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-download.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-download.rule"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-update.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-update.rule"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-patch.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-patch.rule"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-configure.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-configure.rule"
 		},
 		{
-			"file" : "/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-build.rule"
+			"file" : "/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongocxx-prefix/src/libmongocxx-stamp/libmongocxx-build.rule"
 		}
 	],
 	"target" : 

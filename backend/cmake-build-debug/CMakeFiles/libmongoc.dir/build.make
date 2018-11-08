@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake
+CMAKE_COMMAND = /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake
 
 # The command to remove a file.
-RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E remove -f
+RM = /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/zorin/Desktop/project/TheQuests/backend
+CMAKE_SOURCE_DIR = /media/dpudov/media/project/TheQuests/backend
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug
+CMAKE_BINARY_DIR = /media/dpudov/media/project/TheQuests/backend/cmake-build-debug
 
 # Utility rule file for libmongoc.
 
@@ -64,52 +64,52 @@ CMakeFiles/libmongoc-complete: libmongoc-prefix/src/libmongoc-stamp/libmongoc-pa
 CMakeFiles/libmongoc-complete: libmongoc-prefix/src/libmongoc-stamp/libmongoc-configure
 CMakeFiles/libmongoc-complete: libmongoc-prefix/src/libmongoc-stamp/libmongoc-build
 CMakeFiles/libmongoc-complete: libmongoc-prefix/src/libmongoc-stamp/libmongoc-install
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Completed 'libmongoc'"
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E make_directory /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongoc-complete
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-done
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Completed 'libmongoc'"
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E make_directory /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E touch /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongoc-complete
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E touch /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-done
 
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-install: libmongoc-prefix/src/libmongoc-stamp/libmongoc-build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Performing install step for 'libmongoc'"
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && $(MAKE) install
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-install
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Performing install step for 'libmongoc'"
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && $(MAKE) install
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E touch /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-install
 
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-mkdir:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Creating directories for 'libmongoc'"
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E make_directory /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E make_directory /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E make_directory /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-install
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E make_directory /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E make_directory /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E make_directory /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-mkdir
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Creating directories for 'libmongoc'"
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E make_directory /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E make_directory /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E make_directory /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-install
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E make_directory /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E make_directory /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E make_directory /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E touch /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-mkdir
 
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-download: libmongoc-prefix/src/libmongoc-stamp/libmongoc-gitinfo.txt
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-download: libmongoc-prefix/src/libmongoc-stamp/libmongoc-mkdir
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'libmongoc'"
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -P /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp/libmongoc-gitclone.cmake
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-download
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Performing download step (git clone) for 'libmongoc'"
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty && /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -P /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp/libmongoc-gitclone.cmake
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty && /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E touch /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-download
 
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-update: libmongoc-prefix/src/libmongoc-stamp/libmongoc-download
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Performing update step for 'libmongoc'"
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -P /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp/libmongoc-gitupdate.cmake
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Performing update step for 'libmongoc'"
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc && /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -P /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp/libmongoc-gitupdate.cmake
 
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-patch: libmongoc-prefix/src/libmongoc-stamp/libmongoc-download
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "No patch step for 'libmongoc'"
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo_append
-	/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-patch
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "No patch step for 'libmongoc'"
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E echo_append
+	/media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E touch /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-patch
 
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-configure: libmongoc-prefix/tmp/libmongoc-cfgcmd.txt
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-configure: libmongoc-prefix/src/libmongoc-stamp/libmongoc-update
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-configure: libmongoc-prefix/src/libmongoc-stamp/libmongoc-patch
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Performing configure step for 'libmongoc'"
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -C/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp/libmongoc-cache-Debug.cmake "-GCodeBlocks - Unix Makefiles" /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-configure
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Performing configure step for 'libmongoc'"
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -C/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/tmp/libmongoc-cache-debug.cmake "-GCodeBlocks - Unix Makefiles" /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E touch /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-configure
 
 libmongoc-prefix/src/libmongoc-stamp/libmongoc-build: libmongoc-prefix/src/libmongoc-stamp/libmongoc-configure
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Performing build step for 'libmongoc'"
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && $(MAKE)
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E touch /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Performing build step for 'libmongoc'"
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && $(MAKE)
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/thirdparty/libmongoc-build && /media/dpudov/media/Downloads/clion-2018.2.5/bin/cmake/linux/bin/cmake -E touch /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/libmongoc-prefix/src/libmongoc-stamp/libmongoc-build
 
 libmongoc: CMakeFiles/libmongoc
 libmongoc: CMakeFiles/libmongoc-complete
@@ -134,6 +134,6 @@ CMakeFiles/libmongoc.dir/clean:
 .PHONY : CMakeFiles/libmongoc.dir/clean
 
 CMakeFiles/libmongoc.dir/depend:
-	cd /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/zorin/Desktop/project/TheQuests/backend /Users/zorin/Desktop/project/TheQuests/backend /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug /Users/zorin/Desktop/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongoc.dir/DependInfo.cmake --color=$(COLOR)
+	cd /media/dpudov/media/project/TheQuests/backend/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /media/dpudov/media/project/TheQuests/backend /media/dpudov/media/project/TheQuests/backend /media/dpudov/media/project/TheQuests/backend/cmake-build-debug /media/dpudov/media/project/TheQuests/backend/cmake-build-debug /media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongoc.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/libmongoc.dir/depend
 
