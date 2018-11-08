@@ -36,7 +36,7 @@ Rectangle {
 
         Rectangle {
             id: cardDescription
-            property string text: application.store.get('loadedCard').description
+            property string text: CardModel.description
             Text {
                 FontLoader {
                     id: robotoSlabBold
@@ -96,7 +96,7 @@ Rectangle {
 
             CardHeading {
                 anchors.fill: parent
-                label: application.store.get('loadedCard').title
+                label: CardModel.title
             }
             color: 'transparent'
         }

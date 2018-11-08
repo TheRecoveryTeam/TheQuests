@@ -29,9 +29,7 @@ SOURCES += \
     src/engine/HttpRequester/httprequester.cpp \
     src/controllers/AbstractController/abstractcontoller.cpp \
     src/controllers/UserController/usercontroller.cpp \
-    src/controllers/CardController/cardcontroller.cpp \
-    src/utils/call_once.cpp \
-    src/utils/singleton.cpp
+    src/controllers/CardController/cardcontroller.cpp
 
 RESOURCES += qml.qrc
 

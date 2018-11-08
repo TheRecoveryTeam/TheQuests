@@ -5,7 +5,7 @@
 #include "../CardShortModel/cardshortmodel.h"
 #include "./controllers/abstractcardcontroller.h"
 #include "./controllers/ChooseCardModel/choosecardmodel.h"
-#include "./src/utils/singleton.h"
+
 
 class CardModel : public CardShortModel
 {
@@ -17,22 +17,12 @@ class CardModel : public CardShortModel
 
 private:
     explicit CardModel(QObject* parent = nullptr);
-//    CardModel(
-//            const QString& id,
-//            const QString& questId,
-//            const QString& title,
-//            const QString& imagePath,
-//            const QString& description,
-//            const QString& type,
-//            AbstractCardController* controller = nullptr,
-//            QObject* parent = nullptr);
-
     static CardModel* createInstance();
 
-    signals:
-        void questIdChanged(const QString&);
-        void typeChanged(const QString&);
-        void controllerChanged(AbstractCardController*);
+signals:
+    void questIdChanged(const QString&);
+    void typeChanged(const QString&);
+    void controllerChanged(AbstractCardController*);
 
 public:
     ~CardModel();
@@ -55,7 +45,6 @@ public:
                  const QString& description,
                  const QString& type,
                  AbstractCardController* controller = nullptr);
-
 
 private:
     QString questId;

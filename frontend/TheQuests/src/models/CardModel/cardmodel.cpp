@@ -1,26 +1,10 @@
 #include "cardmodel.h"
-
+#include "src/utils/singleton.h"
 
 CardModel::CardModel(QObject* parent):
     CardShortModel(parent),
-   controller(nullptr)
+    controller(nullptr)
 { }
-
-//CardModel::CardModel(
-//        const QString &id,
-//        const QString &questId,
-//        const QString &title,
-//        const QString &imagePath,
-//        const QString &description,
-//        const QString &type,
-//        AbstractCardController* controller,
-//        QObject* parent
-//    ):
-//    CardShortModel(id, title, imagePath, description, parent),
-//    questId(questId),
-//    type(type),
-//    controller(controller)
-//{ }
 
 CardModel *CardModel::createInstance()
 {
@@ -73,12 +57,13 @@ void CardModel::setAll(const QString &id,
                        const QString &description,
                        const QString &type,
                        AbstractCardController *controller)
-{  this->id = id;
-   this->questId = questId;
-   this->title = title;
-   this->imagePath = imagePath;
-   this->description = description;
-   this->questId = questId;
-   this->type = type;
-   this->controller = controller;
+{
+    this->id = id;
+    this->questId = questId;
+    this->title = title;
+    this->imagePath = imagePath;
+    this->description = description;
+    this->questId = questId;
+    this->type = type;
+    this->controller = controller;
 }
