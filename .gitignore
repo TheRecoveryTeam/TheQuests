@@ -699,3 +699,4 @@ ASALocalRun/
 *build-TheQuests*
 *-prefix/
 cmake-build-debug/thirdparty/
+data/

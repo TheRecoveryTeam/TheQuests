@@ -1,5 +1,0 @@
-/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongoc.dir
-/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/edit_cache.dir
-/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/libmongocxx.dir
-/media/dpudov/media/project/TheQuests/backend/cmake-build-debug/CMakeFiles/TheQuests.dir
