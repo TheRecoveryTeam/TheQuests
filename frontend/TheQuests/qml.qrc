@@ -8,6 +8,10 @@
         <file alias="Card/CardToolbar.qml">qml/components/Card/CardToolbar.qml</file>
         <file alias="Card/CardHeading.qml">qml/components/Card/CardHeading.qml</file>
         <file alias="Card/Card.qml">qml/components/Card/index.qml</file>
+        <file alias="Card/CardDescription.qml">qml/components/Card/CardDescription.qml</file>
+        <file alias="Title/Title.qml">qml/components/Title/Title.qml</file>
+        <file alias="SimpleText/SimpleText.qml">qml/components/SimpleText/SimpleText.qml</file>
+        <file alias="CustomButton/CustomButton.qml">qml/components/CustomButton/CustomButton.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>

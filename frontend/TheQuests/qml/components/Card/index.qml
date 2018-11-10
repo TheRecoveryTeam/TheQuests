@@ -4,6 +4,12 @@ import QtQuick.Controls.Material 2.3
 import models 1.0
 
 Rectangle {
+    id: cardRoot
+    property string title
+    property string description
+    property alias mediaBlock: mediaLoader.sourceComponent
+    property alias toolbarBlock: toolbarLoader.sourceComponent
+
     BackgroundCardGradient {
         anchors.fill: parent
     }
@@ -15,7 +21,12 @@ Rectangle {
             right: parent.right
             top: parent.top
         }
+        Loader {
+            id: toolbarLoader
+            anchors.fill: parent
+        }
     }
+
     Rectangle {
         id: cardContentContainer
         anchors {
@@ -24,83 +35,71 @@ Rectangle {
             bottom: parent.bottom
             top: cardToolbar.bottom
         }
+
         color: 'transparent'
         Rectangle {
-        id: cardContent
-        height: mediaFrame.height + heading.height + cardDescription.height
-        anchors {
-            verticalCenter: parent.verticalCenter
-            left: parent.left
-            right: parent.right
-        }
+            id: cardContent
+            height: mediaFrame.height + heading.height + cardDescription.height
+            anchors {
+                verticalCenter: parent.verticalCenter
+                left: parent.left
+                right: parent.right
+            }
 
-        Rectangle {
-            id: cardDescription
-            property string text: CardModel.description
-            Text {
-                FontLoader {
-                    id: robotoSlabBold
-                    source: 'qrc:/media/Exo2-Regular.ttf'
-                    name: 'Exo2-Regular'
+            CardDescription {
+                id: cardDescription
+                text: cardRoot.description
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    margins: 20
+                }
+            }
+
+            Pane {
+                id: mediaFrame
+                readonly property int marginValue: 20
+                readonly property int side: Math.min(
+                    parent.width - marginValue * 2,
+                    cardRoot.height - cardToolbar.height
+                    - cardDescription.height - heading.height
+                )
+                height: side
+                width: side
+                padding: 0
+
+                anchors {
+                    top: cardDescription.bottom
+                    horizontalCenter: parent.horizontalCenter
+                    margins: marginValue
                 }
 
-                id: cardDescriptionText
-                anchors.fill: parent
-                text: qsTr(cardDescription.text)
-                wrapMode: Text.Wrap
-                color: 'white'
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                font {
-                    family: robotoSlabBold.name
-                    letterSpacing: 4
+                Material.elevation: 3
+
+                Loader {
+                    id: mediaLoader
+                    anchors.fill: parent
                 }
-                lineHeight: 1.3
-            }
-            anchors {
-                left: parent.left
-                right: parent.right
-                margins: 20
-            }
-            height: cardDescriptionText.implicitHeight
-            color: 'transparent'
-        }
-
-        Pane {
-            id: mediaFrame
-            property int marginValue: 20
-            property int side: parent.width - marginValue * 2
-            height: side
-            width: side
-
-            anchors {
-                top: cardDescription.bottom
-                left: parent.left
-                right: parent.right
-                margins: marginValue
             }
 
-            Material.elevation: 3
-        }
+            Rectangle {
+                id: heading
 
-        Rectangle {
-            id: heading
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: mediaFrame.bottom
+                }
 
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: mediaFrame.bottom
-            }
+                height: 80
 
-            height: 80
-
-            CardHeading {
-                anchors.fill: parent
-                label: CardModel.title
+                CardHeading {
+                    anchors.fill: parent
+                    label: cardRoot.title
+                }
+                color: 'transparent'
             }
             color: 'transparent'
         }
-        color: 'transparent'
-    }
     }
 }
