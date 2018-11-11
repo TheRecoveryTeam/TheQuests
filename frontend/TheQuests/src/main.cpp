@@ -7,11 +7,21 @@
 #include "src/engine/Store/store.h"
 #include "src/models/CardModel/cardmodel.h"
 #include "src/models/QuestShortModel/questshortmodel.h"
+#include "src/models/QuestDetailModel/questdetailmodel.h"
+#include"src/models/UserModel/usermodel.h"
 
-
-static QObject *singletonTypeProvider(QQmlEngine *, QJSEngine *)
+static QObject *singletonCardModelProvider(QQmlEngine *, QJSEngine *)
 {
     return CardModel::instance();
+}
+static QObject *singletonQuestDetailModelProvider(QQmlEngine *, QJSEngine *)
+{
+    return QuestDetailModel::instance();
+}
+
+static QObject *singletonUserModelProvider(QQmlEngine *, QJSEngine *)
+{
+    return UserModel::instance();
 }
 
 int main(int argc, char *argv[])
@@ -21,7 +31,9 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<QObject>("application", 1, 0, "QObject");
     qmlRegisterType<Store>("application", 1, 0, "Store");
-    qmlRegisterSingletonType<CardModel>("models", 1, 0, "CardModel", singletonTypeProvider);
+    qmlRegisterSingletonType<CardModel>("models", 1, 0, "CardModel", singletonCardModelProvider);
+    qmlRegisterSingletonType<QuestDetailModel>("models", 1, 0, "QuestDetailModel", singletonQuestDetailModelProvider);
+    qmlRegisterSingletonType<UserModel>("models", 1, 0, "QuestDetailModel", singletonUserModelProvider);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 

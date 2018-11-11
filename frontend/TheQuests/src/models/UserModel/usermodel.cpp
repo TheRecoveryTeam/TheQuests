@@ -1,6 +1,21 @@
 #include "usermodel.h"
-
+#include "src/utils/singleton.h"
 UserModel::UserModel(QObject *parent) : QObject(parent)
+{
+
+}
+
+UserModel *UserModel::createInstance()
+{
+    return new UserModel();
+}
+
+UserModel *UserModel::instance()
+{
+    return Singleton<UserModel>::instance(UserModel::createInstance);
+}
+
+UserModel::~UserModel()
 {
 
 }
@@ -43,4 +58,15 @@ const QString& UserModel::getToken() const
 void UserModel::setToken(const QString &value)
 {
     token = value;
+}
+
+void UserModel::setAll(const QString &id,
+                       const QString &nickName,
+                       const QString &eMail,
+                       const QString &token)
+{
+    this->id = id;
+    this->nickName = nickName;
+    this->eMail = eMail;
+    this->token = token;
 }
