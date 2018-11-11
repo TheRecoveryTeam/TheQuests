@@ -86,6 +86,41 @@ ExternalProject_Add(cpprestsdk
         )
 set(cpprestsdk_DIR "${THIRD_PARTY_DIR}/cpprestsdk-install/lib/cpprestsdk")
 
+ExternalProject_Add(googletest
+        GIT_REPOSITORY  "https://github.com/google/googletest.git"
+        GIT_TAG         "release-1.8.1"
+        GIT_PROGRESS    1
+        GIT_SHALLOW     1
+        SOURCE_DIR      "${THIRD_PARTY_DIR}/googletest"
+        BINARY_DIR      "${THIRD_PARTY_DIR}/googletest-build"
+        INSTALL_DIR     "${THIRD_PARTY_DIR}/googletest-install"
+        CMAKE_CACHE_ARGS
+        ${common_cmake_cache_args}
+        -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/googletest-install
+        -DBUILD_SHARED_LIBS:BOOL=ON
+        -DENABLE_TESTS:BOOL=OFF
+        -DENABLE_EXAMPLES:BOOL=OFF
+        )
+set(GTest_DIR "${THIRD_PARTY_DIR}/googletest-install/lib/cmake/googletest")
+
+ExternalProject_Add(nlohmann_json
+        GIT_REPOSITORY  "https://github.com/nlohmann/json.git"
+        GIT_TAG         "v3.4.0"
+        GIT_PROGRESS    1
+        GIT_SHALLOW     1
+        SOURCE_DIR      "${THIRD_PARTY_DIR}/nlohmann_json"
+        BINARY_DIR      "${THIRD_PARTY_DIR}/nlohmann_json-build"
+        INSTALL_DIR     "${THIRD_PARTY_DIR}/nlohmann_json-install"
+        CMAKE_CACHE_ARGS
+        ${common_cmake_cache_args}
+        -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/nlohmann_json-install
+        -DBUILD_SHARED_LIBS:BOOL=ON
+        -DENABLE_TESTS:BOOL=OFF
+        -DENABLE_EXAMPLES:BOOL=OFF
+        )
+set(nlohmann_json_DIR "${THIRD_PARTY_DIR}/nlohmann_json-install/lib/cmake/nlohmann_json")
+
+
 # Все ниже закоментить и запустить make в папке cmake-build-debug.
 # Когда все библиотеки скачаются, раскоментить.
 # TODO: убрать этот костыль
@@ -95,14 +130,26 @@ find_package(libmongocxx REQUIRED NAMES libmongocxx libmongocxx-1.0)
 find_package(Boost REQUIRED)
 find_package(Boost REQUIRED system)
 find_package(cpprestsdk REQUIRED)
+find_package(nlohmann_json 3.4.0 REQUIRED)
 
 
 include_directories(${PROJECT_SOURCE_DIR}/src/storage/)
+include_directories(${PROJECT_SOURCE_DIR}/src/engine/)
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/storage/)
-target_link_libraries(${PROJECT_NAME} cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} models)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/engine/)
+target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} models connections)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
+
+add_executable(test tests/storage/models/CardTest.cpp)
+add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest
+        ${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest-build
+        EXCLUDE_FROM_ALL)
+target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} models connections)
+target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
+target_compile_definitions(test PUBLIC ${LIBMONGOCXX_DEFINITIONS})
+add_test(NAME CardModelTest COMMAND test1)
 
 #add_executable(UserModel src/storage/models/UserModel.cpp)
 #target_link_libraries(UserModel ${LIBMONGOCXX_LIBRARIES})
