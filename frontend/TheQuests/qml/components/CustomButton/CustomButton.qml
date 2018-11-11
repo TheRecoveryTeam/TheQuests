@@ -13,7 +13,7 @@ Item {
 
     Rectangle {
         radius: 5
-        opacity: mouseArea.containsPress ? 0.8 : 0.5
+        opacity: mouseArea.containsPress ? 0.8 : 0.6
         color: '#ffffff'
         anchors.fill: parent
         MouseArea {

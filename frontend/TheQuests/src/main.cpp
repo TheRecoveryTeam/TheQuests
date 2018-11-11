@@ -45,7 +45,10 @@ int main(int argc, char *argv[])
     auto store = new Store(&application);
     application.setStore(store);
 
-    CardModel::instance()->setAll("id_12345", "questId_12345", "Card title from C++", "http://localhost:3000",
+    CardModel::instance()->setAll("id_12345",
+                                  "questId_12345",
+                                  "Card title from C++",
+                                  "http://img.uduba.com/uduba.com/user_data/b6/ae/b6aeede60c86ad480eec162b3de65ec7_783x0.jpg?uduba_pid=6232881",
                                   "Very long description aa bb cc dd kek lol azaza, Lorem Ipsum dolor sit amet",
                                    "choose",
                                    nullptr);
