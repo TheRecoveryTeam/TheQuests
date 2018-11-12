@@ -4,8 +4,7 @@
 #include <QObject>
 #include <QString>
 #include "../AbstractController/abstractcontoller.h"
-
-class UserModel;
+#include "src/models/UserModel/usermodel.h"
 
 class UserController: public AbstractContoller
 {
