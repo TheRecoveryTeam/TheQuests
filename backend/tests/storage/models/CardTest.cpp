@@ -11,19 +11,82 @@
 
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
-
-#include <sstream>
+#include <vector>
 
 class CardModelTest : public ::testing::Test
 {
  protected:
   void SetUp()
   {
-
+    auto client = MongoAccess::MongoAccess::instance().get_connection();
+    auto collection = (*client)["testdb"]["card"];
+    id_list = new std::vector<std::string>;
+    std::vector<nlohmann::json> cards;
+    cards.push_back(nlohmann::json({
+         {"questId", "1"},
+         {"title", "New card1"},
+         {"description", "First project card"},
+         {
+             "links", {
+             {"left way", "1"},
+             {"right way", "2"}
+         }
+         },
+         {"type", "choose"}
+     }));
+    cards.push_back(nlohmann::json({
+         {"questId", "2"},
+         {"title", "New card2"},
+         {"description", "First project card"},
+         {
+             "links", {
+             {"right way", "2"}
+         }
+         },
+         {"type", "choose"}
+     }));
+    cards.push_back(nlohmann::json({
+         {"questId", "1"},
+         {"title", "New card3"},
+         {"description", "Second project card"},
+         {"type", "choose"}
+     }));
+    cards.push_back(nlohmann::json({
+         {"questId", "2"},
+         {"title", "New card4"},
+         {"description", "Second project card"},
+         {
+             "links", {
+             {"left way", "1"},
+         }
+         },
+         {"type", "choose"}
+     }));
+    cards.push_back(nlohmann::json({
+         {"questId", "1"},
+         {"title", "New card5"},
+         {"description", "Third project card"},
+         {
+             "links", {
+             {"left way", "1"},
+             {"right way", "2"}
+         }
+         },
+         {"type", "choose"}
+     }));
+    for(const auto& card : cards) {
+      bsoncxx::stdx::optional<mongocxx::result::insert_one> result = collection.insert_one((bsoncxx::from_json(card.dump()).view()));
+      id_list->push_back((*result).inserted_id().get_oid().value.to_string());
+    }
   }
   void TearDown()
   {
+    delete id_list;
   }
+
+  std::vector<std::string>* id_list = nullptr;
+  MongoAccess::MongoAccess::connection* client;
+  mongocxx::collection* collection;
 };
 
 TEST_F(CardModelTest, addCorrectCard) {
@@ -68,20 +131,11 @@ TEST_F(CardModelTest, addIncorrectCard) {
 
 
 TEST_F(CardModelTest, getCardWithExistingId) {
-  auto client = MongoAccess::MongoAccess::instance().get_connection();
-  auto collection = (*client)["testdb"]["card"];
-  auto card_value = bsoncxx::builder::stream::document{}
-      << "questId" << "1"
-      << "description" << "First project card"
-      << "type" << "choose"
-      << bsoncxx::builder::stream::finalize;
-  auto inserted_card  = collection.insert_one(card_value.view());
-  std::string inserted_card_id = (*inserted_card).inserted_id().get_oid().value.to_string();
   nlohmann::json query = {
-      {"_id", inserted_card_id}
+      {"_id", id_list[0][0]}
   };
   nlohmann::json received_card = nlohmann::json::parse(CardModel::CardModel(query.dump()).get());
-  ASSERT_EQ(inserted_card_id, received_card["_id"]["$oid"]) << "Wrong card received";
+  ASSERT_EQ(id_list[0][0], received_card["_id"]["$oid"]) << "Wrong card received";
 }
 
 
