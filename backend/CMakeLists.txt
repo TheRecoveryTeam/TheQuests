@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE debug)
 set(THIRD_PARTY_DIR ${CMAKE_BINARY_DIR}/thirdparty)
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 
 find_package(Boost COMPONENTS system REQUIRED)
 if (Boost_FOUND)
