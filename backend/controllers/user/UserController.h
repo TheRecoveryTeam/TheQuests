@@ -1,0 +1,8 @@
+//
+// Created by dpudov on 12.11.18.
+//
+
+#ifndef THEQUESTS_USERCONTROLLER_H
+#define THEQUESTS_USERCONTROLLER_H
+
+#endif //THEQUESTS_USERCONTROLLER_H

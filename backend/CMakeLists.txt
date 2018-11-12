@@ -154,27 +154,21 @@ add_subdirectory(${THIRD_PARTY_DIR}/googletest-src
 
 add_executable(test
         TheQuestsServer.cpp
-        controllers/AbstractAction.h
         controllers/AbstractController.h
-        controllers/CardController.cpp
-        controllers/CardController.h
+        controllers/card/CardController.cpp
+        controllers/card/CardController.h
         controllers/RequestRouter.cpp
         controllers/RequestRouter.h
-        controllers/card/actions/CardAddAction.cpp
-        controllers/card/actions/CardAddAction.h
-        controllers/card/actions/CardDoAnswerAction.cpp
-        controllers/card/actions/CardDoAnswerAction.h
-        controllers/card/actions/CardEditAction.cpp
-        controllers/card/actions/CardEditAction.h
-        controllers/card/actions/CardGetAction.cpp
-        controllers/card/actions/CardGetAction.h
-        controllers/card/actions/CardLinksUpsertAction.cpp
-        controllers/card/actions/CardLinksUpsertAction.h
-        controllers/card/actions/CardListAction.cpp
-        controllers/card/actions/CardListAction.h
-        controllers/card/actions/CardRemoveAction.cpp
-        controllers/card/actions/CardRemoveAction.h
-        )
+        controllers/NetworkHelper.h
+        controllers/AbstractController.cpp
+        controllers/NetworkUtils.h
+        controllers/MicroService.h
+        controllers/NetworkUtils.cpp
+        controllers/RuntimeUtils.h
+        controllers/UserInterruptHandler.h
+        controllers/Handler.h
+        controllers/quest/QuestController.cpp
+        controllers/quest/QuestController.h controllers/user/UserController.cpp controllers/user/UserController.h)
 
 add_custom_target(run
         COMMAND test

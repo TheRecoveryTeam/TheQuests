@@ -18,7 +18,7 @@ using namespace http;
 using namespace utility;
 using namespace http::experimental::listener;
 
-namespace cfx {
+namespace networkhelper {
 
     /*!
      * Dispatcher class represents the basic interface for a
@@ -42,7 +42,7 @@ namespace cfx {
     };
 }
 
-namespace cfx {
+namespace networkhelper {
     class AbstractController {
     protected:
         http_listener _listener; // main micro service network endpoint

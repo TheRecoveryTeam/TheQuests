@@ -1,70 +1,48 @@
-#include <memory>
+#include <iostream>
 
-//
-// Created by dpudov on 08.11.18.
-//
+#include "controllers/UserInterruptHandler.h"
+#include "controllers/RuntimeUtils.h"
 
-#include "TheQuestsServer.h"
-//#include "stdafx.h"
+#include "controllers/card/CardController.h"
+#include "controllers/user/UserController.h"
+#include "controllers/quest/QuestController.h"
 
-std::unique_ptr<TheQuestsServer> g_httpServer;
+using namespace networkhelper;
+using namespace web;
 
-void on_initialize(const string_t &address) {
-    uri_builder uri(address);
-    uri.append_path(U("card/add"));
+int main(int argc, char **argv) {
+    InterruptHandler::hookSIGINT();
 
+    CardController cardController;
+    cardController.setEndpoint("localhost:8080/api/card");
 
-    auto addr = uri.to_uri().to_string();
-    g_httpServer = std::make_unique<TheQuestsServer>(addr);
-    g_httpServer->open().wait();
+//    UserController userController;
+//    userController.setEndpoint("localhost:8080/api/user");
 
-    ucout << utility::string_t(U("Listening for requests at: ")) << addr << std::endl;
-}
+//    QuestController questController;
+//    questController.setEndpoint("localhost:8080/api/quest");
 
-void on_shutdown() {
-    g_httpServer->close().wait();
-}
+    try {
+        // wait for server initialization...
+        cardController.accept().wait();
+        std::cout << "CardController is listening: " << cardController.endpoint() << std::endl;
 
-//
-// To start the server, run the below command with admin privileges:
-// TheQuestsServer.exe <port>
-// If port is not specified, will listen on 34568
-//
-#ifdef _WIN32
-int wmain(int argc, wchar_t *argv[])
-#else
+        // userController.accept().wait();
+        // std::cout << "UserController is listening: " << userController.endpoint() << std::endl;
 
-int main(int argc, char *argv[])
-#endif
-{
-    utility::string_t port = U("8080");
-    if (argc == 2) {
-        port = argv[1];
+        // questController.accept().wait();
+        // std::cout << "QuestController is listening: " << questController.endpoint() << std::endl;
+
+        InterruptHandler::waitForUserInterrupt();
+
+        cardController.shutdown().wait();
+    }
+    catch (std::exception &e) {
+        std::cerr << "Internal server ERROR" << '\n';
+    }
+    catch (...) {
+        RuntimeUtils::printStackTrace();
     }
 
-    utility::string_t address = U("http://localhost:");
-    address.append(port);
-
-    on_initialize(address);
-    std::cout << "Press ENTER to exit." << std::endl;
-
-    std::string line;
-    std::getline(std::cin, line);
-
-    on_shutdown();
     return 0;
-}
-
-TheQuestsServer::TheQuestsServer(utility::string_t url) : m_listener(url) {
-    m_listener.support(methods::GET, std::bind(&TheQuestsServer::handle_get, this, std::placeholders::_1));
-    m_listener.support(methods::POST, std::bind(&TheQuestsServer::handle_post, this, std::placeholders::_1));
-
-}
-
-void TheQuestsServer::handle_get(http_request message) {
-
-}
-
-void TheQuestsServer::handle_post(http_request message) {
-
 }

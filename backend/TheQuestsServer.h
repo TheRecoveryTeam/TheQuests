@@ -5,17 +5,20 @@
 #ifndef THEQUESTS_THEQUESTSSERVER_H
 #define THEQUESTS_THEQUESTSSERVER_H
 
+#include "controllers/NetworkHelper.h"
 #include "cpprest/json.h"
 #include "cpprest/http_listener.h"
 #include "cpprest/uri.h"
 #include "cpprest/asyncrt_utils.h"
+#include "controllers/NetworkHelper.h"
+
 
 using namespace web;
 using namespace http;
 using namespace utility;
 using namespace http::experimental::listener;
 
-class TheQuestsServer {
+class TheQuestsServer : networkhelper::BaseServer {
 public:
     TheQuestsServer() = default;;
 
