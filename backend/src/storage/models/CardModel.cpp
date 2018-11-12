@@ -10,7 +10,7 @@
 #include <bsoncxx/exception/exception.hpp>
 
 
-CardModel::CardModel::CardModel(const std::string& json) {
+CardModel::CardModel::CardModel(const std::string &json) {
   nlohmann::json data = nlohmann::json::parse(json);
   id_ = data.find("_id") != data.end() ? data["_id"] : "";
   quest_id_ = data.find("questId") != data.end() ? data["questId"] : "";
@@ -38,23 +38,23 @@ std::string CardModel::CardModel::get() {
   if (!id_.empty()) {
     try {
       auto id = bsoncxx::oid(id_);
-    } catch(bsoncxx::exception& exception) {
+    } catch (bsoncxx::exception &exception) {
       return nlohmann::json({{"error", "Incorrect id"}}).dump();
     }
     auto query_parameter = bsoncxx::builder::stream::document{}
-        << "_id" << bsoncxx::oid(id_)
-        << bsoncxx::builder::stream::finalize;
+            << "_id" << bsoncxx::oid(id_)
+            << bsoncxx::builder::stream::finalize;
     bsoncxx::stdx::optional<bsoncxx::document::value> result = collection.find_one(query_parameter.view());
     if (result) {
       return bsoncxx::to_json(*result);
     }
     return bsoncxx::to_json((bsoncxx::builder::stream::document{}
-                                << "error" << "CardDoesNotExist"
-                                << bsoncxx::builder::stream::finalize).view());
+            << "error" << "CardDoesNotExist"
+            << bsoncxx::builder::stream::finalize).view());
   }
   return bsoncxx::to_json((bsoncxx::builder::stream::document{}
-                              << "error" << "NotEnoughData"
-                              << bsoncxx::builder::stream::finalize).view());
+          << "error" << "NotEnoughData"
+          << bsoncxx::builder::stream::finalize).view());
 }
 
 
@@ -77,7 +77,8 @@ std::string CardModel::CardModel::create() {
   if (!links_.empty()) {
     data["links"] = nlohmann::json(links_);
   }
-  bsoncxx::stdx::optional<mongocxx::result::insert_one> result = collection.insert_one((bsoncxx::from_json(data.dump()).view()));
+  bsoncxx::stdx::optional<mongocxx::result::insert_one> result = collection.insert_one(
+          (bsoncxx::from_json(data.dump()).view()));
   if (result) {
     return nlohmann::json({{"_id", (*result).inserted_id().get_oid().value.to_string()}}).dump();
   } else {
