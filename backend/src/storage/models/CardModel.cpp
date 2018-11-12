@@ -48,13 +48,9 @@ std::string CardModel::CardModel::get() {
     if (result) {
       return bsoncxx::to_json(*result);
     }
-    return bsoncxx::to_json((bsoncxx::builder::stream::document{}
-                                << "error" << "CardDoesNotExist"
-                                << bsoncxx::builder::stream::finalize).view());
+    return nlohmann::json({{"error", "CardDoesNotExist"}}).dump();
   }
-  return bsoncxx::to_json((bsoncxx::builder::stream::document{}
-                              << "error" << "NotEnoughData"
-                              << bsoncxx::builder::stream::finalize).view());
+  return nlohmann::json({{"error", "NotEnoughData"}}).dump();
 }
 
 
