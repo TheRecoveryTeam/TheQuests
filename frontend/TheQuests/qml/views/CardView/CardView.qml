@@ -3,7 +3,7 @@ import QtQuick.Controls 2.4
 import 'qrc:/components/Card'
 import 'qrc:/components/CustomButton'
 import 'qrc:/components/ImageContainer'
-import 'qrc:/components/TexturedRect'
+import 'components/CardControllerView'
 import models 1.0
 
 
@@ -22,10 +22,8 @@ Card {
                 source: CardModel.imagePath
             }
         }
-        TexturedRect {
-            CustomButton {
-                text: 'click me'
-            }
+        CardControllerView {
+            controller: CardModel.controller
         }
     }
 }

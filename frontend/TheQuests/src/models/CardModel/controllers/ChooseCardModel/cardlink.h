@@ -33,7 +33,7 @@ signals:
     void answerChanged(const QString& newAnswer);
 
 private:
-    QHash <int, QByteArray> rolenames() const;
+    QHash <int, QByteArray> roleNames() const;
 
     QString answer;
     QVector<structures::ResourceItem> resources;

@@ -47,6 +47,11 @@ AbstractCardController* CardModel::getController() const
 
 void CardModel::setController(AbstractCardController* value)
 {
+    // Удаляем старый контроллер
+    delete controller;
+    if (value) {
+        value->setParent(this);
+    }
     controller = value;
 }
 

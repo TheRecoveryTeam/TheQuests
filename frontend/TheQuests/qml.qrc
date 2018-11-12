@@ -17,6 +17,8 @@
     </qresource>
     <qresource prefix="/views">
         <file alias="CardView/CardView.qml">qml/views/CardView/CardView.qml</file>
+        <file alias="CardView/components/CardControllerView/CardControllerView.qml">qml/views/CardView/components/CardControllerView/CardContollerView.qml</file>
+        <file alias="CardView/components/CardControllerView/components/ChooseControllerView.qml">qml/views/CardView/components/CardControllerView/components/ChooseControllerView.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>

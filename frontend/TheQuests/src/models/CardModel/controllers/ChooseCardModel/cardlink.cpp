@@ -36,7 +36,7 @@ QVariant CardLink::data(const QModelIndex& index, int role) const
     }
 }
 
-QHash<int, QByteArray> CardLink::rolenames() const
+QHash<int, QByteArray> CardLink::roleNames() const
 {
     QHash <int, QByteArray> roles = QAbstractListModel::roleNames();
     roles[typeRole] = "type";

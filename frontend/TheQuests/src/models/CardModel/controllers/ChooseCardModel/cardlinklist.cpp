@@ -10,27 +10,40 @@ CardLinkList::CardLinkList(const QVector<CardLink*>& links, QObject* parent):
 
 int CardLinkList::rowCount(const QModelIndex& parent) const
 {
-    Q_UNUSED(parent);
+    if (parent.isValid()) {
+        return 0;
+    }
     return links.count();
 }
 
 QVariant CardLinkList::data(const QModelIndex& index, int role) const
 {
-    if(!index.isValid())
-        return QVariant();
-
-    if(index.row() >= links.count())
-        return QVariant();
-
-    switch (role) {
-    case linkRole:
-        return QVariant(QMetaType::QObjectStar, links[index.row()]);
-    default:
+    if(!index.isValid()) {
         return QVariant();
     }
+
+    if(index.row() >= links.count()) {
+        return QVariant();
+    }
+
+    if (role == linkRole || role == Qt::DisplayRole) {
+        return QVariant::fromValue(links[index.row()]);
+    }
+    return QVariant();
 }
 
-QHash<int, QByteArray> CardLinkList::rolenames() const
+bool CardLinkList::appendLink(CardLink* link)
+{
+    if (!link) {
+        return false;
+    }
+    beginInsertRows(QModelIndex(), links.count(), links.count());
+    this->links << link;
+    endInsertRows();
+    return true;
+}
+
+QHash<int, QByteArray> CardLinkList::roleNames() const
 {
     QHash <int, QByteArray> roles = QAbstractListModel::roleNames();
     roles[linkRole] = "link";

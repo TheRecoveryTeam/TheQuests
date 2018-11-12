@@ -9,19 +9,22 @@ class CardLinkList: public QAbstractListModel
     Q_OBJECT
 public:
     enum {
-        linkRole = Qt::UserRole + 1,
+        linkRole = Qt::UserRole + 1
     };
 
-    explicit CardLinkList(QObject* parent = nullptr);
+    CardLinkList(QObject* parent = nullptr);
     CardLinkList(const QVector<CardLink*>& links, QObject* parent = nullptr);
     ~CardLinkList() = default;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+
+    bool appendLink(CardLink* link);
+
+protected:
+    QHash <int, QByteArray> roleNames() const;
 
 private:
-    QHash <int, QByteArray> rolenames() const;
-
     QVector<CardLink*> links;
 };
 

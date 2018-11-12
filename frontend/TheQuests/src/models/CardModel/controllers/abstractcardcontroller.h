@@ -11,7 +11,7 @@ public:
     explicit AbstractCardController(QObject *parent = nullptr);
     virtual ~AbstractCardController() = default;
 
-    virtual const QString& getType() const = 0;
+    virtual const QString& getType() const;
 };
 
 #endif // ABSTRACTCARDCONTROLLER_H
