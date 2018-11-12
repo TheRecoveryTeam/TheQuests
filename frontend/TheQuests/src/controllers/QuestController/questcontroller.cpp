@@ -1,6 +1,12 @@
 #include "questcontroller.h"
 
-QuestController::QuestController()
+QuestController::QuestController(QObject* parent):
+    AbstractContoller(parent)
+{
+
+}
+
+QuestController::~QuestController()
 {
 
 }

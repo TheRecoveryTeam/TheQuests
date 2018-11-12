@@ -8,9 +8,9 @@
 class QuestController: public AbstractContoller
 {
 public:
-    QuestController(QObject* parent = nullptr);
+    explicit QuestController(QObject* parent = nullptr);
     ~QuestController();
-    void create (const QString& title,
+    void create(const QString& title,
                  const QString& description,
                  const QString& image);
     void remove(const QString& id);
