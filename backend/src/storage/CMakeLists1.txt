@@ -1,0 +1,35 @@
+cmake_minimum_required(VERSION 3.12)
+#project(model)
+
+add_definitions(-DTF_DLL)
+find_package(libmongoc REQUIRED NAMES libmongoc libmongoc-1.0)
+find_package(libmongocxx REQUIRED NAMES libmongocxx libmongocxx-1.0)
+
+
+file(GLOB model_headers ${PROJECT_SOURCE_DIR}/src/storage/models/*.h)
+file(GLOB model_srcs    ${PROJECT_SOURCE_DIR}/src/storage/models/*.cpp)
+
+
+
+add_library(model SHARED
+        ${model_headers}
+        ${model_srcs}
+        )
+target_include_directories(model PUBLIC
+        ${LIBMONGOCXX_INCLUDE_DIRS}
+        ${PROJECT_SOURCE_DIR}/src/storage/models
+        )
+target_link_libraries(model
+        ${LIBMONGOCXX_LIBRARIES}
+        )
+set_target_properties(model PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib
+        ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib
+        ARCHIVE_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${PROJECT_SOURCE_DIR}/lib
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${PROJECT_SOURCE_DIR}/lib
+        SOVERSION 1.0
+        )
+#add_dependencies(model
+#        helper
+#        )
