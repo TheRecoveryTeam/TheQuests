@@ -39,7 +39,9 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<QObject>("application", 1, 0, "QObject");
     qmlRegisterType<Store>("application", 1, 0, "Store");
-    qmlRegisterSingletonType<CardModel>("models", 1, 0, "CardModel", singletonTypeProvider);
+    qmlRegisterSingletonType<CardModel>("models", 1, 0, "CardModel", singletonCardModelProvider);
+    qmlRegisterSingletonType<QuestDetailModel>("models", 1, 0, "QuestDetailModel", singletonQuestDetailModelProvider);
+    qmlRegisterSingletonType<UserModel>("models", 1, 0, "UserModel", singletonUserModelProvider);
     qmlRegisterType<ChooseCardModel>("application", 1, 0, "ChooseCardModel");
     qmlRegisterType<CardLinkList>("application", 1, 0, "CardLinkList");
     qmlRegisterType<CardLink>("application", 1, 0, "CardLink");
