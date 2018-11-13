@@ -133,24 +133,18 @@ find_package(cpprestsdk REQUIRED)
 find_package(nlohmann_json 3.4.0 REQUIRED)
 
 
-include_directories(${PROJECT_SOURCE_DIR}/src/storage/)
-include_directories(${PROJECT_SOURCE_DIR}/src/engine/)
+include_directories(${PROJECT_SOURCE_DIR}/src/)
 add_executable(${PROJECT_NAME} main.cpp)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/storage/)
-add_subdirectory(${PROJECT_SOURCE_DIR}/src/engine/)
-target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} models connections)
+add_subdirectory(${PROJECT_SOURCE_DIR}/src/)
+target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} cardmodelmanager databaseconnection)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 
-add_executable(test tests/storage/models/CardTest.cpp)
+add_executable(test tests/card/model_manager/CardModelManagerTests.cpp)
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest
         ${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest-build
         EXCLUDE_FROM_ALL)
-target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} models connections)
+target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} cardmodelmanager databaseconnection)
 target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(test PUBLIC ${LIBMONGOCXX_DEFINITIONS})
-add_test(NAME CardModelTest COMMAND test1)
-
-#add_executable(UserModel src/storage/models/UserModel.cpp)
-#target_link_libraries(UserModel ${LIBMONGOCXX_LIBRARIES})
-#target_include_directories(UserModel PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
+add_test(NAME CardModelManagerTest COMMAND test)

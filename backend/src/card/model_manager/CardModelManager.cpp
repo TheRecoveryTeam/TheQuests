@@ -3,9 +3,9 @@
 //
 
 #include <bsoncxx/builder/stream/document.hpp>
-#include "CardModel.h"
+#include "CardModelManager.h"
 #include <mongocxx/client.hpp>
-#include <connections/Connection_singleton.h>
+#include <engine/connections/DatabaseConnectionSingleton.h>
 #include <nlohmann/json.hpp>
 #include <bsoncxx/exception/exception.hpp>
 

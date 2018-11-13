@@ -4,8 +4,8 @@
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
 #include <mongocxx/pool.hpp>
-#ifndef THEQUESTS_CONNECTION_SINGLETON_H
-#define THEQUESTS_CONNECTION_SINGLETON_H
+#ifndef THEQUESTS_DATABASE_CONNECTION_SINGLETON_H
+#define THEQUESTS_DATABASE_CONNECTION_SINGLETON_H
 
 namespace MongoAccess{
   class MongoAccess {
@@ -24,4 +24,4 @@ namespace MongoAccess{
   };
 }
 
-#endif //THEQUESTS_CONNECTION_SINGLETON_H
+#endif //THEQUESTS_DATABASE_CONNECTION_SINGLETON_H

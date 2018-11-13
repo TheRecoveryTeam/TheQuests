@@ -4,7 +4,7 @@
 
 
 #include <iostream>
-#include "Connection_singleton.h"
+#include "DatabaseConnectionSingleton.h"
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
 #include <mongocxx/pool.hpp>

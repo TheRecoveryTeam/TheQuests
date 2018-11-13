@@ -3,8 +3,8 @@
 //
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
-#include <models/CardModel.h>
-#include <connections/Connection_singleton.h>
+#include <card/model_manager/CardModelManager.h>
+#include <engine/connections/DatabaseConnectionSingleton.h>
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/stdx/make_unique.hpp>
@@ -13,7 +13,7 @@
 #include <mongocxx/instance.hpp>
 #include <vector>
 
-class CardModelTest : public ::testing::Test
+class CardModelManagerTests : public ::testing::Test
 {
  protected:
   void SetUp()
@@ -89,7 +89,7 @@ class CardModelTest : public ::testing::Test
   mongocxx::collection* collection;
 };
 
-TEST_F(CardModelTest, addCorrectCard) {
+TEST_F(CardModelManagerTests, addCorrectCard) {
   nlohmann::json data = {
       {"questId", "1"},
       {"title", "New card"},
@@ -112,7 +112,7 @@ TEST_F(CardModelTest, addCorrectCard) {
 }
 
 
-TEST_F(CardModelTest, addIncorrectCard) {
+TEST_F(CardModelManagerTests, addIncorrectCard) {
   nlohmann::json data = {
       {"questId", "1"},
       {"description", "First project card"},
@@ -130,7 +130,7 @@ TEST_F(CardModelTest, addIncorrectCard) {
 }
 
 
-TEST_F(CardModelTest, getCardWithExistingId) {
+TEST_F(CardModelManagerTests, getCardWithExistingId) {
   nlohmann::json query = {
       {"_id", id_list[0][0]}
   };
@@ -139,7 +139,7 @@ TEST_F(CardModelTest, getCardWithExistingId) {
 }
 
 
-TEST_F(CardModelTest, getCardWithIncorrectId) {
+TEST_F(CardModelManagerTests, getCardWithIncorrectId) {
   nlohmann::json query = {
       {"_id", ""}
   };
@@ -148,18 +148,13 @@ TEST_F(CardModelTest, getCardWithIncorrectId) {
 }
 
 
-TEST_F(CardModelTest, getCardWithoutId) {
+TEST_F(CardModelManagerTests, getCardWithoutId) {
   nlohmann::json query = {
       {"questId", "1"}
   };
   nlohmann::json received_card = nlohmann::json::parse(CardModel::CardModel(query.dump()).get());
   ASSERT_TRUE(received_card.find("error") != received_card.end()) << "Doesn't return error on incorrect data";
 }
-
-
-
-
-
 
 
 int main(int argc, char *argv[])

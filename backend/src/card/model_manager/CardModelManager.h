@@ -6,8 +6,8 @@
 #include <string>
 #include <map>
 
-#ifndef CARDMODEL_H
-#define CARDMODEL_H
+#ifndef THEQUESTS_CARDMODELMANAGER_H
+#define THEQUESTS_CARDMODELMANAGER_H
 
 namespace CardModel {
   class CardModel {
@@ -31,4 +31,4 @@ namespace CardModel {
   };
 }
 
-#endif //CARDMODEL_H
+#endif //THEQUESTS_CARDMODELMANAGER_H

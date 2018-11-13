@@ -7,9 +7,9 @@
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
 //#include "src/storage/models/UserModel.h"
-#include <models/UserModel.h>
-#include <models/CardModel.h>
-#include <connections/Connection_singleton.h>
+//#include <models/UserModel.h>
+#include <card/model_manager/CardModelManager.h>
+#include <engine/connections/DatabaseConnectionSingleton.h>
 
 
 int main(int, char**) {
