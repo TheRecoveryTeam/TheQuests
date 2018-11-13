@@ -20,6 +20,7 @@ class CardModelManagerTests : public ::testing::Test
   {
     auto client = MongoAccess::MongoAccess::instance().get_connection();
     auto collection = (*client)["testdb"]["card"];
+    card = new CardModelManager::CardModelManager();
     id_list = new std::vector<std::string>;
     std::vector<nlohmann::json> cards;
     cards.push_back(nlohmann::json({
@@ -84,9 +85,8 @@ class CardModelManagerTests : public ::testing::Test
     delete id_list;
   }
 
-  std::vector<std::string>* id_list = nullptr;
-  MongoAccess::MongoAccess::connection* client;
-  mongocxx::collection* collection;
+  std::vector<std::string>* id_list;
+  CardModelManager::CardModelManager* card;
 };
 
 TEST_F(CardModelManagerTests, addCorrectCard) {
@@ -102,12 +102,11 @@ TEST_F(CardModelManagerTests, addCorrectCard) {
       },
       {"type", "choose"}
   };
-  CardModel::CardModel card = CardModel::CardModel(data.dump());
-  nlohmann::json inserted_card = nlohmann::json::parse(card.create());
+  nlohmann::json inserted_card = nlohmann::json::parse(card->create(data.dump()));
   nlohmann::json query = {
       {"_id", inserted_card["_id"]}
   };
-  nlohmann::json received_card = nlohmann::json::parse(CardModel::CardModel(query.dump()).get());
+  nlohmann::json received_card = nlohmann::json::parse(card->get(data.dump()));
   ASSERT_EQ(inserted_card["_id"], received_card["_id"]["$oid"]) << "The card has't been added to the database";
 }
 
@@ -124,26 +123,25 @@ TEST_F(CardModelManagerTests, addIncorrectCard) {
       },
       {"type", "choose"}
   };
-  CardModel::CardModel card = CardModel::CardModel(data.dump());
-  nlohmann::json result = nlohmann::json::parse(card.create());
+  nlohmann::json result = nlohmann::json::parse(card->create(data.dump()));
   ASSERT_TRUE(result.find("error") != result.end()) << "Doesn't return error on incorrect data";
 }
 
 
 TEST_F(CardModelManagerTests, getCardWithExistingId) {
   nlohmann::json query = {
-      {"_id", id_list[0][0]}
+      {"id", (*id_list)[0]}
   };
-  nlohmann::json received_card = nlohmann::json::parse(CardModel::CardModel(query.dump()).get());
-  ASSERT_EQ(id_list[0][0], received_card["_id"]["$oid"]) << "Wrong card received";
+  nlohmann::json received_card = nlohmann::json::parse(card->get(query.dump()));
+  ASSERT_EQ((*id_list)[0], received_card["_id"]["$oid"]) << "Wrong card received";
 }
 
 
 TEST_F(CardModelManagerTests, getCardWithIncorrectId) {
   nlohmann::json query = {
-      {"_id", ""}
+      {"id", ""}
   };
-  nlohmann::json received_card = nlohmann::json::parse(CardModel::CardModel(query.dump()).get());
+  nlohmann::json received_card = nlohmann::json::parse(card->get(query.dump()));
   ASSERT_TRUE(received_card.find("error") != received_card.end()) << "Doesn't return error on incorrect card id";
 }
 
@@ -152,7 +150,7 @@ TEST_F(CardModelManagerTests, getCardWithoutId) {
   nlohmann::json query = {
       {"questId", "1"}
   };
-  nlohmann::json received_card = nlohmann::json::parse(CardModel::CardModel(query.dump()).get());
+  nlohmann::json received_card = nlohmann::json::parse(card->get(query.dump()));
   ASSERT_TRUE(received_card.find("error") != received_card.end()) << "Doesn't return error on incorrect data";
 }
 
