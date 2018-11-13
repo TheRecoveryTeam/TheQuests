@@ -8,43 +8,28 @@
 #include <engine/connections/DatabaseConnectionSingleton.h>
 #include <nlohmann/json.hpp>
 #include <bsoncxx/exception/exception.hpp>
+#include <bsoncxx/json.hpp>
 
 
-CardModel::CardModel::CardModel(const std::string& json) {
-  nlohmann::json data = nlohmann::json::parse(json);
-  id_ = data.find("_id") != data.end() ? data["_id"] : "";
-  quest_id_ = data.find("questId") != data.end() ? data["questId"] : "";
-  title_ = data.find("title") != data.end() ? data["title"] : "";
-  image_path_ = data.find("imagePath") != data.end() ? data["imagePath"] : "";
-  description_ = data.find("description") != data.end() ? data["description"] : "";
-  type_ = data.find("type") != data.end() ? data["type"] : "";
-  if (data.find("links") != data.end()) {
-    links_ = data["links"].get<std::map<std::string, std::string>>();
-  }
-  if (data.find("type") != data.end()) {
-    std::string type_value = data["type"];
-    if (type_value == "choose" || type_value == "input" || type_value == "finish") {
-      type_ = type_value;
-      return;
-    }
-  }
-  type_ = "";
+CardModelManager::CardModelManager::CardModelManager() {
+  auto client = MongoAccess::MongoAccess::instance().get_connection();
+  collection_ = (*client)["testdb"]["card"];
 }
 
 
-std::string CardModel::CardModel::get() {
-  auto client = MongoAccess::MongoAccess::instance().get_connection();
-  auto collection = (*client)["testdb"]["card"];
-  if (!id_.empty()) {
+std::string CardModelManager::CardModelManager::get(const std::string& request) {
+  auto data = nlohmann::json::parse(request);
+  if (data.find("id") != data.end()) {
+    std::string id = data["id"];
     try {
-      auto id = bsoncxx::oid(id_);
+      auto oid = bsoncxx::oid(id);
     } catch(bsoncxx::exception& exception) {
       return nlohmann::json({{"error", "Incorrect id"}}).dump();
     }
-    auto query_parameter = bsoncxx::builder::stream::document{}
-        << "_id" << bsoncxx::oid(id_)
+    auto query = bsoncxx::builder::stream::document{}
+        << "_id" << bsoncxx::oid(id)
         << bsoncxx::builder::stream::finalize;
-    bsoncxx::stdx::optional<bsoncxx::document::value> result = collection.find_one(query_parameter.view());
+    bsoncxx::stdx::optional<bsoncxx::document::value> result = collection_.find_one(query.view());
     if (result) {
       return bsoncxx::to_json(*result);
     }
@@ -54,26 +39,25 @@ std::string CardModel::CardModel::get() {
 }
 
 
-std::string CardModel::CardModel::create() {
-  auto client = MongoAccess::MongoAccess::instance().get_connection();
-  auto collection = (*client)["testdb"]["card"];
+std::string CardModelManager::CardModelManager::create(const std::string& request) {
   nlohmann::json data;
-  if (quest_id_.empty() || title_.empty() || type_.empty()) {
+  if (data.find("questId") == data.end() || data.find("title") == data.end() || data.find("type") == data.end()) {
     return nlohmann::json({{"error", "NotEnoughData"}}).dump();
   }
-  data["questId"] = quest_id_;
-  data["title"] = title_;
-  data["type"] = type_;
-  if (!image_path_.empty()) {
-    data["imagePath"] = image_path_;
+  nlohmann::json query;
+  query["questId"] = data["questId"];
+  query["title"] = data["title"];
+  query["type"] = data["type"];
+  if (data.find("imagePath") != data.end()) {
+    query["imagePath"] = data["imagePath"];
   }
-  if (!description_.empty()) {
-    data["description"] = description_;
+  if (data.find("description") != data.end()) {
+    query["description"] = data["description"];
   }
-  if (!links_.empty()) {
-    data["links"] = nlohmann::json(links_);
+  if (data.find("links") != data.end()) {
+    query["links"] = data["links"];
   }
-  bsoncxx::stdx::optional<mongocxx::result::insert_one> result = collection.insert_one((bsoncxx::from_json(data.dump()).view()));
+  bsoncxx::stdx::optional<mongocxx::result::insert_one> result = collection_.insert_one((bsoncxx::from_json(query.dump()).view()));
   if (result) {
     return nlohmann::json({{"_id", (*result).inserted_id().get_oid().value.to_string()}}).dump();
   } else {
