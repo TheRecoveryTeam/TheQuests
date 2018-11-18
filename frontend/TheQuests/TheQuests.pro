@@ -31,7 +31,9 @@ SOURCES += \
     src/controllers/UserController/usercontroller.cpp \
     src/controllers/CardController/cardcontroller.cpp \
     src/controllers/QuestController/questcontroller.cpp \
-    src/mappers/CardMapper/cardmapper.cpp
+    src/mappers/CardMapper/cardmapper.cpp \
+    src/data_structures/network/CardGetResponse/cardgetresponse.cpp \
+    src/data_structures/network/ResourceItem/resourceitem.cpp
 
 RESOURCES += qml.qrc
 
@@ -72,4 +74,6 @@ HEADERS += \
     src/controllers/QuestController/questcontroller.h \
     src/mappers/CardMapper/cardmapper.h \
     src/data_structures/interfaces/iserializable.h \
-    src/data_structures/interfaces/iqueryable.h
+    src/data_structures/interfaces/iqueryable.h \
+    src/data_structures/network/CardGetResponse/cardgetresponse.h \
+    src/data_structures/network/ResourceItem/resourceitem.h

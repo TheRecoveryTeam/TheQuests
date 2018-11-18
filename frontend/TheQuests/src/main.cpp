@@ -15,7 +15,7 @@
 #include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
-
+#include "src/data_structures/network/CardGetResponse/cardgetresponse.h"
 
 static QObject *singletonCardModelProvider(QQmlEngine *, QJSEngine *)
 {
@@ -34,9 +34,10 @@ static QObject *singletonUserModelProvider(QQmlEngine *, QJSEngine *)
 
 int main(int argc, char *argv[])
 {
-
+    data_structures::CardGetResponse card_get;
+    QJsonDocument doc(card_get.toJSON());
+    qDebug() << doc.toJson(QJsonDocument::Compact);
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
-
     qmlRegisterType<QObject>("application", 1, 0, "QObject");
     qmlRegisterType<Store>("application", 1, 0, "Store");
     qmlRegisterSingletonType<CardModel>("models", 1, 0, "CardModel", singletonCardModelProvider);

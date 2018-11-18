@@ -1,12 +1,12 @@
 #ifndef ISERIALIZABLE_H
 #define ISERIALIZABLE_H
 
-class QJsonDocument;
+class QJsonObject;
 
-class ISerizlizable {
+class ISerializable {
 public:
-    virtual ~ISerizlizable() = default;
-    virtual QJsonDocument toJSON() const = 0;
+    virtual ~ISerializable() = default;
+    virtual QJsonObject toJSON() const = 0;
 };
 
 #endif // ISERIALIZABLE_H
