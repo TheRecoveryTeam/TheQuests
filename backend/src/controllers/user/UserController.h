@@ -5,9 +5,9 @@
 #ifndef THEQUESTS_USERCONTROLLER_H
 #define THEQUESTS_USERCONTROLLER_H
 
-#include "../NetworkHelper.h"
 #include "../AbstractController.h"
 #include "../Handler.h"
+#include "UserRouter.h"
 
 class UserController : public networkhelper::AbstractController, networkhelper::Handler {
 public:
@@ -15,15 +15,17 @@ public:
         std::wcout << U("UserController initiated\n");
     }
 
-    void handleGet(http_request message) override;
+    void handleGet(web::http::http_request message) override;
 
-    void handlePost(http_request message) override;
+    void handlePost(web::http::http_request message) override;
 
     void initRestOpHandlers() override;
 
 
 private:
-    static json::value responseNotImpl(const http::method &method);
+    static web::json::value responseNotImpl(const web::http::method &method);
+
+    UserRouter _userRouter;
 };
 
 #endif //THEQUESTS_USERCONTROLLER_H

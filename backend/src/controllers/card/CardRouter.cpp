@@ -12,6 +12,7 @@ void CardRouter::route_get_request(web::http::http_request message) {
 
 }
 
-bool CardRouter::isValid(web::http::http_request message) {
-    return false;
+
+void CardRouter::ConfigureRouting() {
+
 }

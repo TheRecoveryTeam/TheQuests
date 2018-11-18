@@ -5,10 +5,9 @@
 #ifndef THEQUESTS_QUESTCONTROLLER_H
 #define THEQUESTS_QUESTCONTROLLER_H
 
-#include "../NetworkHelper.h"
 #include "../AbstractController.h"
 #include "../Handler.h"
-
+#include "QuestRouter.h"
 
 class QuestController : public networkhelper::AbstractController, networkhelper::Handler {
 public:
@@ -25,6 +24,8 @@ public:
 
 private:
     static web::json::value responseNotImpl(const web::http::method &method);
+
+    QuestRouter _questRouter;
 };
 
 

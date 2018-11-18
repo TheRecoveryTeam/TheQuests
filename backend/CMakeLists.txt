@@ -160,7 +160,6 @@ add_executable(test
         src/controllers/card/CardController.h
         src/controllers/AbstractRequestRouter.cpp
         src/controllers/AbstractRequestRouter.h
-        src/controllers/NetworkHelper.h
         src/controllers/AbstractController.cpp
         src/controllers/NetworkUtils.h
         src/controllers/MicroService.h
@@ -169,7 +168,7 @@ add_executable(test
         src/controllers/UserInterruptHandler.h
         src/controllers/Handler.h
         src/controllers/quest/QuestController.cpp
-        src/controllers/quest/QuestController.h src/controllers/user/UserController.cpp src/controllers/user/UserController.h tests/controllers/CardControllerTest.cpp src/controllers/card/CardRouter.cpp src/controllers/card/CardRouter.h)
+        src/controllers/quest/QuestController.h src/controllers/user/UserController.cpp src/controllers/user/UserController.h tests/controllers/CardControllerTest.cpp src/controllers/card/CardRouter.cpp src/controllers/card/CardRouter.h src/controllers/quest/QuestRouter.cpp src/controllers/quest/QuestRouter.h src/controllers/user/UserRouter.cpp src/controllers/user/UserRouter.h)
 
 add_custom_target(run
         COMMAND test

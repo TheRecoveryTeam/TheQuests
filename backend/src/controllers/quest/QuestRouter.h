@@ -2,18 +2,14 @@
 // Created by dpudov on 18.11.18.
 //
 
-#ifndef THEQUESTS_CARDROUTER_H
-#define THEQUESTS_CARDROUTER_H
-
+#ifndef THEQUESTS_QUESTROUTER_H
+#define THEQUESTS_QUESTROUTER_H
 
 #include "../AbstractRequestRouter.h"
 
-class CardRouter : public networkhelper::AbstractRequestRouter {
+
+class QuestRouter : public networkhelper::AbstractRequestRouter {
 public:
-    CardRouter() = default;
-
-    ~CardRouter() = default;
-
     void ConfigureRouting() override;
 
     void route_post_request(web::http::http_request message) override;
@@ -22,4 +18,4 @@ public:
 };
 
 
-#endif //THEQUESTS_CARDROUTER_H
+#endif //THEQUESTS_QUESTROUTER_H

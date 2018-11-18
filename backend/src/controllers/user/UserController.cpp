@@ -4,22 +4,22 @@
 
 #include "UserController.h"
 
-void UserController::handleGet(http_request message) {
+void UserController::handleGet(web::http::http_request message) {
 
 }
 
-void UserController::handlePost(http_request message) {
+void UserController::handlePost(web::http::http_request message) {
 
 }
 
 void UserController::initRestOpHandlers() {
-    _listener.support(methods::GET, std::bind(&UserController::handleGet, this, std::placeholders::_1));
-    _listener.support(methods::POST, std::bind(&UserController::handlePost, this, std::placeholders::_1));
+    _listener.support(web::http::methods::GET, std::bind(&UserController::handleGet, this, std::placeholders::_1));
+    _listener.support(web::http::methods::POST, std::bind(&UserController::handlePost, this, std::placeholders::_1));
 }
 
-json::value UserController::responseNotImpl(const http::method &method) {
-    auto response = json::value::object();
-    response["controller"] = json::value::string("UserController");
-    response["http_method"] = json::value::string(method);
+web::json::value UserController::responseNotImpl(const web::http::method &method) {
+    auto response = web::json::value::object();
+    response["controller"] = web::json::value::string("UserController");
+    response["http_method"] = web::json::value::string(method);
     return response;
 }
