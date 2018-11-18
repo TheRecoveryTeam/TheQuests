@@ -5,10 +5,10 @@
 #ifndef __USER_INTERRUPT_HANDLER__
 #define __USER_INTERRUPT_HANDLER__
 
-#include <condition_variable>
-#include <mutex>
-#include <iostream>
-#include <signal.h>
+#include "../../../../../../../../../usr/include/c++/7/condition_variable"
+#include "../../../../../../../../../usr/include/c++/7/mutex"
+#include "../../../../../../../../../usr/include/c++/7/iostream"
+#include "../../../../../../../../../usr/include/signal.h"
 
 static std::condition_variable _condition;
 static std::mutex _mutex;

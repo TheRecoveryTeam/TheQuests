@@ -61,17 +61,4 @@ namespace networkhelper {
     };
 }
 
-#define NETWORKHELPER_HANDLER(controller, action) [](const web::http::http_request & request) {\
-    static_assert(std::is_base_of<networkhelper::BaseController, controller>::value, "controller class must derive from 'public networkhelper::BaseController'");\
-    auto c = controller();\
-    try {\
-        c.action(request);\
-    } catch (const std::exception & ex) {\
-        c.OnException(request, ex);\
-        request.reply(web::http::status_codes::InternalError);\
-    } catch (...) {\
-        c.OnException(request, std::exception("unhandled exception"));\
-        request.reply(web::http::status_codes::InternalError);\
-    }\
-}
 #endif //THEQUESTS_NETWORKHELPER_H

@@ -154,22 +154,22 @@ add_subdirectory(${THIRD_PARTY_DIR}/googletest-src
         EXCLUDE_FROM_ALL)
 
 add_executable(test
-        TheQuestsServer.cpp
-        controllers/AbstractController.h
-        controllers/card/CardController.cpp
-        controllers/card/CardController.h
-        controllers/RequestRouter.cpp
-        controllers/RequestRouter.h
-        controllers/NetworkHelper.h
-        controllers/AbstractController.cpp
-        controllers/NetworkUtils.h
-        controllers/MicroService.h
-        controllers/NetworkUtils.cpp
-        controllers/RuntimeUtils.h
-        controllers/UserInterruptHandler.h
-        controllers/Handler.h
-        controllers/quest/QuestController.cpp
-        controllers/quest/QuestController.h controllers/user/UserController.cpp controllers/user/UserController.h)
+        main.cpp
+        src/controllers/AbstractController.h
+        src/controllers/card/CardController.cpp
+        src/controllers/card/CardController.h
+        src/controllers/AbstractRequestRouter.cpp
+        src/controllers/AbstractRequestRouter.h
+        src/controllers/NetworkHelper.h
+        src/controllers/AbstractController.cpp
+        src/controllers/NetworkUtils.h
+        src/controllers/MicroService.h
+        src/controllers/NetworkUtils.cpp
+        src/controllers/RuntimeUtils.h
+        src/controllers/UserInterruptHandler.h
+        src/controllers/Handler.h
+        src/controllers/quest/QuestController.cpp
+        src/controllers/quest/QuestController.h src/controllers/user/UserController.cpp src/controllers/user/UserController.h tests/controllers/CardControllerTest.cpp src/controllers/card/CardRouter.cpp src/controllers/card/CardRouter.h)
 
 add_custom_target(run
         COMMAND test

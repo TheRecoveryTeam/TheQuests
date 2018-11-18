@@ -12,7 +12,7 @@
 class CardController : public networkhelper::AbstractController, networkhelper::Handler {
 public:
     CardController() {
-        std::wcout << U("CardController initiated");
+        std::wcout << U("CardController initiated\n");
     }
 
     void handleGet(http_request message) override;

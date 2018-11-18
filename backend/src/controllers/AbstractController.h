@@ -13,11 +13,6 @@
 #include "cpprest/uri.h"
 #include "cpprest/asyncrt_utils.h"
 
-using namespace web;
-using namespace http;
-using namespace utility;
-using namespace http::experimental::listener;
-
 namespace networkhelper {
 
     /*!
@@ -26,26 +21,16 @@ namespace networkhelper {
      */
     class Controller {
     public:
-        virtual void handleGet(http_request message) = 0;
+        virtual void handleGet(web::http::http_request message) = 0;
 
-        virtual void handlePost(http_request message) = 0;
-
-//        virtual void handleHead(http_request message) = 0;
-//
-//        virtual void handleOptions(http_request message) = 0;
-//
-//        virtual void handleTrace(http_request message) = 0;
-//
-//        virtual void handleConnect(http_request message) = 0;
-//
-//        virtual void handleMerge(http_request message) = 0;
+        virtual void handlePost(web::http::http_request message) = 0;
     };
 }
 
 namespace networkhelper {
     class AbstractController {
     protected:
-        http_listener _listener; // main micro service network endpoint
+        web::http::experimental::listener::http_listener _listener; // main micro service network endpoint
 
     public:
         AbstractController();
@@ -60,11 +45,9 @@ namespace networkhelper {
 
         pplx::task<void> shutdown();
 
-        virtual void initRestOpHandlers() {
-            /* had to be implemented by the child class */
-        }
+        virtual void initRestOpHandlers() = 0;
 
-        std::vector<utility::string_t> requestPath(const http_request &message);
+        std::vector<utility::string_t> requestPath(const web::http::http_request &message);
     };
 }
 

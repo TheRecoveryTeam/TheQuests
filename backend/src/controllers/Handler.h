@@ -7,15 +7,12 @@
 
 #include <cpprest/http_msg.h>
 
-using namespace web;
-using namespace http;
-
 namespace networkhelper {
     class Handler {
     public:
-        virtual void handleGet(http_request message) = 0;
+        virtual void handleGet(web::http::http_request message) = 0;
 
-        virtual void handlePost(http_request message) = 0;
+        virtual void handlePost(web::http::http_request message) = 0;
     };
 }
 

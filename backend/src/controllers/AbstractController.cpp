@@ -11,8 +11,8 @@ namespace networkhelper {
     AbstractController::~AbstractController() = default;
 
     void AbstractController::setEndpoint(const std::string &value) {
-        uri endpointURI(value);
-        uri_builder endpointBuilder;
+        web::uri endpointURI(value);
+        web::uri_builder endpointBuilder;
 
         endpointBuilder.set_scheme(endpointURI.scheme());
         if (endpointURI.host() == "host_auto_ip4") {
@@ -23,12 +23,13 @@ namespace networkhelper {
         endpointBuilder.set_port(endpointURI.port());
         endpointBuilder.set_path(endpointURI.path());
 
-        _listener = http_listener(endpointBuilder.to_uri());
+        _listener = web::http::experimental::listener::http_listener(endpointBuilder.to_uri());
 
     }
 
     std::string AbstractController::endpoint() const {
-        return std::__cxx11::string();
+        std::wcout << U("ADDRESS ") << AbstractController::_listener.uri().to_string().c_str() << std::endl;
+        return AbstractController::_listener.uri().path();
     }
 
     pplx::task<void> AbstractController::accept() {
@@ -40,9 +41,9 @@ namespace networkhelper {
         return _listener.close();
     }
 
-    std::vector<utility::string_t> AbstractController::requestPath(const http_request &message) {
-        auto relativePath = uri::decode(message.relative_uri().path());
-        return uri::split_path(relativePath);
+    std::vector<utility::string_t> AbstractController::requestPath(const web::http::http_request &message) {
+        auto relativePath = web::uri::decode(message.relative_uri().path());
+        return web::uri::split_path(relativePath);
     }
 }
 

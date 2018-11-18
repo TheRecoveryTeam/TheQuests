@@ -1,38 +1,52 @@
 #include <iostream>
 
-#include <bsoncxx/builder/stream/document.hpp>
-#include <bsoncxx/json.hpp>
-#include <bsoncxx/stdx/make_unique.hpp>
+#include "src/controllers/card/CardController.h"
+#include "src/controllers/user/UserController.h"
+#include "src/controllers/quest/QuestController.h"
+#include "src/controllers/UserInterruptHandler.h"
+#include "src/controllers/RuntimeUtils.h"
 
-#include <mongocxx/client.hpp>
-#include <mongocxx/instance.hpp>
-//#include "src/storage/models/UserModel.h"
-#include <models/UserModel.h>
-#include <models/CardModel.h>
-#include <connections/Connection_singleton.h>
+using namespace networkhelper;
+using namespace web;
 
+int main(int argc, char **argv) {
+    InterruptHandler::hookSIGINT();
 
-int main(int, char**) {
-    auto instance = bsoncxx::stdx::make_unique<mongocxx::instance>();
-    auto uri = mongocxx::uri{"mongodb://localhost:27018"};
-    MongoAccess::MongoAccess::instance().configure(std::move(instance),
-                                                   bsoncxx::stdx::make_unique<mongocxx::pool>(std::move(uri)));
-    auto card_value = bsoncxx::builder::stream::document{}
-            << "quest_id" << "1"
-            << "title" << "New card"
-            << "description" << "First project card"
-            << "links" << bsoncxx::builder::stream::open_document
-            << "left way" << "1"
-            << "right way" << "2"
-            << bsoncxx::builder::stream::close_document
-            << "type" << "choose"
-            << bsoncxx::builder::stream::finalize;
-    CardModel::CardModel card = CardModel::CardModel(bsoncxx::to_json(card_value.view()));
-    std::cout << card.create() << std::endl;
-    auto card_value_find = bsoncxx::builder::stream::document{}
-            << "_id" << "5be844d97af918d6be567092"
-            << bsoncxx::builder::stream::finalize;
-    CardModel::CardModel card_find = CardModel::CardModel(bsoncxx::to_json(card_value_find.view()));
-    std::cout << card_find.get();
-  return 0;
+    CardController cardController;
+    cardController.setEndpoint("http://host_auto_ip4:8080/api/card/");
+
+    UserController userController;
+    userController.setEndpoint("http://host_auto_ip4:8080/api/user/");
+
+    QuestController questController;
+    questController.setEndpoint("http://host_auto_ip4:8080/api/quest/");
+
+    try {
+        // wait for server initialization...
+        cardController.accept().wait();
+        std::wcout << U("CardController is listening: ") << std::endl; //+ cardController.endpoint()) << std::endl;
+        cardController.endpoint();
+
+        userController.accept().wait();
+        std::wcout << "UserController is listening: " << std::endl;
+        userController.endpoint();
+
+        questController.accept().wait();
+        std::wcout << "QuestController is listening: " << std::endl;
+        questController.endpoint();
+
+        InterruptHandler::waitForUserInterrupt();
+
+        cardController.shutdown().wait();
+        userController.shutdown().wait();
+        questController.shutdown().wait();
+    }
+    catch (std::exception &e) {
+        std::wcout << U("Internal server ERROR") << '\n';
+    }
+    catch (...) {
+        RuntimeUtils::printStackTrace();
+    }
+
+    return 0;
 }

@@ -8,12 +8,9 @@
 #include <string>
 #include "MicroService.h"
 
-using namespace boost::asio;
-using namespace boost::asio::ip;
-
 namespace networkhelper {
 
-    using HostInetInfo = tcp::resolver::iterator;
+    using HostInetInfo = boost::asio::ip::tcp::resolver::iterator;
 
     class NetworkUtils {
     private:
@@ -34,7 +31,7 @@ namespace networkhelper {
         }
 
         static std::string hostName() {
-            return ip::host_name();
+            return boost::asio::ip::host_name();
         }
     };
 
