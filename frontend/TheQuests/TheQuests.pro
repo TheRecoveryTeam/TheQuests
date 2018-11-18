@@ -30,7 +30,8 @@ SOURCES += \
     src/controllers/AbstractController/abstractcontoller.cpp \
     src/controllers/UserController/usercontroller.cpp \
     src/controllers/CardController/cardcontroller.cpp \
-    src/controllers/QuestController/questcontroller.cpp
+    src/controllers/QuestController/questcontroller.cpp \
+    src/mappers/CardMapper/cardmapper.cpp
 
 RESOURCES += qml.qrc
 
@@ -68,4 +69,7 @@ HEADERS += \
     src/controllers/CardController/cardcontroller.h \
     src/utils/call_once.h \
     src/utils/singleton.h \
-    src/controllers/QuestController/questcontroller.h
+    src/controllers/QuestController/questcontroller.h \
+    src/mappers/CardMapper/cardmapper.h \
+    src/data_structures/interfaces/iserializable.h \
+    src/data_structures/interfaces/iqueryable.h
