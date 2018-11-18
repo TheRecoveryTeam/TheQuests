@@ -7,12 +7,12 @@ data_structures::CardDoAnswerRequest::CardDoAnswerRequest(const QString& cardId,
     answer(answer)
 { }
 
-QJsonDocument data_structures::CardDoAnswerRequest::toJSON() const
+QJsonObject data_structures::CardDoAnswerRequest::toJSON() const
 {
     QJsonObject json;
     json["cardId"] = cardId;
     json["answer"] = answer;
-    return QJsonDocument(json);
+    return json;
 }
 
 

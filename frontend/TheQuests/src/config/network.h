@@ -7,10 +7,12 @@ namespace config {
 namespace network {
     enum class Method {
         GET,
-        PODT,
+        POST,
     };
 
     const QString BASE_URL = "http://localhost:8800";
+    const QString ERROR_KEY = "__error__";
+    const QString ITEMS_KEY = "__items__";
 }
 }
 

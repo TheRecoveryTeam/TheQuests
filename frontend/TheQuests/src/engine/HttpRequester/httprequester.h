@@ -3,12 +3,15 @@
 
 #include <QObject>
 #include <functional>
+#include <QSharedPointer>
 
 class QNetworkAccessManager;
 class QUrlQuery;
 class QNetworkRequest;
 class QString;
 class QNetworkReply;
+class QJsonObject;
+class QUrlQuery;
 
 namespace config {
 namespace network {
@@ -16,23 +19,26 @@ enum class Method;
 }
 }
 
+class ISerializable;
+class IQueryable;
+
 class HttpRequester : public QObject
 {
     Q_OBJECT
 public:
-    typedef std::function<void(const QJsonObject &)> handleFunc;
+    typedef std::function<void(const QJsonObject&)> handleFunc;
 
     HttpRequester() = delete;
-    HttpRequester(const QString& baseUrl, QObject *parent = nullptr);
+    HttpRequester(const QString& baseUrl, QObject* parent = nullptr);
     ~HttpRequester() = default;
 
     void doPost(const QString& path,
-                const QVariantMap& body,
+                const ISerializable& body,
                 const handleFunc& onSuccess,
                 const handleFunc& onError);
 
     void doGet(const QString& path,
-               const QVariantMap& queryParams,
+               const IQueryable& queryParams,
                const handleFunc& onSuccess,
                const handleFunc& onError);
 
@@ -40,14 +46,17 @@ public:
     void setToken(const QString& value);
 
 private:
-    QUrlQuery createQueryString(const QVariantMap& qyeryParams);
-    QByteArray createRequestBody(const QVariantMap& body);
-    QNetworkRequest createRequest(const config::network::Method& method);
-    QJsonObject parseReply(QNetworkReply *reply);
+    static const QString httpTemplate;
+
+    QNetworkRequest createRequest(const QString& queryString = "");
+    void processRequest(QNetworkReply* reply, const handleFunc& onSuccess, const handleFunc& onError);
+    bool onFinishRequest(QNetworkReply *reply);
+    void handleQtNetworkErrors(QNetworkReply *reply, QJsonObject &obj);
+    QJsonObject parseReply(QNetworkReply* reply);
 
     QString baseUrl;
     QString token;
-    QNetworkAccessManager* manager;
+    QSharedPointer<QNetworkAccessManager> manager;
 };
 
 #endif // HTTPREQUESTER_H

@@ -4,7 +4,7 @@
 #include <QString>
 #include "src/data_structures/interfaces/iserializable.h"
 
-class QJsonDocument;
+class QJsonObject;
 
 namespace data_structures {
 
@@ -12,7 +12,7 @@ class CardDoAnswerRequest : public ISerializable
 {
 public:
     CardDoAnswerRequest(const QString& cardId = "", const QString& answer = "");
-    QJsonDocument toJSON() const override;
+    QJsonObject toJSON() const override;
 
     QString cardId;
     QString answer;
