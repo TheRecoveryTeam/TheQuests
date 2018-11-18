@@ -1,20 +1,26 @@
 #include "resourceitem.h"
 
 
-ResourceItem::ResourceItem():
+data_structures::ResourceItem::ResourceItem():
     type(""),
     value(0)
 {
 
 }
 
-ResourceItem::ResourceItem(const QString &type, int value)
+data_structures::ResourceItem::ResourceItem(const QString &type, int value)
 {
     this->type = type;
     this->value = value;
 }
 
-QJsonObject ResourceItem::toJSON() const
+const data_structures::ResourceItem&data_structures::ResourceItem::operator=(const data_structures::ResourceItem& rhs)
+{
+    type = rhs.type;
+    value = rhs.value;
+}
+
+QJsonObject data_structures::ResourceItem::toJSON() const
 {
     QJsonObject json;
     json["type"] = type;

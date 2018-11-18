@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
     data_structures::CardGetResponse card_get;
     QJsonDocument doc(card_get.toJSON());
     qDebug() << doc.toJson(QJsonDocument::Compact);
+
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     qmlRegisterType<QObject>("application", 1, 0, "QObject");
     qmlRegisterType<Store>("application", 1, 0, "Store");

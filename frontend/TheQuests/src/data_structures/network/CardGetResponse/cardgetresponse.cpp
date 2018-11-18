@@ -4,21 +4,31 @@
 #include <QJsonArray>
 #include <QVariant>
 #include <QJsonValue>
+//#include "src/data_structures/network/ResourceItem/resourceitem.h"
 
 
 data_structures::CardGetResponse::CardGetResponse()
 {
-    ResourceItem Res1("health", 5);
-    ResourceItem Res2("shield", 10);
-    ResourceItem Res3("health", 15);
-    ResourceItem Res4("shield", 2);
+    ResourceItem res1("health", 5);
+    ResourceItem res2("shield", 10);
+    ResourceItem res3("health", 15);
+    ResourceItem res4("shield", 2);
     id = "ID";
     questId = "QUESTID";
     title = "TITLE";
     imagePath = "IMAGEPATH";
     description = "DESCRIPTION";
-    links["кнопка1"] = {Res1, Res2};
-    links["кнопка2"] = {Res3, Res4};
+    QVector<data_structures::ResourceItem> vec1;
+
+    vec1.push_back(res1);
+    vec1.push_back(res2);
+    links.insert("btn1", vec1);
+
+    QVector<data_structures::ResourceItem> vec2;
+    vec2.push_back(res3);
+    vec2.push_back(res4);
+    links["btn2"] = vec2;
+
     type = "FINISH";
 }
 
@@ -34,14 +44,17 @@ QJsonObject data_structures::CardGetResponse::toJSON() const
     QJsonObject links;
 
     QMapIterator<QString, QVector<ResourceItem>> i(this->links);
-    QJsonArray json_array;
+
     while (i.hasNext()) {
         i.next();
-        for (int j = 0; j < i.value().size(); ++j)
-            json_array[j] = i.value()[j].toJSON();
-//            json_array[j] = QJsonValue::fromVariant(QVariant::fromValue(i.value()[j]));
-        links.insert(i.key(),json_array);
+        QJsonArray arr;
+        for (int j = 0; j < i.value().size(); ++j) {
+            arr << i.value()[j].toJSON();
+        }
+        links[i.key()] = arr;
     }
+
+
     json["links"] = links;
     json["type"] = type;
     return json;
