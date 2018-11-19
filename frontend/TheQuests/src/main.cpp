@@ -5,49 +5,23 @@
 #include <QDebug>
 
 #include "src/engine/App/app.h"
-#include "src/engine/Store/store.h"
-#include "src/models/CardModel/cardmodel.h"
-#include "src/models/QuestShortModel/questshortmodel.h"
-#include "src/models/QuestDetailModel/questdetailmodel.h"
-#include"src/models/UserModel/usermodel.h"
 
+#include "src/models/CardModel/cardmodel.h"
 #include "src/models/CardModel/controllers/abstractcardcontroller.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
-#include "src/data_structures/network/CardGetResponse/cardgetresponse.h"
+
 
 int main(int argc, char *argv[])
 {
-    data_structures::CardGetResponse card_get;
-    QJsonDocument doc(card_get.toJSON());
-    qDebug() << doc.toJson(QJsonDocument::Compact);
-
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
-    qmlRegisterType<QObject>("application", 1, 0, "QObject");
-    qmlRegisterType<Store>("application", 1, 0, "Store");
-
-    qmlRegisterSingletonType<CardModel>("models", 1, 0, "CardModel",
-                                        reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(CardModel::instance));
-    qmlRegisterSingletonType<QuestDetailModel>("models", 1, 0, "QuestDetailModel",
-                                               reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(QuestDetailModel::instance));
-    qmlRegisterSingletonType<UserModel>("models", 1, 0, "UserModel",
-                                        reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(UserModel::instance));
-
-    qmlRegisterType<ChooseCardModel>("application", 1, 0, "ChooseCardModel");
-    qmlRegisterType<CardLinkList>("application", 1, 0, "CardLinkList");
-    qmlRegisterType<CardLink>("application", 1, 0, "CardLink");
-    qmlRegisterType<AbstractCardController>("application", 1, 0, "AbstractCardController");
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
 
     App application(nullptr);
-    auto store = new Store(&application);
-    application.setStore(store);
 
     auto cardChooseController = new ChooseCardModel();
     auto cardLinksList = new CardLinkList();
