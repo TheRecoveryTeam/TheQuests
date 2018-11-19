@@ -17,21 +17,6 @@
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
 #include "src/data_structures/network/CardGetResponse/cardgetresponse.h"
 
-static QObject *singletonCardModelProvider(QQmlEngine *, QJSEngine *)
-{
-    return CardModel::instance();
-}
-
-static QObject *singletonQuestDetailModelProvider(QQmlEngine *, QJSEngine *)
-{
-    return QuestDetailModel::instance();
-}
-
-static QObject *singletonUserModelProvider(QQmlEngine *, QJSEngine *)
-{
-    return UserModel::instance();
-}
-
 int main(int argc, char *argv[])
 {
     data_structures::CardGetResponse card_get;
@@ -41,9 +26,14 @@ int main(int argc, char *argv[])
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
     qmlRegisterType<QObject>("application", 1, 0, "QObject");
     qmlRegisterType<Store>("application", 1, 0, "Store");
-    qmlRegisterSingletonType<CardModel>("models", 1, 0, "CardModel", singletonCardModelProvider);
-    qmlRegisterSingletonType<QuestDetailModel>("models", 1, 0, "QuestDetailModel", singletonQuestDetailModelProvider);
-    qmlRegisterSingletonType<UserModel>("models", 1, 0, "UserModel", singletonUserModelProvider);
+
+    qmlRegisterSingletonType<CardModel>("models", 1, 0, "CardModel",
+                                        reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(CardModel::instance));
+    qmlRegisterSingletonType<QuestDetailModel>("models", 1, 0, "QuestDetailModel",
+                                               reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(QuestDetailModel::instance));
+    qmlRegisterSingletonType<UserModel>("models", 1, 0, "UserModel",
+                                        reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(UserModel::instance));
+
     qmlRegisterType<ChooseCardModel>("application", 1, 0, "ChooseCardModel");
     qmlRegisterType<CardLinkList>("application", 1, 0, "CardLinkList");
     qmlRegisterType<CardLink>("application", 1, 0, "CardLink");

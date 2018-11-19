@@ -6,16 +6,15 @@ CardModel::CardModel(QObject* parent):
     controller(nullptr)
 { }
 
-CardModel *CardModel::createInstance()
+CardModel* CardModel::createInstance()
 {
     return new CardModel();
 }
 
 CardModel::~CardModel()
-{
-}
+{ }
 
-CardModel *CardModel::instance()
+CardModel* CardModel::instance(QQmlEngine* qqmle, QJSEngine* qjse)
 {
     return Singleton<CardModel>::instance(CardModel::createInstance);
 }

@@ -6,6 +6,8 @@
 #include "./controllers/abstractcardcontroller.h"
 #include "./controllers/ChooseCardModel/choosecardmodel.h"
 
+class QQmlEngine;
+class QJSEngine;
 
 class CardModel : public CardShortModel
 {
@@ -27,7 +29,7 @@ signals:
 public:
     ~CardModel();
 
-    static CardModel* instance();
+    static CardModel* instance(QQmlEngine* qmle = nullptr, QJSEngine* qjse = nullptr);
 
     const QString& getQuestId() const;
     void setQuestId(const QString &value);

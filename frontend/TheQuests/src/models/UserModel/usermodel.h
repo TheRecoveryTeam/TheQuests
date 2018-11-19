@@ -3,6 +3,9 @@
 
 #include <QObject>
 
+class QQmlEngine;
+class QJSEngine;
+
 class UserModel : public QObject
 {
     Q_OBJECT
@@ -21,7 +24,7 @@ signals:
     void tokenChanged(const QString&);
 
 public:
-    static UserModel* instance();
+    static UserModel* instance(QQmlEngine* qqmle, QJSEngine* qjse);
 
     ~UserModel();
     const QString& getId() const;

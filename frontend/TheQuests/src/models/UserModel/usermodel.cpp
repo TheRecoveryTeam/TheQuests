@@ -10,7 +10,7 @@ UserModel *UserModel::createInstance()
     return new UserModel();
 }
 
-UserModel *UserModel::instance()
+UserModel *UserModel::instance(QQmlEngine* qqmle, QJSEngine* qjse)
 {
     return Singleton<UserModel>::instance(UserModel::createInstance);
 }

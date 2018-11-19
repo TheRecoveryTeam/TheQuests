@@ -4,7 +4,6 @@
 #include <QJsonArray>
 #include <QVariant>
 #include <QJsonValue>
-//#include "src/data_structures/network/ResourceItem/resourceitem.h"
 
 
 data_structures::CardGetResponse::CardGetResponse()

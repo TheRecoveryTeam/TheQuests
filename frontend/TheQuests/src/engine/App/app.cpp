@@ -16,3 +16,8 @@ void App::setStore(Store* value)
 {
     store = value;
 }
+
+void App::registerTypes() const
+{
+
+}

@@ -1,6 +1,11 @@
 #ifndef QUESTDETAILMODEL_H
 #define QUESTDETAILMODEL_H
+
 #include "src/models/QuestShortModel/questshortmodel.h"
+
+class QQmlEngine;
+class QJSEngine;
+
 class QuestDetailModel: public QuestShortModel
 {
     Q_OBJECT
@@ -18,7 +23,7 @@ signals:
 public:
     ~QuestDetailModel();
 
-    static QuestDetailModel* instance();
+    static QuestDetailModel* instance(QQmlEngine* qqmle = nullptr, QJSEngine* qjse = nullptr);
 
     const QString& getCurrCardId() const;
     void setCurrCardId(const QString &value);

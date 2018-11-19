@@ -17,9 +17,9 @@ public:
 signals:
     void storeChanged(const Store* store);
 
-public slots:
-
 private:
+    void registerTypes() const;
+
     Store* store;
 };
 

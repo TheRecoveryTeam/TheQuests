@@ -1,3 +1,5 @@
+#include <QQmlEngine>
+#include <QJSEngine>
 #include "questdetailmodel.h"
 #include "src/utils/singleton.h"
 
@@ -16,7 +18,7 @@ QuestDetailModel::~QuestDetailModel()
 
 }
 
-QuestDetailModel *QuestDetailModel::instance()
+QuestDetailModel *QuestDetailModel::instance(QQmlEngine* qqmle, QJSEngine* qjse)
 {
     return Singleton<QuestDetailModel>::instance(QuestDetailModel::createInstance);
 }
