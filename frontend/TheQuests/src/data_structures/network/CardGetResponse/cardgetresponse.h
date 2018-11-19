@@ -12,7 +12,14 @@ namespace data_structures {
 class CardGetResponse: public ISerializable
 {
 public:
-    explicit CardGetResponse();
+    explicit CardGetResponse(
+            const QString& id,
+            const QString& questId,
+            const QString& title,
+            const QString& imagePath,
+            const QString& description,
+            const QMap<QString, QVector<ResourceItem>>& links,
+            const QString& type);
     QJsonObject toJSON() const override;
 
     QString id;

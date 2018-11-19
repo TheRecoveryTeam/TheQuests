@@ -6,30 +6,16 @@
 #include <QJsonValue>
 
 
-data_structures::CardGetResponse::CardGetResponse()
-{
-    ResourceItem res1("health", 5);
-    ResourceItem res2("shield", 10);
-    ResourceItem res3("health", 15);
-    ResourceItem res4("shield", 2);
-    id = "ID";
-    questId = "QUESTID";
-    title = "TITLE";
-    imagePath = "IMAGEPATH";
-    description = "DESCRIPTION";
-    QVector<data_structures::ResourceItem> vec1;
-
-    vec1.push_back(res1);
-    vec1.push_back(res2);
-    links.insert("btn1", vec1);
-
-    QVector<data_structures::ResourceItem> vec2;
-    vec2.push_back(res3);
-    vec2.push_back(res4);
-    links["btn2"] = vec2;
-
-    type = "FINISH";
-}
+data_structures::CardGetResponse::CardGetResponse(
+        const QString& id,
+        const QString& questId,
+        const QString& title,
+        const QString& imagePath,
+        const QString& description,
+        const QMap<QString, QVector<ResourceItem> >& links,
+        const QString& type
+        ): id(id), questId(questId), title(title), imagePath(imagePath), description(description), links(links), type(type)
+{ }
 
 QJsonObject data_structures::CardGetResponse::toJSON() const
 {
