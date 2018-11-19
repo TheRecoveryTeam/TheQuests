@@ -16,7 +16,6 @@ SOURCES += \
         src/main.cpp \
     src/models/CardModel/cardmodel.cpp \
     src/engine/App/app.cpp \
-    src/engine/Store/store.cpp \
     src/models/CardShortModel/cardshortmodel.cpp \
     src/models/CardModel/controllers/abstractcardcontroller.cpp \
     src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.cpp \
@@ -52,7 +51,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     src/models/CardModel/cardmodel.h \
     src/engine/App/app.h \
-    src/engine/Store/store.h \
     src/models/CardShortModel/cardshortmodel.h \
     src/models/CardModel/controllers/abstractcardcontroller.h \
     src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h \
