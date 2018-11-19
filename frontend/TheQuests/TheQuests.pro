@@ -34,7 +34,8 @@ SOURCES += \
     src/data_structures/network/CardGetResponse/cardgetresponse.cpp \
     src/data_structures/network/ResourceItem/resourceitem.cpp \
     src/data_structures/network/CardDoAnswerRequest/carddoanswerrequest.cpp \
-    src/data_structures/network/CardDoAnswerResponse/carddoanswerresponse.cpp
+    src/data_structures/network/CardDoAnswerResponse/carddoanswerresponse.cpp \
+    src/data_structures/network/CardGetRequest/cardgetrequest.cpp
 
 RESOURCES += qml.qrc
 
@@ -78,4 +79,5 @@ HEADERS += \
     src/data_structures/network/CardGetResponse/cardgetresponse.h \
     src/data_structures/network/ResourceItem/resourceitem.h \
     src/data_structures/network/CardDoAnswerResponse/carddoanswerrequest.h \
-    src/data_structures/network/CardDoAnswerResponse/carddoanswerresponse.h
+    src/data_structures/network/CardDoAnswerResponse/carddoanswerresponse.h \
+    src/data_structures/network/CardGetRequest/cardgetrequest.h
