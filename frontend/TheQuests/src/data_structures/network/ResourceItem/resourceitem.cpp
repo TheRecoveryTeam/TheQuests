@@ -1,13 +1,6 @@
 #include "resourceitem.h"
 
 
-data_structures::ResourceItem::ResourceItem():
-    type(""),
-    value(0)
-{
-
-}
-
 data_structures::ResourceItem::ResourceItem(const QString &type, int value)
 {
     this->type = type;

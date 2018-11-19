@@ -10,8 +10,7 @@ namespace data_structures {
 class ResourceItem: public ISerializable
 {
 public:
-    ResourceItem();
-    ResourceItem(const QString& type, int value);
+    ResourceItem(const QString& type = "", int value = 0);
     const ResourceItem& operator=(const ResourceItem& rhs);
     QJsonObject toJSON() const override;
     QString type;

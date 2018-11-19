@@ -11,7 +11,8 @@
 #include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
-
+#include "src/data_structures/network/CardGetRequest/cardgetrequest.h"
+#include "src/data_structures/network/CardDoAnswerResponse/carddoanswerresponse.h"
 
 int main(int argc, char *argv[])
 {
