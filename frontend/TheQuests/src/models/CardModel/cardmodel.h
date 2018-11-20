@@ -9,6 +9,10 @@
 class QQmlEngine;
 class QJSEngine;
 
+namespace structures {
+struct CardDetail;
+}
+
 class CardModel : public CardShortModel
 {
     Q_OBJECT
@@ -16,18 +20,8 @@ class CardModel : public CardShortModel
     Q_PROPERTY(const QString& type READ getType NOTIFY typeChanged)
     Q_PROPERTY(AbstractCardController* controller READ getController NOTIFY controllerChanged)
 
-
-private:
-    explicit CardModel(QObject* parent = nullptr);
-    static CardModel* createInstance();
-
-signals:
-    void questIdChanged(const QString&);
-    void typeChanged(const QString&);
-    void controllerChanged(AbstractCardController*);
-
 public:
-    ~CardModel();
+    ~CardModel() = default;
 
     static CardModel* instance(QQmlEngine* qmle = nullptr, QJSEngine* qjse = nullptr);
 
@@ -48,7 +42,17 @@ public:
                  const QString& type,
                  AbstractCardController* controller = nullptr);
 
+    void setCardDetal (const structures::CardDetail& cardDetail);
+
+signals:
+    void questIdChanged(const QString&);
+    void typeChanged(const QString&);
+    void controllerChanged(AbstractCardController*);
+
 private:
+    static CardModel* createInstance();
+    explicit CardModel(QObject* parent = nullptr);
+
     QString questId;
     QString type;
     AbstractCardController* controller;

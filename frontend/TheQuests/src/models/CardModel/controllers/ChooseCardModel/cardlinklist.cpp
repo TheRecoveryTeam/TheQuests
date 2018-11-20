@@ -37,9 +37,9 @@ bool CardLinkList::appendLink(CardLink* link)
     if (!link) {
         return false;
     }
-    beginInsertRows(QModelIndex(), links.count(), links.count());
+    emit beginInsertRows(QModelIndex(), links.count(), links.count());
     this->links << link;
-    endInsertRows();
+    emit endInsertRows();
     return true;
 }
 

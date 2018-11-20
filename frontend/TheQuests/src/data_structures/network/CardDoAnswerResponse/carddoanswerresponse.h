@@ -3,22 +3,20 @@
 
 #include <QVector>
 #include <QString>
-#include "src/data_structures/network/ResourceItem/resourceitem.h"
-#include "src/data_structures/interfaces/iserializable.h"
+#include "src/models/structures/resourceitem.h"
 
 class QJsonObject;
 
 namespace data_structures {
 
-class CardDoAnswerResponse: public ISerializable
+class CardDoAnswerResponse
 {
 public:
     CardDoAnswerResponse(const QString nextCardId = "",
-                         QVector<ResourceItem> resources = QVector<ResourceItem>());
-    QJsonObject toJSON() const override;
+                         QVector<structures::ResourceItem> resources = QVector<structures::ResourceItem>());
 
     QString nextCardId;
-    QVector<ResourceItem> resources;
+    QVector<structures::ResourceItem> resources;
 };
 
 }

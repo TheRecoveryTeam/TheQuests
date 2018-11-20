@@ -28,7 +28,7 @@ QVariant CardLink::data(const QModelIndex& index, int role) const
 
     switch (role) {
     case typeRole:
-        return static_cast<int>(resources.at(index.row()).type);
+        return static_cast<QString>(resources.at(index.row()).type);
     case valueRole:
         return resources[index.row()].value;
     default:
@@ -52,4 +52,5 @@ const QString& CardLink::getAnswer() const
 void CardLink::setAnswer(const QString& value)
 {
     answer = value;
+    emit answerChanged(answer);
 }

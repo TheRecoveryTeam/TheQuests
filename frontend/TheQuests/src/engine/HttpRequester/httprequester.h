@@ -19,6 +19,8 @@ enum class Method;
 }
 }
 
+class QQmlEngine;
+class QJSEngine;
 class ISerializable;
 class IQueryable;
 
@@ -28,9 +30,9 @@ class HttpRequester : public QObject
 public:
     typedef std::function<void(const QJsonObject&)> handleFunc;
 
-    HttpRequester() = delete;
-    HttpRequester(const QString& baseUrl, QObject* parent = nullptr);
     ~HttpRequester() = default;
+
+    static HttpRequester* instance(QQmlEngine* qmle = nullptr, QJSEngine* qjse = nullptr);
 
     void doPost(const QString& path,
                 const ISerializable& body,
@@ -42,11 +44,18 @@ public:
                const handleFunc& onSuccess,
                const handleFunc& onError);
 
+    // reset token if value == ""
+    void setToken(const QString& value = "");
     const QString& getToken() const;
-    void setToken(const QString& value);
+
+    const QString& getBaseUrl() const;
+    void setBaseUrl(const QString& value);
 
 private:
     static const QString httpTemplate;
+    static HttpRequester* createInstance();
+
+    explicit HttpRequester(const QString& baseUrl = "", QObject* parent = nullptr);
 
     QNetworkRequest createRequest(const QString& queryString = "");
     void processRequest(QNetworkReply* reply, const handleFunc& onSuccess, const handleFunc& onError);

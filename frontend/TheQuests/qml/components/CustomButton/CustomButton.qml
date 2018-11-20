@@ -4,6 +4,7 @@ import 'qrc:/components/SimpleText'
 Item {
     property bool wide: true
     property string text
+    property var onClick
 
     anchors {
         left: wide ? parent.left : undefined
@@ -19,6 +20,7 @@ Item {
         MouseArea {
             id: mouseArea
             anchors.fill: parent
+            onClicked: { onClick() }
         }
     }
 

@@ -1,5 +1,7 @@
+#include <QDebug>
 #include "cardmodel.h"
 #include "src/utils/singleton.h"
+#include "src/models/structures/carddetail.h"
 
 CardModel::CardModel(QObject* parent):
     CardShortModel(parent),
@@ -10,9 +12,6 @@ CardModel* CardModel::createInstance()
 {
     return new CardModel();
 }
-
-CardModel::~CardModel()
-{ }
 
 CardModel* CardModel::instance(QQmlEngine* qqmle, QJSEngine* qjse)
 {
@@ -27,6 +26,7 @@ const QString& CardModel::getQuestId() const
 void CardModel::setQuestId(const QString &value)
 {
     questId = value;
+    emit questIdChanged(questId);
 }
 
 const QString& CardModel::getType() const
@@ -37,6 +37,7 @@ const QString& CardModel::getType() const
 void CardModel::setType(const QString &value)
 {
     type = value;
+    emit typeChanged(type);
 }
 
 AbstractCardController* CardModel::getController() const
@@ -47,11 +48,15 @@ AbstractCardController* CardModel::getController() const
 void CardModel::setController(AbstractCardController* value)
 {
     // Удаляем старый контроллер
-    delete controller;
+    if (controller) {
+        controller->deleteLater();
+    }
     if (value) {
         value->setParent(this);
     }
     controller = value;
+    qDebug() << "set controller" << controller;
+    emit controllerChanged(controller);
 }
 
 void CardModel::setAll(const QString &id,
@@ -62,12 +67,21 @@ void CardModel::setAll(const QString &id,
                        const QString &type,
                        AbstractCardController *controller)
 {
-    this->id = id;
-    this->questId = questId;
-    this->title = title;
-    this->imagePath = imagePath;
-    this->description = description;
-    this->questId = questId;
-    this->type = type;
-    this->controller = controller;
+    setId(id);
+    setQuestId(questId);
+    setTitle(title);
+    setImagePath(imagePath);
+    setDescription(description);
+    setType(type);
+    setController(controller);
+}
+
+void CardModel::setCardDetal(const structures::CardDetail& cardDetail)
+{
+    setId(cardDetail.id);
+    setQuestId(cardDetail.questId);
+    setTitle(cardDetail.title);
+    setImagePath(cardDetail.imagePath);
+    setDescription(cardDetail.description);
+    setType(cardDetail.type);
 }

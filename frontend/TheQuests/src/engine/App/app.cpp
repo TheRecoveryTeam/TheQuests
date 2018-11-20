@@ -10,7 +10,8 @@
 #include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
-#include "src/data_structures/network/CardGetResponse/cardgetresponse.h"
+
+#include "src/controllers/CardController/cardcontroller.h"
 
 App::App(QObject *parent):
     QObject(parent)
@@ -28,6 +29,11 @@ void App::registerTypes() const
                                                reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(QuestDetailModel::instance));
     qmlRegisterSingletonType<UserModel>("models", 1, 0, "UserModel",
                                         reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(UserModel::instance));
+
+
+    qmlRegisterSingletonType<CardController>("controllers", 1, 0, "CardController",
+                                        reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(CardController::instance));
+
 
     qmlRegisterType<ChooseCardModel>("application", 1, 0, "ChooseCardModel");
     qmlRegisterType<CardLinkList>("application", 1, 0, "CardLinkList");

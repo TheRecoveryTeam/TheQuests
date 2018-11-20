@@ -4,6 +4,8 @@
 #include <QGuiApplication>
 #include <QDebug>
 
+#include <src/data_structures/network/CardGetRequest/cardgetrequest.h>
+
 #include "src/engine/App/app.h"
 
 #include "src/models/CardModel/cardmodel.h"
@@ -11,12 +13,13 @@
 #include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
-#include "src/data_structures/network/CardGetRequest/cardgetrequest.h"
-#include "src/data_structures/network/CardDoAnswerResponse/carddoanswerresponse.h"
+#include "src/engine/HttpRequester/httprequester.h"
+#include "src/controllers/CardController/cardcontroller.h"
 
 int main(int argc, char *argv[])
 {
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
+
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
@@ -26,7 +29,6 @@ int main(int argc, char *argv[])
 
     auto cardChooseController = new ChooseCardModel();
     auto cardLinksList = new CardLinkList();
-    CardModel::instance()->setController(cardChooseController);
     cardChooseController->setLinksList(cardLinksList);
 
     for (int i = 0; i < 3; i++) {
@@ -44,10 +46,14 @@ int main(int argc, char *argv[])
                                    cardChooseController
                                   );
 
+
     engine.rootContext()->setContextProperty("application", &application);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
+
+    CardController::instance()->get("card_one_id");
+
 
     return app.exec();
 }

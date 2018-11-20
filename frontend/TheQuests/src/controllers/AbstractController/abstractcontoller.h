@@ -9,8 +9,10 @@ class AbstractContoller : public QObject
 {
     Q_OBJECT
 public:
-    explicit AbstractContoller(QObject *parent = nullptr);
-    virtual ~AbstractContoller();
+    explicit AbstractContoller(
+            QObject *parent = nullptr,
+            HttpRequester* httpRequester = nullptr);
+    virtual ~AbstractContoller() = default;
 
 protected:
     HttpRequester* httpRequester;

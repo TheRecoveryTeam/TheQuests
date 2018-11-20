@@ -2,33 +2,26 @@
 #define CARDCONTROLLER_H
 
 #include "../AbstractController/abstractcontoller.h"
-#include "src/models/CardModel/cardmodel.h"
-#include "src/models/CardShortModel/cardshortmodel.h"
+
+class QQmlEngine;
+class QJSEngine;
+class CardModel;
+class HttpRequester;
 
 class CardController: public AbstractContoller
 {
+    Q_OBJECT
 public:
-    CardController(QObject* parent = nullptr);
-    ~CardController();
+    ~CardController() = default;
+    static CardController* instance(QQmlEngine* qmle = nullptr, QJSEngine* qjse = nullptr);
 
-    // TODO : возвращаемые значения
-    void add(const QString& cardId,
-             const QString& questId,
-             const QString& title,
-             const QString& description,
-             const QString& type);
-    void get(const QString& cardId);
-    void edit(const QString& cardId,
-              const QString& questId,
-              const QString& title,
-              const QString& description,
-              const QString& type);
+    Q_INVOKABLE void get(const QString& cardId) const;
+    Q_INVOKABLE void doAnswer(const QString& cardId, const QString& answer) const;
 
-    void remode(const QString& cardId);
-    void doAnswer(const QString& cardId, const QString& answer);
-    void getList(const QString& questId);
-    void linksUpsert();
 private:
+    static CardController* createInstance();
+    explicit CardController(QObject* parent = nullptr);
+
     CardModel* cardModel;
 };
 

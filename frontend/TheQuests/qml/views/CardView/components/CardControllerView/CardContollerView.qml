@@ -23,10 +23,11 @@ TexturedRect {
         Loader {
             anchors.fill: parent
             sourceComponent: {
-                if (controller.type === 'choose') {
-                    return chooseContainer
+                console.log(controller);
+                if (controller !== null && controller.type === 'choose') {
+                    return chooseContainer;
                 }
-                return Rectangle
+                return Rectangle;
             }
         }
     }

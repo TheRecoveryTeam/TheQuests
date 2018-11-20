@@ -26,12 +26,12 @@ CardLinkList* ChooseCardModel::getLinksList() const
 void ChooseCardModel::setLinksList(CardLinkList* value)
 {
     // Удаляем старые ссылки
-    if (this->linksList) {
-        delete linksList;
+    if (linksList) {
+        linksList->deleteLater();
     }
     if (value) {
         value->setParent(this);
     }
     linksList = value;
-    linksListChanged(linksList);
+    emit linksListChanged(linksList);
 }

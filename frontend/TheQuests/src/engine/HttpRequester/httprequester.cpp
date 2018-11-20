@@ -4,18 +4,24 @@
 #include <QByteArray>
 #include <QJsonDocument>
 #include <QNetworkReply>
+#include "src/utils/singleton.h"
 #include "src/data_structures/interfaces/iserializable.h"
 #include "src/data_structures/interfaces/iqueryable.h"
 #include "src/config/network.h"
 #include "httprequester.h"
 
-const QString HttpRequester::httpTemplate = "%1/%2?%3";
+const QString HttpRequester::httpTemplate = "%1%2?%3";
 
 HttpRequester::HttpRequester(const QString& baseUrl, QObject* parent):
     QObject (parent),
     baseUrl(baseUrl),
     manager(new QNetworkAccessManager())
 { }
+
+HttpRequester* HttpRequester::instance(QQmlEngine* qmle, QJSEngine* qjse)
+{
+    return Singleton<HttpRequester>::instance(HttpRequester::createInstance);
+}
 
 void HttpRequester::doPost(
         const QString& path,
@@ -29,8 +35,9 @@ void HttpRequester::doPost(
             .arg(path)
             .arg("");
 
-    auto request = createRequest();
+    auto request = createRequest(url);
     auto byteBody = QJsonDocument(body.toJSON()).toJson(QJsonDocument::Compact);
+    qDebug() << byteBody;
     auto reply = manager->post(request, byteBody);
     processRequest(reply, onSuccess, onError);
 }
@@ -62,12 +69,11 @@ void HttpRequester::setToken(const QString& value)
     token = value;
 }
 
-QNetworkRequest HttpRequester::createRequest(const QString& queryString)
+QNetworkRequest HttpRequester::createRequest(const QString& url)
 {
     QNetworkRequest request;
-    QString url = baseUrl + queryString;
     request.setUrl(QUrl(url));
-    request.setRawHeader("Content-Type","application/json");
+    request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Accept", "*/*");
     if(!token.isEmpty()) {
         request.setRawHeader("Authorization", QString("token %1").arg(token).toUtf8());
@@ -123,7 +129,6 @@ QJsonObject HttpRequester::parseReply(QNetworkReply* reply)
     jsonDoc = QJsonDocument::fromJson(replyText, &parseError);
 
     if(parseError.error != QJsonParseError::NoError){
-        qDebug() << replyText;
         qWarning() << "Json parse error: " << parseError.errorString();
         jsonObj[config::network::ERROR_KEY] = parseError.errorString();
     }
@@ -136,4 +141,20 @@ QJsonObject HttpRequester::parseReply(QNetworkReply* reply)
         }
     }
     return jsonObj;
+}
+
+const QString& HttpRequester::getBaseUrl() const
+{
+    return baseUrl;
+}
+
+void HttpRequester::setBaseUrl(const QString& value)
+{
+    baseUrl = value;
+}
+
+HttpRequester*HttpRequester::createInstance()
+{
+    // default value in BASE_URL
+    return new HttpRequester(config::network::BASE_URL);
 }
