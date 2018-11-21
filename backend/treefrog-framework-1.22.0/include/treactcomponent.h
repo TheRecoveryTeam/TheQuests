@@ -1,1 +1,0 @@
-#include "../src/treactcomponent.h"

@@ -4,7 +4,15 @@
 
 #include "CardController.h"
 #include "../NetworkUtils.h"
-#include "../../storage/models/CardModel.h"
+#include "../../card/model_manager/CardModelManager.h"
+
+web::json::value from_string(std::string const &input) {
+    utility::stringstream_t s;
+
+    s << input;
+    web::json::value ret = web::json::value::parse(s);
+    return ret;
+}
 
 void CardController::initRestOpHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -59,35 +67,41 @@ void CardController::do_answer(web::http::http_request message) {
 }
 
 void CardController::get(web::http::http_request message) {
-
     auto path = requestPath(message);
     for (auto &p : path) {
         std::wcout << p.c_str() << std::endl;
     }
 
-    auto uri = message.relative_uri();
-//    boost::regex ex("get?id=//d");
-//    boost::cmatch what;
-
-    int id = message.relative_uri();
-    int questId = 1;
-    utility::string_t title = "title";
-    utility::string_t imagePath = "imagePath";
-    utility::string_t description = "description";
-    utility::string_t type = "choose";
-
+    auto uri = message.relative_uri().to_string();
+    std::regex ex("get?cardId=(\\d)");
+    std::cmatch what;
     auto response = web::json::value::object();
-    auto model = CardModel::CardModel(response.serialize());
-    auto item = model.get();
 
-    response["id"] = id;
-    response["questId"] = questId;
-    response["title"] = web::json::value::string(title);
-    response["imagePath"] = web::json::value::string(imagePath);
-    response["description"] = web::json::value::string(description);
-    response["type"] = web::json::value::string(type);
+    if (regex_match(uri.c_str(), what, ex)) {
+        std::string id_str = std::string(what[1].first, what[1].second);
+        int id = std::stoi(id_str);
 
-    message.reply(web::http::status_codes::OK, response);
+        auto request = web::json::value::object();
+        request["cardId"] = id;
+
+        auto model = CardModelManager::CardModelManager();
+        auto item = from_string(model.get(request.as_string()));
+
+        int questId = std::stoi(item["questId"].as_string());
+        response["id"] = id;
+        response["questId"] = questId;
+        response["title"] = item["title"];
+        response["imagePath"] = item["imagePath"];
+        response["description"] = item["description"];
+        response["type"] = item["type"];
+        response["links"] = item["links"];
+
+        message.reply(web::http::status_codes::OK, response);
+    } else {
+        response["code"] = 400;
+        response["message"] = web::json::value::string("card get is wrong");
+        message.reply(web::http::status_codes::BadRequest, response);
+    }
 }
 
 void CardController::list(web::http::http_request message) {
