@@ -7,25 +7,34 @@
 
 #include "../AbstractController.h"
 #include "../Handler.h"
-#include "QuestRouter.h"
 
-class QuestController : public networkhelper::AbstractController, networkhelper::Handler {
+class QuestController : public networkhelper::AbstractController {
 public:
     QuestController() {
         std::wcout << U("QuestController initiated\n");
     }
 
-    void handleGet(web::http::http_request message) override;
-
-    void handlePost(web::http::http_request message) override;
-
     void initRestOpHandlers() override;
 
+    void ConfigureRouting() override;
+
+    void create(web::http::http_request message);
+
+    void destroy(web::http::http_request message);
+
+    void edit(web::http::http_request message);
+
+    void edit_image(web::http::http_request message);
+
+    void detail(web::http::http_request message);
+
+    void resources(web::http::http_request message);
+
+    void list(web::http::http_request message);
 
 private:
     static web::json::value responseNotImpl(const web::http::method &method);
 
-    QuestRouter _questRouter;
 };
 
 

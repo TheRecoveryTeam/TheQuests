@@ -15,11 +15,11 @@ int main(int argc, char **argv) {
     CardController cardController;
     cardController.setEndpoint("http://host_auto_ip4:8080/api/card/");
 
-    UserController userController;
-    userController.setEndpoint("http://host_auto_ip4:8080/api/user/");
-
-    QuestController questController;
-    questController.setEndpoint("http://host_auto_ip4:8080/api/quest/");
+//    UserController userController;
+//    userController.setEndpoint("http://host_auto_ip4:8080/api/user/");
+//
+//    QuestController questController;
+//    questController.setEndpoint("http://host_auto_ip4:8080/api/quest/");
 
     try {
         // wait for server initialization...
@@ -27,22 +27,23 @@ int main(int argc, char **argv) {
         std::wcout << U("CardController is listening: ") << std::endl; //+ cardController.endpoint()) << std::endl;
         cardController.endpoint();
 
-        userController.accept().wait();
-        std::wcout << "UserController is listening: " << std::endl;
-        userController.endpoint();
-
-        questController.accept().wait();
-        std::wcout << "QuestController is listening: " << std::endl;
-        questController.endpoint();
+//        userController.accept().wait();
+//        std::wcout << "UserController is listening: " << std::endl;
+//        userController.endpoint();
+//
+//        questController.accept().wait();
+//        std::wcout << "QuestController is listening: " << std::endl;
+//        questController.endpoint();
 
         InterruptHandler::waitForUserInterrupt();
 
         cardController.shutdown().wait();
-        userController.shutdown().wait();
-        questController.shutdown().wait();
+//        userController.shutdown().wait();
+//        questController.shutdown().wait();
     }
     catch (std::exception &e) {
-        std::wcout << U("Internal server ERROR") << '\n';
+        std::wcout << U("Internal server ERROR") << std::endl;
+        std::wcout << e.what() << std::endl;
     }
     catch (...) {
         RuntimeUtils::printStackTrace();

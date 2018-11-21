@@ -7,25 +7,30 @@
 
 #include "../AbstractController.h"
 #include "../Handler.h"
-#include "UserRouter.h"
 
-class UserController : public networkhelper::AbstractController, networkhelper::Handler {
+class UserController : public networkhelper::AbstractController {
 public:
     UserController() {
         std::wcout << U("UserController initiated\n");
     }
 
-    void handleGet(web::http::http_request message) override;
-
-    void handlePost(web::http::http_request message) override;
-
     void initRestOpHandlers() override;
+
+    void ConfigureRouting() override;
+
+    void create(web::http::http_request message);
+
+    void login(web::http::http_request message);
+
+    void logout(web::http::http_request message);
+
+    void edit(web::http::http_request message);
+
+    void password_edit(web::http::http_request message);
 
 
 private:
     static web::json::value responseNotImpl(const web::http::method &method);
-
-    UserRouter _userRouter;
 };
 
 #endif //THEQUESTS_USERCONTROLLER_H

@@ -14,20 +14,12 @@
 #include "cpprest/asyncrt_utils.h"
 
 namespace networkhelper {
-
-    /*!
-     * Dispatcher class represents the basic interface for a
-     * web serivce handler.
-     */
-    class Controller {
-    public:
-        virtual void handleGet(web::http::http_request message) = 0;
-
-        virtual void handlePost(web::http::http_request message) = 0;
+    struct RoutingEntry {
+        utility::string_t url;
+        web::http::method method = web::http::methods::GET;
+        std::function<void(const web::http::http_request &request)> handler;
     };
-}
 
-namespace networkhelper {
     class AbstractController {
     protected:
         web::http::experimental::listener::http_listener _listener; // main micro service network endpoint
@@ -35,7 +27,7 @@ namespace networkhelper {
     public:
         AbstractController();
 
-        ~AbstractController();
+        virtual ~AbstractController();
 
         void setEndpoint(const std::string &value);
 
@@ -47,8 +39,14 @@ namespace networkhelper {
 
         virtual void initRestOpHandlers() = 0;
 
-        std::vector<utility::string_t> requestPath(const web::http::http_request &message);
+        static std::vector<utility::string_t> requestPath(const web::http::http_request &message);
+
+        virtual void ConfigureRouting() = 0;
+
+    protected:
+        std::vector<RoutingEntry> _routingEntries;
     };
+
 }
 
 #endif //THEQUESTS_ABSTRACTCONTROLLER_H

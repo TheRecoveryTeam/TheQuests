@@ -35,5 +35,17 @@ namespace networkhelper {
         }
     };
 
+#define CPPRESTHELPER_HANDLER(controller, action) [](const web::http::http_request & request) {\
+    static_assert(std::is_base_of<networkhelper::AbstractController, controller>::value, "controller class must derive from 'AbstractController'");\
+    auto c = controller();\
+    try {\
+        c.action(request);\
+    } catch (const std::exception & ex) {\
+        request.reply(web::http::status_codes::InternalError);\
+    } catch (...) {\
+        request.reply(web::http::status_codes::InternalError);\
+    }\
+}
+
 }
 #endif //THEQUESTS_NETWORKUTILS_H

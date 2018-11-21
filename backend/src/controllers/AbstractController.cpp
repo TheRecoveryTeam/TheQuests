@@ -6,6 +6,7 @@
 #include "NetworkUtils.h"
 
 namespace networkhelper {
+
     AbstractController::AbstractController() = default;
 
     AbstractController::~AbstractController() = default;
@@ -23,7 +24,9 @@ namespace networkhelper {
         endpointBuilder.set_port(endpointURI.port());
         endpointBuilder.set_path(endpointURI.path());
 
+        ConfigureRouting();
         _listener = web::http::experimental::listener::http_listener(endpointBuilder.to_uri());
+        std::wcout << "HERE" << std::endl;
 
     }
 
@@ -42,7 +45,8 @@ namespace networkhelper {
     }
 
     std::vector<utility::string_t> AbstractController::requestPath(const web::http::http_request &message) {
-        auto relativePath = web::uri::decode(message.relative_uri().path());
+        utility::string_t relativePath;
+        relativePath = web::uri::decode(message.relative_uri().path());
         return web::uri::split_path(relativePath);
     }
 }

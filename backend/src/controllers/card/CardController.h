@@ -7,25 +7,35 @@
 
 #include "../AbstractController.h"
 #include "../Handler.h"
-#include "CardRouter.h"
 
-class CardController : public networkhelper::AbstractController, networkhelper::Handler {
+class CardController : public networkhelper::AbstractController {
 public:
     CardController() {
+        ConfigureRouting();
         std::wcout << U("CardController initiated\n");
     }
 
-    void handleGet(web::http::http_request message) override;
-
-    void handlePost(web::http::http_request message) override;
+    void ConfigureRouting() override;
 
     void initRestOpHandlers() override;
 
+    void add(web::http::http_request message);
+
+    void edit(web::http::http_request message);
+
+    void remove(web::http::http_request message);
+
+    void do_answer(web::http::http_request message);
+
+    void links_upsert(web::http::http_request message);
+
+    void get(web::http::http_request message);
+
+    void list(web::http::http_request message);
 
 private:
     static web::json::value responseNotImpl(const web::http::method &method);
 
-    CardRouter _cardRouter;
 };
 
 
