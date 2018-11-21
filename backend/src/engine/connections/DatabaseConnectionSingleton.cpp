@@ -9,14 +9,13 @@
 #include <mongocxx/instance.hpp>
 #include <mongocxx/pool.hpp>
 
-
-MongoAccess::MongoAccess& MongoAccess::MongoAccess::instance() {
+MongoAccess::MongoAccess &MongoAccess::MongoAccess::instance() {
   static MongoAccess instance;
   return instance;
 }
 
 void MongoAccess::MongoAccess::configure(std::unique_ptr<mongocxx::instance> instance,
-                                            std::unique_ptr<mongocxx::pool> pool) {
+                                         std::unique_ptr<mongocxx::pool> pool) {
   _instance = std::move(instance);
   _pool = std::move(pool);
 }
