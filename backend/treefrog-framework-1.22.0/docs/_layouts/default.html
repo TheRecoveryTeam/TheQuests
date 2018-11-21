@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% if page.url contains '/ja/' %}
+<html lang="ja">
+{% elsif page.url contains '/ch/' %}
+<html lang="zh">
+{% else %}
+<html lang="en">
+{% endif %}
+<head>
+    <meta charset='utf-8'>
+    <title>TreeFrog Framework | High-speed C++ MVC Framework for Web Application</title>
+    <meta name="keywords" content="TreeFrog,MVC,Web,Fast,WebSocket,Framework,ORM,C++,full stack,mongodb,C++11,Qt,generator,scaffold" />
+{% if page.url contains '/ja/' %}
+    <meta name="description" content="TreeFrog Framework は、C++によるフルスタックの高速Webアプリケーションフレームワークであり、HTTP はもちろん WebSocket プロトコルもサポートしています。" />
+{% else %}
+    <meta name="description" content="TreeFrog Framework is a high-speed and full-stack C++ framework for developing Web applications, which supports HTTP and WebSocket protocol" />
+{% endif %}
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ site.baseurl }}/assets/css/style.css">
+    <link rel="icon" href="/favicon.ico">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+<body>
+<div id="wrapper">
+    <!-- HEADER -->
+    <div class="header-wrap outer">
+    {% include header.html %}
+    </div>
+    <!-- NAV -->
+    <nav class="nav-wrap outer">
+    {% include nav.html %}
+    </nav>
+    <!-- MAIN CONTENT -->
+    <div class="main-content-wrap outer">
+        <div class="main-inner">
+            <div class="main-content">
+            {{ content }}
+            </div>
+            <!-- NAIVGATION -->
+            <div class="navigation">
+            {% include navigation.html %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FOOTER  -->
+<div class="footer-wrap outer">
+{% include footer.html %}
+</div>
+{% include analytics.html %}
+</body>
+</html>
