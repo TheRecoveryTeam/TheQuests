@@ -12,27 +12,27 @@ set(THIRD_PARTY_DIR ${CMAKE_BINARY_DIR}/thirdparty)
 
 if (APPLE)
     set(BOOST_ROOT /opt/local/include/boost/)
-endif()
+endif ()
 
 include(ExternalProject)
 
 set(common_cmake_cache_args
         -DCMAKE_CXX_COMPILER:PATH=${CMAKE_CXX_COMPILER}
         )
-if(NOT DEFINED CMAKE_CONFIGURATION_TYPES)
+if (NOT DEFINED CMAKE_CONFIGURATION_TYPES)
     list(APPEND common_cmake_cache_args
             -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
             )
-endif()
+endif ()
 
 ExternalProject_Add(libmongoc
-        GIT_REPOSITORY  "https://github.com/TheRecoveryTeam/mongo-c-driver.git"
-        GIT_TAG         "1.12.0"
-        GIT_PROGRESS    1
-        GIT_SHALLOW     1
-        SOURCE_DIR      "${THIRD_PARTY_DIR}/libmongoc"
-        BINARY_DIR      "${THIRD_PARTY_DIR}/libmongoc-build"
-        INSTALL_DIR     "${THIRD_PARTY_DIR}/libmongoc-install"
+        GIT_REPOSITORY "https://github.com/TheRecoveryTeam/mongo-c-driver.git"
+        GIT_TAG "1.12.0"
+        GIT_PROGRESS 1
+        GIT_SHALLOW 1
+        SOURCE_DIR "${THIRD_PARTY_DIR}/libmongoc"
+        BINARY_DIR "${THIRD_PARTY_DIR}/libmongoc-build"
+        INSTALL_DIR "${THIRD_PARTY_DIR}/libmongoc-install"
         CMAKE_CACHE_ARGS
         ${common_cmake_cache_args}
         -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/libmongoc-install
@@ -45,13 +45,13 @@ set(libmongoc-1.0_DIR "${THIRD_PARTY_DIR}/libmongoc-install/lib/cmake/libmongoc-
 set(libbson-1.0_DIR "${THIRD_PARTY_DIR}/libmongoc-install/lib/cmake/libbson-1.0/")
 
 ExternalProject_Add(libmongocxx
-        GIT_REPOSITORY  "https://github.com/TheRecoveryTeam/mongo-c-driver.git"
-#        GIT_TAG         "r3.4.0"
-        GIT_PROGRESS    1
-        GIT_SHALLOW     1
-        SOURCE_DIR      "${THIRD_PARTY_DIR}/libmongocxx"
-        BINARY_DIR      "${THIRD_PARTY_DIR}/libmongocxx-build"
-        INSTALL_DIR     "${THIRD_PARTY_DIR}/libmongocxx-install"
+        GIT_REPOSITORY "https://github.com/TheRecoveryTeam/mongo-c-driver.git"
+        #        GIT_TAG         "r3.4.0"
+        GIT_PROGRESS 1
+        GIT_SHALLOW 1
+        SOURCE_DIR "${THIRD_PARTY_DIR}/libmongocxx"
+        BINARY_DIR "${THIRD_PARTY_DIR}/libmongocxx-build"
+        INSTALL_DIR "${THIRD_PARTY_DIR}/libmongocxx-install"
         CMAKE_CACHE_ARGS
         ${common_cmake_cache_args}
         -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/libmongocxx-install
@@ -71,12 +71,12 @@ set(libbsoncxx_DIR "${THIRD_PARTY_DIR}/libmongocxx-install/lib/cmake/libbsoncxx-
 set(libmongoc_DIR ${libmongoc-1.0_DIR})
 
 ExternalProject_Add(cpprestsdk
-        GIT_REPOSITORY  "https://github.com/TheRecoveryTeam/cpprestsdk.git"
-        GIT_PROGRESS    1
-        GIT_SHALLOW     1
-        SOURCE_DIR      "${THIRD_PARTY_DIR}/cpprestsdk"
-        BINARY_DIR      "${THIRD_PARTY_DIR}/cpprestsdk-build"
-        INSTALL_DIR     "${THIRD_PARTY_DIR}/cpprestsdk-install"
+        GIT_REPOSITORY "https://github.com/TheRecoveryTeam/cpprestsdk.git"
+        GIT_PROGRESS 1
+        GIT_SHALLOW 1
+        SOURCE_DIR "${THIRD_PARTY_DIR}/cpprestsdk"
+        BINARY_DIR "${THIRD_PARTY_DIR}/cpprestsdk-build"
+        INSTALL_DIR "${THIRD_PARTY_DIR}/cpprestsdk-install"
         CMAKE_CACHE_ARGS
         ${common_cmake_cache_args}
         -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/cpprestsdk-install
@@ -87,13 +87,13 @@ ExternalProject_Add(cpprestsdk
 set(cpprestsdk_DIR "${THIRD_PARTY_DIR}/cpprestsdk-install/lib/cpprestsdk")
 
 ExternalProject_Add(googletest
-        GIT_REPOSITORY  "https://github.com/google/googletest.git"
-        GIT_TAG         "release-1.8.1"
-        GIT_PROGRESS    1
-        GIT_SHALLOW     1
-        SOURCE_DIR      "${THIRD_PARTY_DIR}/googletest"
-        BINARY_DIR      "${THIRD_PARTY_DIR}/googletest-build"
-        INSTALL_DIR     "${THIRD_PARTY_DIR}/googletest-install"
+        GIT_REPOSITORY "https://github.com/google/googletest.git"
+        GIT_TAG "release-1.8.1"
+        GIT_PROGRESS 1
+        GIT_SHALLOW 1
+        SOURCE_DIR "${THIRD_PARTY_DIR}/googletest"
+        BINARY_DIR "${THIRD_PARTY_DIR}/googletest-build"
+        INSTALL_DIR "${THIRD_PARTY_DIR}/googletest-install"
         CMAKE_CACHE_ARGS
         ${common_cmake_cache_args}
         -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/googletest-install
@@ -104,13 +104,13 @@ ExternalProject_Add(googletest
 set(GTest_DIR "${THIRD_PARTY_DIR}/googletest-install/lib/cmake/googletest")
 
 ExternalProject_Add(nlohmann_json
-        GIT_REPOSITORY  "https://github.com/nlohmann/json.git"
-        GIT_TAG         "v3.4.0"
-        GIT_PROGRESS    1
-        GIT_SHALLOW     1
-        SOURCE_DIR      "${THIRD_PARTY_DIR}/nlohmann_json"
-        BINARY_DIR      "${THIRD_PARTY_DIR}/nlohmann_json-build"
-        INSTALL_DIR     "${THIRD_PARTY_DIR}/nlohmann_json-install"
+        GIT_REPOSITORY "https://github.com/nlohmann/json.git"
+        GIT_TAG "v3.4.0"
+        GIT_PROGRESS 1
+        GIT_SHALLOW 1
+        SOURCE_DIR "${THIRD_PARTY_DIR}/nlohmann_json"
+        BINARY_DIR "${THIRD_PARTY_DIR}/nlohmann_json-build"
+        INSTALL_DIR "${THIRD_PARTY_DIR}/nlohmann_json-install"
         CMAKE_CACHE_ARGS
         ${common_cmake_cache_args}
         -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/nlohmann_json-install
@@ -136,15 +136,17 @@ find_package(nlohmann_json 3.4.0 REQUIRED)
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/)
-target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} cardmodelmanager databaseconnection)
+target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} cardmodel questmodel databaseconnection)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 
-add_executable(test tests/card/model_manager/CardModelManagerTests.cpp)
+add_executable(test tests/card/model_manager/CardModelManagerTests.cpp tests/quest/model_manager/QuestModelManagerTests.cpp
+        tests/history/model_manager/HistoryModelManagerTests.cpp tests/card/model_manager/CardLinkModelManagerTests.cpp)
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest
         ${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest-build
         EXCLUDE_FROM_ALL)
-target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} cardmodelmanager databaseconnection)
+target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} cardmodel questmodel historymodel databaseconnection)
 target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(test PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 add_test(NAME CardModelManagerTest COMMAND test)
+#add_test(NAME CardLinkModelManagerTest COMMAND test)
