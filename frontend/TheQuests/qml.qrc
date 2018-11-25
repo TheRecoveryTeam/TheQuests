@@ -22,7 +22,8 @@
         <file alias="CardView/components/CardControllerView/components/ChooseControllerView.qml">qml/views/CardView/components/CardControllerView/components/ChooseControllerView.qml</file>
         <file alias="AuthenticationView/AuthenticationView.qml">qml/views/AuthenticationView/AuthenticationView.qml</file>
         <file alias="AuthenticationView/components/LogoText/LogoText.qml">qml/views/AuthenticationView/components/LogoText/LogoText.qml</file>
-        <file alias="AuthenticationView/components/LoginView/LoginView.qml">qml/views/AuthenticationView/components/LoginView/LoginView.qml</file>
+        <file alias="AuthenticationView/components/LoginFormView/LoginFormView.qml">qml/views/AuthenticationView/components/LoginView/LoginView.qml</file>
+        <file alias="AuthenticationView/components/SignUpFormView/SignUpFormView.qml">qml/views/AuthenticationView/components/SignUpFormView/SignUpFormView.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>

@@ -2,11 +2,15 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtGraphicalEffects 1.0
 import 'components/LogoText'
-import 'qrc:/components/form/FormContainer'
-import 'qrc:/components/form/TextInput'
+import 'components/LoginFormView'
+import 'components/SignUpFormView'
+import 'qrc:/components/CustomButton'
 
 Page {
+    id: authenticationView
     anchors.fill: parent
+    // if signUpView -> false
+    property bool isLoginView: true
 
     LinearGradient {
         id: grad
@@ -28,7 +32,7 @@ Page {
             left: parent.left
             right: parent.right
             verticalCenter: parent.verticalCenter
-            margins: 10
+            margins: 20
         }
         color: 'transparent'
         height: pageContent.implicitHeight
@@ -48,32 +52,62 @@ Page {
                 }
             }
 
-            FormContainer {
-                id: loginFormContainer
-                label: 'Авторизация'
+            Component {
+                id: loginContainer
+                LoginFormView {}
+            }
+
+            Component {
+                id: signUpContainer
+                SignUpFormView {}
+            }
+
+            Loader {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                }
+                sourceComponent: authenticationView.isLoginView
+                                 ? loginContainer
+                                 : signUpContainer
+            }
+
+            Row {
                 anchors {
                     left: parent.left
                     right: parent.right
                 }
 
-                inputsBlock: Column {
-                    spacing: 10
+                spacing: 10
+                CustomButton {
+                    textColor: '#ffffff'
+                    text: 'Вход'
+                    wide: false
+                    backgrounOpacity: authenticationView.isLoginView ? 0.4 : 0
 
-                    TextInput {
-                        id: emailInput
-                        nextInput: passwordInput.inputId
-                        inputId.onTextChanged: {
-                            console.log(inputId.text)
+                    onClick: function () {
+                        if (authenticationView.isLoginView) {
+                            // TODO: process login
                         }
-                        label: 'Email'
-                        errorText: 'Пароль слишком короткий'
+                        else {
+                            authenticationView.isLoginView = true;
+                        }
                     }
+                }
 
-                    TextInput {
-                        id: passwordInput
-                        nextInput: emailInput.inputId
-                        label: 'Пароль'
-                        password: true
+                CustomButton {
+                    textColor: '#ffffff'
+                    text: 'Регистрация'
+                    wide: false
+                    backgrounOpacity: authenticationView.isLoginView ? 0 : 0.4
+
+                    onClick: function () {
+                        if (authenticationView.isLoginView) {
+                            authenticationView.isLoginView = false;
+                        }
+                        else {
+                            // TODO: process signup
+                        }
                     }
                 }
             }

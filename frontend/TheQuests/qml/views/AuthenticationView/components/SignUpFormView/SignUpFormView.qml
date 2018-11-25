@@ -5,7 +5,7 @@ import 'qrc:/components/form/TextInput'
 
 FormContainer {
     id: loginFormContainer
-    label: 'Авторизация'
+    label: 'Регистрация'
     anchors {
         left: parent.left
         right: parent.right
@@ -26,8 +26,15 @@ FormContainer {
 
         TextInput {
             id: passwordInput
-            nextInput: emailInput.inputId
+            nextInput: passwordRepeatInput.inputId
             label: 'Пароль'
+            password: true
+        }
+
+        TextInput {
+            id: passwordRepeatInput
+            nextInput: emailInput.inputId
+            label: 'Повторите пароль'
             password: true
         }
     }
