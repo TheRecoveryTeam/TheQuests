@@ -10,44 +10,47 @@ class UserModel : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(const QString& id READ getId NOTIFY idChanged)
-    Q_PROPERTY(const QString& nickName READ getNickName NOTIFY nickNameChanged)
-    Q_PROPERTY(const QString& eMail READ getEMail NOTIFY eMailChanged)
+    Q_PROPERTY(const QString& nickname READ getNickname NOTIFY nicknameChanged)
+    Q_PROPERTY(const QString& email READ getEmail NOTIFY emailChanged)
     Q_PROPERTY(const QString& token READ getToken NOTIFY tokenChanged)
-private:
-    explicit UserModel(QObject *parent = nullptr);
-    static UserModel* createInstance();
-
-signals:
-    void idChanged(const QString&);
-    void nickNameChanged(const QString&);
-    void eMailChanged(const QString&);
-    void tokenChanged(const QString&);
+    Q_PROPERTY(bool isAuthenticated READ isAuthenticated NOTIFY tokenChanged)
 
 public:
-    static UserModel* instance(QQmlEngine* qqmle, QJSEngine* qjse);
+    static UserModel* instance();
 
     ~UserModel();
     const QString& getId() const;
     void setId(const QString &value);
 
-    const QString& getNickName() const;
-    void setNickName(const QString &value);
+    const QString& getNickname() const;
+    void setNickname(const QString &value);
 
-    const QString& getEMail() const;
-    void setEMail(const QString &value);
+    const QString& getEmail() const;
+    void setEmail(const QString &value);
 
     const QString& getToken() const;
     void setToken(const QString &value);
 
+    bool isAuthenticated() const;
+
     void setAll(const QString& id,
-                const QString& nickName,
-                const QString& eMail,
+                const QString& nickname,
+                const QString& email,
                 const QString& token);
 
+signals:
+    void idChanged(const QString&);
+    void nicknameChanged(const QString&);
+    void emailChanged(const QString&);
+    void tokenChanged(const QString&);
+
 private:
+    explicit UserModel(QObject *parent = nullptr);
+    static UserModel* createInstance();
+
     QString id;
-    QString nickName;
-    QString eMail;
+    QString nickname;
+    QString email;
     QString token;
 };
 

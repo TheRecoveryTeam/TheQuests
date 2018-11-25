@@ -15,7 +15,6 @@ Item {
         delegate: CustomButton {
             text: model.link.answer
             onClick: function () {
-                console.log('kek');
                 CardController.doAnswer('123', model.link.answer)
             }
         }

@@ -1,7 +1,24 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import QtQuick.Controls 2.4
-import QtQuick.Controls.Material 2.3
 
-Rectangle {
+Label {
+    FontLoader {
+        id: robotoSlabBold
+        source: 'qrc:/media/RobotoSlab-Bold.ttf'
+        name: 'RobotoSlabBold'
+    }
+    property string label: 'Card Heading'
+    property int spacing: 5
+    property int pixelSize: 16
 
+    id: title
+    text: label
+    color: 'white'
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
+    font {
+        letterSpacing: spacing
+        family: robotoSlabBold.name
+        pixelSize: pixelSize
+    }
 }

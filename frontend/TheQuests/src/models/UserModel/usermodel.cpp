@@ -1,24 +1,22 @@
 #include "usermodel.h"
 #include "src/utils/singleton.h"
-UserModel::UserModel(QObject *parent) : QObject(parent)
-{
 
-}
+
+UserModel::UserModel(QObject *parent) : QObject(parent)
+{ }
 
 UserModel *UserModel::createInstance()
 {
     return new UserModel();
 }
 
-UserModel *UserModel::instance(QQmlEngine* qqmle, QJSEngine* qjse)
+UserModel *UserModel::instance()
 {
     return Singleton<UserModel>::instance(UserModel::createInstance);
 }
 
 UserModel::~UserModel()
-{
-
-}
+{ }
 
 const QString& UserModel::getId() const
 {
@@ -28,26 +26,29 @@ const QString& UserModel::getId() const
 void UserModel::setId(const QString &value)
 {
     id = value;
+    emit idChanged(id);
 }
 
-const QString& UserModel::getNickName() const
+const QString& UserModel::getNickname() const
 {
-    return nickName;
+    return nickname;
 }
 
-void UserModel::setNickName(const QString &value)
+void UserModel::setNickname(const QString &value)
 {
-    nickName = value;
+    nickname = value;
+    emit nicknameChanged(nickname);
 }
 
-const QString& UserModel::getEMail() const
+const QString& UserModel::getEmail() const
 {
-    return eMail;
+    return email;
 }
 
-void UserModel::setEMail(const QString &value)
+void UserModel::setEmail(const QString &value)
 {
-    eMail = value;
+    email = value;
+    emit emailChanged(email);
 }
 
 const QString& UserModel::getToken() const
@@ -58,15 +59,21 @@ const QString& UserModel::getToken() const
 void UserModel::setToken(const QString &value)
 {
     token = value;
+    emit tokenChanged(token);
+}
+
+bool UserModel::isAuthenticated() const
+{
+    return !token.isEmpty();
 }
 
 void UserModel::setAll(const QString &id,
-                       const QString &nickName,
-                       const QString &eMail,
+                       const QString &nickname,
+                       const QString &email,
                        const QString &token)
 {
-    this->id = id;
-    this->nickName = nickName;
-    this->eMail = eMail;
-    this->token = token;
+    setId(id);
+    setNickname(nickname);
+    setEmail(email);
+    setToken(token);
 }

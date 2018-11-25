@@ -6,7 +6,6 @@
     <qresource prefix="/components">
         <file alias="Card/BackgroundCardGradient.qml">qml/components/Card/BackgroundCardGradient.qml</file>
         <file alias="Card/CardToolbar.qml">qml/components/Card/CardToolbar.qml</file>
-        <file alias="Card/CardHeading.qml">qml/components/Card/CardHeading.qml</file>
         <file alias="Card/Card.qml">qml/components/Card/index.qml</file>
         <file alias="Card/CardDescription.qml">qml/components/Card/CardDescription.qml</file>
         <file alias="Title/Title.qml">qml/components/Title/Title.qml</file>
@@ -14,11 +13,16 @@
         <file alias="CustomButton/CustomButton.qml">qml/components/CustomButton/CustomButton.qml</file>
         <file alias="ImageContainer/ImageContainer.qml">qml/components/ImageContainer/ImageContainer.qml</file>
         <file alias="TexturedRect/TexturedRect.qml">qml/components/TexturedRect/TexturedRect.qml</file>
+        <file alias="form/FormContainer/FormContainer.qml">qml/components/form/FormContainer/FormContainer.qml</file>
+        <file alias="form/TextInput/TextInput.qml">qml/components/form/TextInput/TextInput.qml</file>
     </qresource>
     <qresource prefix="/views">
         <file alias="CardView/CardView.qml">qml/views/CardView/CardView.qml</file>
         <file alias="CardView/components/CardControllerView/CardControllerView.qml">qml/views/CardView/components/CardControllerView/CardContollerView.qml</file>
         <file alias="CardView/components/CardControllerView/components/ChooseControllerView.qml">qml/views/CardView/components/CardControllerView/components/ChooseControllerView.qml</file>
+        <file alias="AuthenticationView/AuthenticationView.qml">qml/views/AuthenticationView/AuthenticationView.qml</file>
+        <file alias="AuthenticationView/components/LogoText/LogoText.qml">qml/views/AuthenticationView/components/LogoText/LogoText.qml</file>
+        <file alias="AuthenticationView/components/LoginView/LoginView.qml">qml/views/AuthenticationView/components/LoginView/LoginView.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>

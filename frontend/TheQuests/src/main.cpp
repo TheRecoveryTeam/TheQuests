@@ -13,6 +13,7 @@
 #include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
+#include "src/models/UserModel/usermodel.h"
 #include "src/engine/HttpRequester/httprequester.h"
 #include "src/controllers/CardController/cardcontroller.h"
 
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
         return -1;
 
     CardController::instance()->get("card_one_id");
-
+    UserModel::instance()->setToken("authenticated");
 
     return app.exec();
 }

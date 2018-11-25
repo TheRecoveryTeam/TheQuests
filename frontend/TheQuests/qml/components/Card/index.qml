@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Controls.Material 2.3
 import models 1.0
+import 'qrc:/components/Title'
 
 Rectangle {
     id: cardRoot
@@ -93,10 +94,11 @@ Rectangle {
 
                 height: 80
 
-                CardHeading {
+                Title {
                     anchors.fill: parent
                     label: cardRoot.title
                 }
+
                 color: 'transparent'
             }
             color: 'transparent'
