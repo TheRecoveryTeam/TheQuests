@@ -10,7 +10,6 @@ Page {
     id: authenticationView
     anchors.fill: parent
     // if signUpView -> false
-    property bool isLoginView: true
 
     LinearGradient {
         id: grad
@@ -52,24 +51,38 @@ Page {
                 }
             }
 
-            Component {
-                id: loginContainer
-                LoginFormView {}
-            }
+            SwipeView {
+                id: authenticationSwipeView
+                currentIndex: !authenticationView.isLoginView
 
-            Component {
-                id: signUpContainer
-                SignUpFormView {}
-            }
-
-            Loader {
                 anchors {
                     left: parent.left
                     right: parent.right
+                    margins: -10
                 }
-                sourceComponent: authenticationView.isLoginView
-                                 ? loginContainer
-                                 : signUpContainer
+                height: Math.max(loginFormContainer.implicitHeight, signUpFormContainer.implicitHeight);
+
+                Column {
+                    id: loginFormContainer
+                    LoginFormView {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            margins: 10
+                        }
+                    }
+                }
+
+                Column {
+                    id: signUpFormContainer
+                    SignUpFormView {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            margins: 10
+                        }
+                    }
+                }
             }
 
             Row {
@@ -78,35 +91,37 @@ Page {
                     right: parent.right
                 }
 
-                spacing: 10
+                spacing: 20
                 CustomButton {
+                    property int curIndex: 0
+                    property int nextIndex: 1
                     textColor: '#ffffff'
                     text: 'Вход'
                     wide: false
-                    backgrounOpacity: authenticationView.isLoginView ? 0.4 : 0
+                    backgrounOpacity: authenticationSwipeView.currentIndex === curIndex ? 0.4 : 0;
 
                     onClick: function () {
-                        if (authenticationView.isLoginView) {
-                            // TODO: process login
+                        if (authenticationSwipeView.currentIndex === curIndex) {
                         }
                         else {
-                            authenticationView.isLoginView = true;
+                            authenticationSwipeView.currentIndex = curIndex;
                         }
                     }
                 }
 
                 CustomButton {
+                    property int curIndex: 1
+                    property int nextIndex: 0
                     textColor: '#ffffff'
                     text: 'Регистрация'
                     wide: false
-                    backgrounOpacity: authenticationView.isLoginView ? 0 : 0.4
+                    backgrounOpacity: authenticationSwipeView.currentIndex == curIndex ? 0.4 : 0
 
                     onClick: function () {
-                        if (authenticationView.isLoginView) {
-                            authenticationView.isLoginView = false;
+                        if (authenticationSwipeView.currentIndex === curIndex) {
                         }
                         else {
-                            // TODO: process signup
+                            authenticationSwipeView.currentIndex = curIndex;
                         }
                     }
                 }

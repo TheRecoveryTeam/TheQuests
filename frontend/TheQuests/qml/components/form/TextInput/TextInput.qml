@@ -71,34 +71,23 @@ Column {
             maximumLength: 36
         }
     }
-    Component {
-        id: errorContainer
-        Item {
-            height: labelText.implicitHeight
-            anchors {
-                left: parent.left
-                right: parent.right
-            }
 
-            SimpleText {
-                id: errorText
-                text: inputRoot.errorText
-                horizontalAlignment: Text.AlignLeft
-                color: '#EF9A9A'
-                size: 16
-                spacing: 1
-            }
-        }
-    }
 
-    Loader {
+    Item {
+        height: labelText.implicitHeight
         anchors {
             left: parent.left
             right: parent.right
         }
 
-        sourceComponent: inputRoot.errorText ? errorContainer : ""
+        SimpleText {
+            id: errorText
+            text: inputRoot.errorText
+            horizontalAlignment: Text.AlignLeft
+            color: '#EF9A9A'
+            size: 16
+            spacing: 1
+        }
     }
-
 
 }

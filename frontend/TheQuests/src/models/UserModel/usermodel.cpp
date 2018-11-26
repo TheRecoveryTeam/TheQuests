@@ -2,7 +2,7 @@
 #include "src/utils/singleton.h"
 
 
-UserModel::UserModel(QObject *parent) : QObject(parent)
+UserModel::UserModel(QObject *parent) : QObject(parent), token("")
 { }
 
 UserModel *UserModel::createInstance()

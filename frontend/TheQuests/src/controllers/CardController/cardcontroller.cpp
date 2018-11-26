@@ -14,7 +14,7 @@
 #include "src/mappers/CardMapper/cardmapper.h"
 #include "src/models/structures/carddetail.h"
 
-CardController* CardController::instance(QQmlEngine* qmle, QJSEngine* qjse)
+CardController* CardController::instance()
 {
     return Singleton<CardController>::instance(CardController::createInstance);
 }

@@ -12,6 +12,9 @@
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
 
 #include "src/controllers/CardController/cardcontroller.h"
+#include "src/controllers/UserController/usercontroller.h"
+#include "src/controllers/UserController/LoginForm/loginform.h"
+#include "src/controllers/UserController/SignUpForm/signupform.h"
 
 App::App(QObject *parent):
     QObject(parent)
@@ -39,4 +42,7 @@ void App::registerTypes() const
     qmlRegisterType<CardLinkList>("application", 1, 0, "CardLinkList");
     qmlRegisterType<CardLink>("application", 1, 0, "CardLink");
     qmlRegisterType<AbstractCardController>("application", 1, 0, "AbstractCardController");
+
+    qmlRegisterType<LoginForm>("application", 1, 0, "LoginForm");
+    qmlRegisterType<SignUpForm>("application", 1, 0, "SignUpForm");
 }

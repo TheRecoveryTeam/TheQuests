@@ -4,20 +4,24 @@
 #include <QObject>
 #include <QString>
 #include "../AbstractController/abstractcontoller.h"
-#include "src/models/UserModel/usermodel.h"
+
+class UserModel;
 
 class UserController: public AbstractContoller
 {
     Q_OBJECT
 public:
-    explicit UserController(QObject *parent = nullptr);
-    ~UserController();
+    ~UserController() = default;
+    static UserController* instance();
 
-    void authenticate(const QString& email, const QString& password) const;
-    void logout() const;
-    void create(const QString& nickname, const QString& email, const QString& password) const;
-    void edit(const QString& nickname, const QString& email) const;
+    Q_INVOKABLE void authenticate(const QString& email, const QString& password) const;
+    Q_INVOKABLE void logout() const;
+    Q_INVOKABLE void create(const QString& nickname, const QString& email, const QString& password) const;
+    Q_INVOKABLE void edit(const QString& nickname, const QString& email) const;
 private:
+    static UserController* createInstance();
+    explicit UserController(QObject* parent = nullptr);
+
     UserModel* userModel;
 };
 

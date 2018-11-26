@@ -47,14 +47,15 @@ int main(int argc, char *argv[])
                                    cardChooseController
                                   );
 
-
     engine.rootContext()->setContextProperty("application", &application);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+
     if (engine.rootObjects().isEmpty())
         return -1;
 
     CardController::instance()->get("card_one_id");
-    UserModel::instance()->setToken("authenticated");
+//    UserModel::instance()->setToken("authenticated");
 
     return app.exec();
 }

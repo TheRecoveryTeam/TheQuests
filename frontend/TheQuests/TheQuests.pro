@@ -33,7 +33,9 @@ SOURCES += \
     src/mappers/CardMapper/cardmapper.cpp \
     src/data_structures/network/CardDoAnswerRequest/carddoanswerrequest.cpp \
     src/data_structures/network/CardDoAnswerResponse/carddoanswerresponse.cpp \
-    src/data_structures/network/CardGetRequest/cardgetrequest.cpp
+    src/data_structures/network/CardGetRequest/cardgetrequest.cpp \
+    src/controllers/UserController/LoginForm/loginform.cpp \
+    src/controllers/UserController/SignUpForm/signupform.cpp
 
 RESOURCES += qml.qrc
 
@@ -79,4 +81,7 @@ HEADERS += \
     src/data_structures/network/CardGetRequest/cardgetrequest.h \
     src/config/apiurls.h \
     src/models/structures/carddetail.h \
-    src/models/structures/cardlink.h
+    src/models/structures/cardlink.h \
+    src/utils/iform.h \
+    src/controllers/UserController/LoginForm/loginform.h \
+    src/controllers/UserController/SignUpForm/signupform.h

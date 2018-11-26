@@ -1,11 +1,14 @@
 import QtQuick 2.0
 import 'qrc:/components/form/FormContainer'
 import 'qrc:/components/form/TextInput'
-
+import application 1.0
 
 FormContainer {
     id: loginFormContainer
     label: 'Авторизация'
+
+    property LoginForm form: LoginForm {}
+
     anchors {
         left: parent.left
         right: parent.right
@@ -17,18 +20,28 @@ FormContainer {
         TextInput {
             id: emailInput
             nextInput: passwordInput.inputId
-            inputId.onTextChanged: {
-                console.log(inputId.text)
+            inputId {
+                onTextChanged: {
+                    form.email = inputId.text
+                }
+                text: form.email
             }
             label: 'Email'
-            errorText: 'Пароль слишком короткий'
+            errorText: form.emailError
         }
 
         TextInput {
             id: passwordInput
             nextInput: emailInput.inputId
+            inputId {
+                onTextChanged: {
+                    form.password = inputId.text
+                }
+                text: form.password
+            }
             label: 'Пароль'
             password: true
+            errorText: form.passwordError
         }
     }
 }

@@ -13,7 +13,7 @@ class CardController: public AbstractContoller
     Q_OBJECT
 public:
     ~CardController() = default;
-    static CardController* instance(QQmlEngine* qmle = nullptr, QJSEngine* qjse = nullptr);
+    static CardController* instance();
 
     Q_INVOKABLE void get(const QString& cardId) const;
     Q_INVOKABLE void doAnswer(const QString& cardId, const QString& answer) const;
