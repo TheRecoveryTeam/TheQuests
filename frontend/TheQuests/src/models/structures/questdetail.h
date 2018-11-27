@@ -12,6 +12,7 @@ struct QuestDetail {
     QString currCardId = "";
     QString authorNickname = "";
     QString playerCount = "";
+    QString imagePath = "";
     QString stage = "";
 };
 }

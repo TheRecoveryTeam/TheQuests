@@ -2,14 +2,21 @@
 #define QUESTCONTROLLER_H
 
 #include "../AbstractController/abstractcontoller.h"
-#include "src/models/QuestDetailModel/questdetailmodel.h"
-#include "src/models/QuestShortModel/questshortmodel.h"
+
+class QuestDetailModel;
+class QQmlEngine;
+class QJSEngine;
+class HttpRequester;
 
 class QuestController: public AbstractContoller
 {
+    Q_OBJECT
 public:
-    explicit QuestController(QObject* parent = nullptr);
-    ~QuestController();
+    ~QuestController() = default;
+    static QuestController* instance();
+
+    Q_INVOKABLE void get(const QString& questId) const;
+
     void create(const QString& title,
                  const QString& description,
                  const QString& image);
@@ -26,6 +33,9 @@ public:
     void getQuestList();
 
 private:
+    static QuestController* createInstance();
+    explicit QuestController(QObject* parent = nullptr);
+
     QuestDetailModel* questDetailModel;
 };
 

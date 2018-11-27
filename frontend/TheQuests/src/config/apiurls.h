@@ -11,6 +11,10 @@ namespace card {
     const QString DO_ANSWER = "/api/card.do_answer";
 }
 
+namespace quest {
+    const QString GET = "/api/quest.get";
+}
+
 }
 }
 
