@@ -21,6 +21,10 @@ namespace user {
 
 namespace quest {
     const QString GET = "/api/quest.get";
+    const QString GET_RESOURCES = "/api/quest.resources";
+    const QString GET_QUEST_LIST = "/api/quest.list";
+    const QString CREATE = "api/quest.create";
+
 }
 
 }

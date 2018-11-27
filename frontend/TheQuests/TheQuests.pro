@@ -47,7 +47,11 @@ SOURCES += \
     src/data_structures/network/UserFindEmailReqeust/userfindemailrequest.cpp \
     src/data_structures/network/UserFindNicknameReqeust/userfindnicknamerequest.cpp \
     src/controllers/UserController/SignUpFinishForm/signupfinishform.cpp \
-    src/data_structures/network/QuestGetRequest/questgetrequest.cpp
+    src/data_structures/network/QuestGetRequest/questgetrequest.cpp \
+    src/data_structures/network/QuestGetRequest/questgetrequest.cpp \
+    src/data_structures/network/QuestCreate/questcreate.cpp \
+    src/data_structures/network/QuestGetResources/questgetresources.cpp \
+    src/data_structures/network/QuestGetQuestList/questgetquestlist.cpp
 
 RESOURCES += qml.qrc
 
@@ -111,4 +115,8 @@ HEADERS += \
     src/data_structures/network/UserFindEmailReqeust/userfindemailrequest.h \
     src/data_structures/network/UserFindNicknameReqeust/userfindnicknamerequest.h \
     src/controllers/UserController/SignUpFinishForm/signupfinishform.h \
-    src/data_structures/network/QuestGetRequest/questgetrequest.h
+    src/data_structures/network/QuestGetRequest/questgetrequest.h \
+    src/data_structures/network/QuestGetRequest/questgetrequest.h \
+    src/data_structures/network/QuestCreate/questcreate.h \
+    src/data_structures/network/QuestGetResources/questgetresources.h \
+    src/data_structures/network/QuestGetQuestList/questgetquestlist.h
