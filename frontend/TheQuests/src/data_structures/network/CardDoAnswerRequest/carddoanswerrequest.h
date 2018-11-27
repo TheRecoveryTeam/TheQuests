@@ -4,7 +4,7 @@
 #include <QString>
 #include "src/data_structures/interfaces/iserializable.h"
 
-class QJsonObject;
+
 
 namespace data_structures {
 

@@ -2,7 +2,8 @@
 #include <QJsonObject>
 #include "carddoanswerrequest.h"
 
-data_structures::CardDoAnswerRequest::CardDoAnswerRequest(const QString& cardId, const QString& answer):
+data_structures::CardDoAnswerRequest::CardDoAnswerRequest(const QString& cardId,
+                                                          const QString& answer):
     cardId(cardId),
     answer(answer)
 { }

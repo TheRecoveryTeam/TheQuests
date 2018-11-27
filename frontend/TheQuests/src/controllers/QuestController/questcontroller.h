@@ -15,11 +15,21 @@ public:
     ~QuestController() = default;
     static QuestController* instance();
 
-    Q_INVOKABLE void get(const QString& questId) const;
+    Q_INVOKABLE void getQuestDetail(const QString& questId) const;
+    Q_INVOKABLE void getResources(const QString& questId) const;
+    Q_INVOKABLE void getQuestList(const QString& page,
+                                  const QString& limit,
+                                  const QString& authorId,
+                                  const QString& asc,
+                                  const QString& stage
+                                  );
 
-    void create(const QString& title,
-                 const QString& description,
-                 const QString& image);
+
+    Q_INVOKABLE void create(const QString& title,
+                            const QString& description,
+                            const QString& image);
+
+
     void remove(const QString& id);
     void edit(const QString& title,
               const QString& description,
@@ -27,10 +37,6 @@ public:
     void editImage(const QString& id,
                    const QString& image);
 
-    void getQuestDetail(const QString& id);
-    void getResources(const QString& id);
-    // TODO: продумать передаваемые значения
-    void getQuestList();
 
 private:
     static QuestController* createInstance();
