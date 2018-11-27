@@ -46,7 +46,8 @@ SOURCES += \
     src/mappers/UserMapper/usermapper.cpp \
     src/data_structures/network/UserFindEmailReqeust/userfindemailrequest.cpp \
     src/data_structures/network/UserFindNicknameReqeust/userfindnicknamerequest.cpp \
-    src/controllers/UserController/SignUpFinishForm/signupfinishform.cpp
+    src/controllers/UserController/SignUpFinishForm/signupfinishform.cpp \
+    src/data_structures/network/QuestGetRequest/questgetrequest.cpp
 
 RESOURCES += qml.qrc
 
@@ -109,4 +110,5 @@ HEADERS += \
     src/mappers/UserMapper/usermapper.h \
     src/data_structures/network/UserFindEmailReqeust/userfindemailrequest.h \
     src/data_structures/network/UserFindNicknameReqeust/userfindnicknamerequest.h \
-    src/controllers/UserController/SignUpFinishForm/signupfinishform.h
+    src/controllers/UserController/SignUpFinishForm/signupfinishform.h \
+    src/data_structures/network/QuestGetRequest/questgetrequest.h

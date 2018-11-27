@@ -2,7 +2,7 @@
 #include <QJSEngine>
 #include "questdetailmodel.h"
 #include "src/utils/singleton.h"
-
+#include "src/models/structures/questdetail.h"
 
 QuestDetailModel::QuestDetailModel(QObject *parent):
     QuestShortModel (parent)
@@ -11,11 +11,6 @@ QuestDetailModel::QuestDetailModel(QObject *parent):
 QuestDetailModel *QuestDetailModel::createInstance()
 {
     return new QuestDetailModel();
-}
-
-QuestDetailModel::~QuestDetailModel()
-{
-
 }
 
 QuestDetailModel *QuestDetailModel::instance(QQmlEngine* qqmle, QJSEngine* qjse)
@@ -52,12 +47,24 @@ void QuestDetailModel::setAll(const QString &id,
                               const QString &currCardId,
                               const QString &stage)
 {
-    this->id = id;
-    this->title = title;
-    this->description = description;
-    this->authorNickName = authorNickName;
-    this->playerCount = playerCount;
-    this->imagePath = imagePath;
-    this->currCardId = currCardId;
-    this->stage = stage;
+    setId(id);
+    setTitle(title);
+    setDescription(description);
+    setAuthorNickName(authorNickName);
+    setPlayerCount(playerCount);
+    setImagePath(imagePath);
+    setCurrCardId(currCardId);
+    setStage(stage);
+}
+
+void QuestDetailModel::setQuestDetail(structures::QuestDetail &questDetail)
+{
+    setId(questDetail.id);
+    setTitle(questDetail.title);
+    setDescription(questDetail.description);
+    setAuthorNickName(questDetail.authorNickname);
+    setPlayerCount(questDetail.playerCount);
+    setImagePath(questDetail.imagePath);
+    setCurrCardId(questDetail.currCardId);
+    setStage(questDetail.stage);
 }

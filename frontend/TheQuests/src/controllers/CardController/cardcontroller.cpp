@@ -1,6 +1,5 @@
 #include <QDebug>
 #include <QJsonObject>
-#include <QVector>
 
 #include "cardcontroller.h"
 

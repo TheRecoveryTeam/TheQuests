@@ -15,7 +15,8 @@ structures::QuestDetail QuestMapper::convertQuestDetail(const QJsonObject &obj) 
             && obj["currCardId"].isString()
             && obj["authorNickname"].isString()
             && obj["playerCount"].isString()
-            && obj["stage"].isString()) {
+            && obj["stage"].isString()
+            && obj["imagePath"].isString()) {
         questDetail.id = obj["id"].toString();
         questDetail.title = obj["title"].toString();
         questDetail.description = obj["description"].toString();
@@ -23,6 +24,7 @@ structures::QuestDetail QuestMapper::convertQuestDetail(const QJsonObject &obj) 
         questDetail.authorNickname = obj["authorNickname"].toString();
         questDetail.playerCount = obj["playerCount"].toString();
         questDetail.stage = obj["stage"].toString();
+        questDetail.imagePath = obj["imagePath"].isString();
     }
     else {
         // TODO:
