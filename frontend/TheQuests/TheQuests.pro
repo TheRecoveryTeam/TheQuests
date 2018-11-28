@@ -38,7 +38,10 @@ SOURCES += \
     src/controllers/UserController/SignUpForm/signupform.cpp \
     src/mappers/CardMapper/questmapper.cpp \
     src/mappers/CardMapper/questlistmapper.cpp \
-    src/data_structures/network/UserCreateRequest/usercreaterequest.cpp
+    src/data_structures/network/UserCreateRequest/usercreaterequest.cpp \
+    src/data_structures/network/UserCreateResponse/usercreateresponse.cpp \
+    src/data_structures/network/UserLoginRequest/userloginrequest.cpp \
+    src/data_structures/network/UserLoginResponse/userloginresponse.cpp
 
 RESOURCES += qml.qrc
 
@@ -93,4 +96,7 @@ HEADERS += \
     src/models/structures/questlist.h \
     src/models/structures/questshort.h \
     src/mappers/CardMapper/questlistmapper.h \
-    src/data_structures/network/UserCreateRequest/usercreaterequest.h
+    src/data_structures/network/UserCreateRequest/usercreaterequest.h \
+    src/data_structures/network/UserCreateResponse/usercreateresponse.h \
+    src/data_structures/network/UserLoginRequest/userloginrequest.h \
+    src/data_structures/network/UserLoginResponse/userloginresponse.h
