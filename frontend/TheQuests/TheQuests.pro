@@ -42,7 +42,8 @@ SOURCES += \
     src/data_structures/network/UserCreateResponse/usercreateresponse.cpp \
     src/data_structures/network/UserLoginRequest/userloginrequest.cpp \
     src/data_structures/network/UserLoginResponse/userloginresponse.cpp \
-    src/data_structures/network/UserEditRequest/usereditrequest.cpp
+    src/data_structures/network/UserEditRequest/usereditrequest.cpp \
+    src/mappers/UserMapper/usermapper.cpp
 
 RESOURCES += qml.qrc
 
@@ -101,4 +102,5 @@ HEADERS += \
     src/data_structures/network/UserCreateResponse/usercreateresponse.h \
     src/data_structures/network/UserLoginRequest/userloginrequest.h \
     src/data_structures/network/UserLoginResponse/userloginresponse.h \
-    src/data_structures/network/UserEditRequest/usereditrequest.h
+    src/data_structures/network/UserEditRequest/usereditrequest.h \
+    src/mappers/UserMapper/usermapper.h

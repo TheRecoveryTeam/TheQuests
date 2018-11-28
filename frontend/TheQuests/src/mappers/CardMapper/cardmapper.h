@@ -7,8 +7,6 @@
 #include "src/models/structures/cardlink.h"
 
 class QJsonObject;
-class QJsonValue;
-class QString;
 
 namespace structures {
     struct ResourceItem;
