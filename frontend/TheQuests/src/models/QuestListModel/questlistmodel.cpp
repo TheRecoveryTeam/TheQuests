@@ -59,3 +59,19 @@ void QuestListModel::setListQuests(const QVector<QuestShortModel*> &value)
 {
     listQuests = value;
 }
+
+void QuestListModel::setListQuests(const structures::QuestList value)
+{
+    for (auto valueItem: value.quests){
+        auto questShortModel = new QuestShortModel();
+        questShortModel->setId(valueItem.id);
+        questShortModel->setTitle(valueItem.title);
+        questShortModel->setImagePath(valueItem.imagePath);
+        questShortModel->setDescription(valueItem.description);
+        questShortModel->setPlayerCount(valueItem.playerCount);
+        questShortModel->setAuthorNickName(valueItem.authorNickname);
+
+        listQuests << questShortModel;
+    }
+}
+

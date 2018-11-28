@@ -21,8 +21,8 @@ public:
     CardMapper() = default;
     structures::CardDetail convertCardDetail(const QJsonObject& obj) const;
     QVector<structures::CardLink> convertCardLinkList(const QJsonObject& obj) const;
-
-    static QVector<structures::ResourceItem> convertResourcesList(const QJsonArray& resourcesJsonArr);
+private:
+    QVector<structures::ResourceItem> convertResourcesList(const QJsonArray& resourcesJsonArr) const;
 };
 
 #endif // CARDMAPPER_H

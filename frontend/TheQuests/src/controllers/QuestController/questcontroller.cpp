@@ -18,6 +18,8 @@
 #include "src/models/structures/questdetail.h"
 #include "src/models/structures/resourceitem.h"
 #include "src/models/structures/questlist.h"
+#include "src/models/QuestListsContainerModel/questlistscontainermodel.h"
+#include "src/models/QuestListModel/questlistmodel.h"
 
 QuestController *QuestController::instance()
 {
@@ -62,9 +64,17 @@ void QuestController::getQuestList(const QString &page,
     httpRequester->doGet(
                 config::apiUrls::quest::GET_QUEST_LIST,
                 data_structures::QuestGetQuestList(page, limit, authorId, asc, stage),
-    [this](QJsonObject obj) {
+    [this, stage](QJsonObject obj) {
             QuestListMapper mapper;
             auto questList = mapper.convertQuestList(obj);
+            if (stage == "end")
+                questListsContainerModel->getCompletedQuestListModel()->setListQuests(questList);
+            else if (stage == "progress")
+                questListsContainerModel->getInProgressQuestListModel()->setListQuests(questList);
+            else {
+                // TODO :
+            }
+
     },
     [](QJsonObject obj){
         qDebug() << "error" << obj;
@@ -107,5 +117,6 @@ QuestController *QuestController::createInstance()
 
 QuestController::QuestController(QObject* parent):
     AbstractContoller(parent, HttpRequester::instance()),
-    questDetailModel(QuestDetailModel::instance())
+    questDetailModel(QuestDetailModel::instance()),
+    questListsContainerModel(QuestListsContainerModel::instance())
 {}
