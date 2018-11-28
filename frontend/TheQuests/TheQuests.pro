@@ -41,7 +41,8 @@ SOURCES += \
     src/data_structures/network/QuestGetRequest/questgetrequest.cpp \
     src/data_structures/network/QuestCreate/questcreate.cpp \
     src/data_structures/network/QuestGetResources/questgetresources.cpp \
-    src/data_structures/network/QuestGetQuestList/questgetquestlist.cpp
+    src/data_structures/network/QuestGetQuestList/questgetquestlist.cpp \
+    src/mappers/CardMapper/resourcesmapper.cpp
 
 RESOURCES += qml.qrc
 
@@ -99,4 +100,5 @@ HEADERS += \
     src/data_structures/network/QuestGetRequest/questgetrequest.h \
     src/data_structures/network/QuestCreate/questcreate.h \
     src/data_structures/network/QuestGetResources/questgetresources.h \
-    src/data_structures/network/QuestGetQuestList/questgetquestlist.h
+    src/data_structures/network/QuestGetQuestList/questgetquestlist.h \
+    src/mappers/CardMapper/resourcesmapper.h

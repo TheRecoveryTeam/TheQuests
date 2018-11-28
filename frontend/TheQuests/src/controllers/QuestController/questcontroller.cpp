@@ -14,6 +14,7 @@
 #include "src/mappers/CardMapper/cardmapper.h"
 #include "src/mappers/CardMapper/questmapper.h"
 #include "src/mappers/CardMapper/questlistmapper.h"
+#include "src/mappers/CardMapper/resourcesmapper.h"
 #include "src/models/structures/questdetail.h"
 #include "src/models/structures/resourceitem.h"
 #include "src/models/structures/questlist.h"
@@ -29,7 +30,6 @@ void QuestController::getQuestDetail(const QString &questId) const
                 config::apiUrls::quest::GET,
                 data_structures::QuestGetRequest(questId),
     [this](QJsonObject obj) {
-
         QuestMapper mapper;
         auto questDetail = mapper.convertQuestDetail(obj);
         questDetailModel->setQuestDetail(questDetail);
@@ -45,13 +45,8 @@ void QuestController::getResources(const QString &questId) const
                 config::apiUrls::quest::GET_RESOURCES,
                 data_structures::QuestGetResources(questId),
     [this](QJsonObject obj) {
-        if (obj["resources"].isArray()){
-            QVector<structures::ResourceItem> resources =
-                    CardMapper::convertResourcesList(obj["resources"].toArray());
-        }
-        else {
-            // TODO :
-        }
+            ResourcesMapper mapper;
+            auto resources = mapper.convertResources(obj);
     },
     [](QJsonObject obj){
         qDebug() << "error" << obj;
@@ -68,13 +63,8 @@ void QuestController::getQuestList(const QString &page,
                 config::apiUrls::quest::GET_QUEST_LIST,
                 data_structures::QuestGetQuestList(page, limit, authorId, asc, stage),
     [this](QJsonObject obj) {
-        if (obj["quests"].isArray() && obj["hasMore"].isBool()){
             QuestListMapper mapper;
             auto questList = mapper.convertQuestList(obj);
-        }
-        else {
-            // TODO :
-        }
     },
     [](QJsonObject obj){
         qDebug() << "error" << obj;
