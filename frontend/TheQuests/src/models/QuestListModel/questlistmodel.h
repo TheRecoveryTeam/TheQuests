@@ -2,7 +2,7 @@
 #define QUESTLISTMODEL_H
 #include <QAbstractListModel>
 #include "src/models/QuestShortModel/questshortmodel.h"
-
+#include "src/models/structures/questlist.h"
 class QuestListModel: public QAbstractListModel
 {
     Q_OBJECT
@@ -23,7 +23,7 @@ public:
 
     const QVector<QuestShortModel*>& getListQuests() const;
     void setListQuests(const QVector<QuestShortModel*> &value);
-
+    void setListQuests(const structures::QuestList value);
 private:
     QVector<QuestShortModel*> listQuests;
 };

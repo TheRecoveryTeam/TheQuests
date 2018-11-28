@@ -7,6 +7,7 @@ class QuestDetailModel;
 class QQmlEngine;
 class QJSEngine;
 class HttpRequester;
+class QuestListsContainerModel;
 
 class QuestController: public AbstractContoller
 {
@@ -43,6 +44,7 @@ private:
     explicit QuestController(QObject* parent = nullptr);
 
     QuestDetailModel* questDetailModel;
+    QuestListsContainerModel* questListsContainerModel;
 };
 
 #endif // QUESTCONTROLLER_H

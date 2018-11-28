@@ -64,7 +64,7 @@ QVector<structures::CardLink> CardMapper::convertCardLinkList(const QJsonObject&
     return linkList;
 }
 
-QVector<structures::ResourceItem> CardMapper::convertResourcesList(const QJsonArray& resourcesJsonArr)
+QVector<structures::ResourceItem> CardMapper::convertResourcesList(const QJsonArray& resourcesJsonArr) const
 {
     QVector<structures::ResourceItem> resources;
     for (auto resourceJsonItem: resourcesJsonArr) {
