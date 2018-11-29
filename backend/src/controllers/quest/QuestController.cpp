@@ -3,6 +3,7 @@
 //
 
 #include "QuestController.h"
+#include "../NetworkUtils.h"
 #include "../../../src/quest/model_manager/QuestModelManager.h"
 
 void QuestController::initRestOpHandlers() {
@@ -66,5 +67,45 @@ void QuestController::list(web::http::http_request message) {
 }
 
 void QuestController::ConfigureRouting() {
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("detail"),
+            web::http::methods::GET,
+            CPPRESTHELPER_HANDLER(QuestController, detail)
+    });
 
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("resources"),
+            web::http::methods::GET,
+            CPPRESTHELPER_HANDLER(QuestController, resources)
+    });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("list"),
+            web::http::methods::GET,
+            CPPRESTHELPER_HANDLER(QuestController, list)
+    });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("edit_image"),
+            web::http::methods::POST,
+            CPPRESTHELPER_HANDLER(QuestController, edit_image)
+    });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("edit"),
+            web::http::methods::POST,
+            CPPRESTHELPER_HANDLER(QuestController, edit)
+    });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("destroy"),
+            web::http::methods::POST,
+            CPPRESTHELPER_HANDLER(QuestController, destroy)
+    });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("create"),
+            web::http::methods::POST,
+            CPPRESTHELPER_HANDLER(QuestController, create)
+    });
 }
