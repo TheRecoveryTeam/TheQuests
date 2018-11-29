@@ -3,6 +3,7 @@
 //
 
 #include "QuestController.h"
+#include "../../../src/quest/model_manager/QuestModelManager.h"
 
 void QuestController::initRestOpHandlers() {
     _listener.support([this](const web::http::http_request &message) {
