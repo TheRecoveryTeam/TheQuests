@@ -10,38 +10,45 @@
 #include <bsoncxx/exception/exception.hpp>
 #include <bsoncxx/json.hpp>
 
-HistoryModelManager::HistoryModelManager::HistoryModelManager() {
-  auto client = MongoAccess::MongoAccess::instance().get_connection();
-  collection_ = (*client)["testdb"]["History"];
+
+HistoryModelManager::HistoryModelManager::HistoryModelManager() : AbstractModelManager::AbstractModelManager("History"){
   quest_manager_ = new QuestModelManager::QuestModelManager();
 }
 
+std::string HistoryModelManager::HistoryModelManager::get(const std::string &request,
+                                                          const std::vector<std::string> *projection) {
+  auto result = nlohmann::json::parse(AbstractModelManager::get(request, projection));
+  if (result.find("error") == result.end()) {
+    std::vector<std::string> id_data = {"userId", "questId", "cardId"};
+    return DataManager::UnpackOid(result, id_data);
+  }
+  return result.dump();
+}
 // TODO: Добавить проверку существования юзера
-std::string HistoryModelManager::HistoryModelManager::get(const std::string &request) {
+std::string HistoryModelManager::HistoryModelManager::get_user_history(const std::string &request) {
+  std::vector<std::string> required_data = {"userId", "questId"};
   auto data = nlohmann::json::parse(request);
-  if (data.find("userId") == data.end() || data.find("questId") == data.end()) {
+  if (!DataManager::CheckRequiredParameters(data, required_data)) {
     return nlohmann::json({{"error", "NotEnoughData"}}).dump();
   }
-  std::string quest_id = data["questId"];
-  std::string user_id = data["userId"];
-  try {
-    auto quest_oid = bsoncxx::oid(quest_id);
-    auto user_oid = bsoncxx::oid(user_id);
-  } catch (bsoncxx::exception &exception) {
-    return nlohmann::json({{"error", "Incorrect id"}}).dump();
+  if (!DataManager::CheckIdCorrectness(data, required_data)) {
+    return nlohmann::json({{"error", "IncorrectId"}}).dump();
   }
-  auto quest = nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", quest_id}}).dump()));
+
+  auto quest = nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", data["questId"]}}).dump()));
 //  auto user = nlohmann::json::parse(user_manager_.get(nlohmann::json({{"id", user_id}})));
   if (quest.find("error") != quest.end()) {
     return nlohmann::json({{"error", "QuestDoesNotExist"}}).dump();
   }
-  auto query = bsoncxx::builder::stream::document{}
-      << "questId" << quest_id
-      << "userId" << user_id
-      << bsoncxx::builder::stream::finalize;
-  bsoncxx::stdx::optional<bsoncxx::document::value> result = collection_.find_one(query.view());
+  nlohmann::json query = {
+      {"questId", {{"$oid", data["questId"]}}},
+      {"userId", {{"$oid", data["userId"]}}}
+  };
+  bsoncxx::stdx::optional<bsoncxx::document::value> result = collection_.find_one(bsoncxx::from_json(query.dump()));
   if (result) {
+    std::vector<std::string> id_data = {"questId", "userId", "cardId"};
     auto json_result = nlohmann::json::parse(bsoncxx::to_json(*result));
+    DataManager::UnpackOid(json_result, id_data);
     json_result["id"] = json_result["_id"]["$oid"];
     json_result.erase("_id");
     return json_result.dump();
@@ -49,78 +56,76 @@ std::string HistoryModelManager::HistoryModelManager::get(const std::string &req
   return nlohmann::json({{"warning", "DoesNotExist"}}).dump();
 }
 
-// TODO: Добавить проверку на существование юзера
 std::string HistoryModelManager::HistoryModelManager::create(const std::string &request) {
+  std::vector<std::string> required_data = {"userId", "questId"};
   auto data = nlohmann::json::parse(request);
-  if (data.find("questId") == data.end() || data.find("userId") == data.end()) {
+  if (!DataManager::CheckRequiredParameters(data, required_data)) {
     return nlohmann::json({{"error", "NotEnoughData"}}).dump();
   }
-  std::string quest_id = data["questId"];
-  std::string user_id = data["userId"];
-  try {
-    auto quest_oid = bsoncxx::oid(quest_id);
-    auto user_oid = bsoncxx::oid(user_id);
-  } catch (bsoncxx::exception &exception) {
-    return nlohmann::json({{"error", "Incorrect id"}}).dump();
+  if (!DataManager::CheckIdCorrectness(data, required_data)) {
+    return nlohmann::json({{"error", "IncorrectId"}}).dump();
   }
-  auto quest = nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", quest_id}}).dump()));
+  auto quest = nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", data["questId"]}}).dump()));
+//  auto user = nlohmann::json::parse(user_manager_.get(nlohmann::json({{"id", user_id}})));
   if (quest.find("error") != quest.end()) {
     return nlohmann::json({{"error", "QuestDoesNotExist"}}).dump();
   }
-  auto history_received = nlohmann::json::parse(get(nlohmann::json({
-                                                                       {"questId", quest_id},
-                                                                       {"userId", user_id}
-                                                                   }).dump()));
+  auto history_received = nlohmann::json::parse(get_user_history(nlohmann::json({
+    {"questId", data["questId"]},
+    {"userId", data["userId"]}
+  }).dump()));
   if (history_received.find("warning") == history_received.end()) {
     return nlohmann::json({{"error", "HistoryAlreadyExist"}}).dump();
   }
-  nlohmann::json query;
-  query["questId"] = quest_id;
-  query["userId"] = user_id;
-  query["stage"] = "process";
-  query["cardId"] = quest["firstCardId"];
-//  for (auto resource : quest["resources"]) {
-////    query["resources"].push_back({{resource, 50}});
-////  }
+  nlohmann::json query = {
+      {"questId", {{"$oid", data["questId"]}}},
+      {"userId", {{"$oid", data["userId"]}}},
+      {"stage", "process"},
+      {"cardId", {{"$oid", quest["firstCardId"]}}}
+  };
   for (auto &resource : quest["resources"].get<std::vector<std::string>>()) {
     query["resources"][resource] = 50;
   }
   bsoncxx::stdx::optional<mongocxx::result::insert_one>
-      result = collection_.insert_one((bsoncxx::from_json(query.dump()).view()));
+      result = collection_.insert_one((bsoncxx::from_json(query.dump())));
   if (result) {
-    nlohmann::json json_result = nlohmann::json::parse(get(nlohmann::json({
-                                                                              {"questId", quest_id},
-                                                                              {"userId", user_id}
-                                                                          }).dump()));
+    auto json_result = nlohmann::json::parse(get_user_history(nlohmann::json({
+      {"questId", data["questId"]},
+      {"userId", data["userId"]}
+    }).dump()));
     return json_result.dump();
   }
   return nlohmann::json({{"error", "CreationError"}}).dump();
 }
 
+//// TODO: Добавить проверку на существование юзера
 std::string HistoryModelManager::HistoryModelManager::update(const std::string &request) {
+  std::vector<std::string> required_data = {"id", "cardId"};
+  std::vector<std::string> id_data = {"id", "cardId"};
   auto data = nlohmann::json::parse(request);
-  if (data.find("id") == data.end() || data.find("cardId") == data.end()) {
+  if (!DataManager::CheckRequiredParameters(data, required_data)) {
     return nlohmann::json({{"error", "NotEnoughData"}}).dump();
   }
-  nlohmann::json query;
-  query["$set"]["cardId"] = data["cardId"];
+  if (!DataManager::CheckIdCorrectness(data, id_data)) {
+    return nlohmann::json({{"error", "IncorrectId"}}).dump();
+  }
+  nlohmann::json update;
+  update["$set"]["cardId"]["$oid"] = data["cardId"];
   if (data.find("stage") != data.end()) {
-    query["$set"]["stage"] = data["stage"];
+    update["$set"]["stage"] = data["stage"];
   }
   for (auto &resource : data["resources"].get<std::map<std::string, int>>()) {
-    query["$set"]["resources"][resource.first] = resource.second;
+    update["$set"]["resources"][resource.first] = resource.second;
   }
-//  for (auto& resource : data["resources"].get<std::map<std::string, int>>()) {
-//    query["$set"]["resources"][resource.first] = resource.second;
-//  }
-  bsoncxx::stdx::optional<mongocxx::result::update> result = collection_.update_one(bsoncxx::builder::stream::document{}
-                                                                                        << "_id"
-                                                                                        << bsoncxx::oid(data["id"])
-                                                                                        << bsoncxx::builder::stream::finalize,
-                                                                                    bsoncxx::from_json(query.dump()).view());
-  if (!result) {
+  nlohmann::json query = {
+    {"_id", {{"$oid", data["id"]}}}
+  };
+  bsoncxx::stdx::optional<mongocxx::result::update> update_result = collection_.update_one(
+    bsoncxx::from_json(query.dump()),
+    bsoncxx::from_json(update.dump())
+  );
+  if (!update_result) {
     return nlohmann::json({{"error", "UpdateError"}}).dump();
   }
-//  return nlohmann::json({{"id", (*result).upserted_id().value().get_oid().value.to_string()}}).dump();
-  return nlohmann::json().dump();
+  return get(nlohmann::json({{"id", data["id"]}}).dump());
 }
