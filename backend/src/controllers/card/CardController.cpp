@@ -4,7 +4,7 @@
 
 #include "CardController.h"
 #include "../NetworkUtils.h"
-#include "../../card/model_manager/CardModelManager.h"
+#include "../../../src/card/model_manager/CardModelManager.h"
 
 web::json::value from_string(std::string const &input) {
     utility::stringstream_t s;
@@ -46,24 +46,134 @@ web::json::value CardController::responseNotImpl(const web::http::method &method
     return response;
 }
 
-void CardController::add(const web::http::http_request request) {
-    std::wcout << "CARD CONTROLLER ADD" << std::endl;
+void CardController::add(const web::http::http_request message) {
+    auto path = requestPath(message);
+    auto response = web::json::value::object();
+    if (!path.empty()) {
+        auto body = message.extract_json().get();
+        try {
+            web::json::value id = body.at(U("id"));
+            web::json::value questId = body.at(U("questId"));
+            web::json::value title = body.at(U("title"));
+            web::json::value description = body.at(U("description"));
+            web::json::value type = body, at(U("type"));
+
+            //TODO: Add to DB
+            message.reply(web::http::status_codes::OK, response);
+        }
+        catch (web::json::json_exception &e) {
+            response["code"] = 400;
+            response["message"] = web::json::value::string("card add is wrong");
+            message.reply(web::http::status_codes::BadRequest, response);
+        }
+
+    } else {
+        response["code"] = 400;
+        response["message"] = web::json::value::string("card add is wrong");
+        message.reply(web::http::status_codes::BadRequest, response);
+    }
 }
 
 void CardController::links_upsert(web::http::http_request message) {
+    auto path = requestPath(message);
+    auto response = web::json::value::object();
+    if (!path.empty()) {
+        auto body = message.extract_json().get();
+        try {
+            web::json::value id = body.at(U("id"));
+            web::json::value questId = body.at(U("links"));
 
+            //TODO: Edit from DB
+            message.reply(web::http::status_codes::OK, response);
+        }
+        catch (web::json::json_exception &e) {
+            response["code"] = 400;
+            response["message"] = web::json::value::string("card links upsert is wrong");
+            message.reply(web::http::status_codes::BadRequest, response);
+        }
+
+    } else {
+        response["code"] = 400;
+        response["message"] = web::json::value::string("card links upsert is wrong");
+        message.reply(web::http::status_codes::BadRequest, response);
+    }
 }
 
 void CardController::edit(web::http::http_request message) {
+    auto path = requestPath(message);
+    auto response = web::json::value::object();
+    if (!path.empty()) {
+        auto body = message.extract_json().get();
+        try {
+            web::json::value id = body.at(U("id"));
+            web::json::value questId = body.at(U("questId"));
+            web::json::value title = body.at(U("title"));
+            web::json::value description = body.at(U("description"));
+            web::json::value type = body, at(U("type"));
 
+            //TODO: Edit from DB
+            message.reply(web::http::status_codes::OK, response);
+        }
+        catch (web::json::json_exception &e) {
+            response["code"] = 400;
+            response["message"] = web::json::value::string("card edit is wrong");
+            message.reply(web::http::status_codes::BadRequest, response);
+        }
+
+    } else {
+        response["code"] = 400;
+        response["message"] = web::json::value::string("card edit is wrong");
+        message.reply(web::http::status_codes::BadRequest, response);
+    }
 }
 
 void CardController::remove(web::http::http_request message) {
+    auto path = requestPath(message);
+    auto response = web::json::value::object();
+    if (!path.empty()) {
+        auto body = message.extract_json().get();
+        try {
+            web::json::value id = body.at(U("id"));
+            //TODO: Remove from DB
+            message.reply(web::http::status_codes::OK, response);
+        }
+        catch (web::json::json_exception &e) {
+            response["code"] = 400;
+            response["message"] = web::json::value::string("card remove is wrong");
+            message.reply(web::http::status_codes::BadRequest, response);
+        }
 
+    } else {
+        response["code"] = 400;
+        response["message"] = web::json::value::string("card remove is wrong");
+        message.reply(web::http::status_codes::BadRequest, response);
+    }
 }
 
 void CardController::do_answer(web::http::http_request message) {
+    auto path = requestPath(message);
+    auto response = web::json::value::object();
+    if (!path.empty()) {
+        auto body = message.extract_json().get();
+        try {
+            web::json::value id = body.at(U("id"));
+            web::json::value answer = body.at(U("answer"));
+            //TODO: load from DB
+            response["nextCardId"] = web::json::value::string("1");
+            response["resources"] = web::json::value::array();
+            message.reply(web::http::status_codes::OK, response);
+        }
+        catch (web::json::json_exception &e) {
+            response["code"] = 400;
+            response["message"] = web::json::value::string("card do answer is wrong");
+            message.reply(web::http::status_codes::BadRequest, response);
+        }
 
+    } else {
+        response["code"] = 400;
+        response["message"] = web::json::value::string("card do answer is wrong");
+        message.reply(web::http::status_codes::BadRequest, response);
+    }
 }
 
 void CardController::get(web::http::http_request message) {
@@ -73,7 +183,7 @@ void CardController::get(web::http::http_request message) {
     }
 
     auto uri = message.relative_uri().to_string();
-    std::regex ex("get?cardId=(\\d)");
+    std::regex ex("get?id=(\\d)");
     std::cmatch what;
     auto response = web::json::value::object();
 
@@ -82,7 +192,7 @@ void CardController::get(web::http::http_request message) {
         int id = std::stoi(id_str);
 
         auto request = web::json::value::object();
-        request["cardId"] = id;
+        request["id"] = id;
 
         auto model = CardModelManager::CardModelManager();
         auto item = from_string(model.get(request.as_string()));
@@ -105,7 +215,38 @@ void CardController::get(web::http::http_request message) {
 }
 
 void CardController::list(web::http::http_request message) {
+    auto path = requestPath(message);
+    for (auto &p : path) {
+        std::wcout << p.c_str() << std::endl;
+    }
 
+    auto uri = message.relative_uri().to_string();
+    std::regex ex("list?questId=(\\d)");
+    std::cmatch what;
+    auto response = web::json::value::object();
+
+    if (regex_match(uri.c_str(), what, ex)) {
+        std::string id_str = std::string(what[1].first, what[1].second);
+        int id = std::stoi(id_str);
+
+        auto request = web::json::value::object();
+        request["questId"] = id;
+
+        auto model = CardModelManager::CardModelManager();
+        auto item = from_string(model.get(request.as_string()));
+
+        int questId = std::stoi(item["questId"].as_string());
+        response["id"] = questId;
+        response["title"] = item["title"];
+        response["imagePath"] = item["imagePath"];
+        response["description"] = item["description"];
+
+        message.reply(web::http::status_codes::OK, response);
+    } else {
+        response["code"] = 400;
+        response["message"] = web::json::value::string("card list is wrong");
+        message.reply(web::http::status_codes::BadRequest, response);
+    }
 }
 
 

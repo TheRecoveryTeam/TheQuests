@@ -92,6 +92,23 @@ if (${PROJECT_NAME}_SUPERBUILD)
             )
     set(libmongocxx_DIR "${THIRD_PARTY_DIR}/libmongocxx-install/lib/cmake/libmongocxx-3.3.1/")
     set(libbsoncxx_DIR "${THIRD_PARTY_DIR}/libmongocxx-install//lib/cmake/libbsoncxx-3.3.1/")
+    ExternalProject_Add(nlohmann_json
+            GIT_REPOSITORY "https://github.com/nlohmann/json.git"
+            GIT_TAG "v3.4.0"
+            GIT_PROGRESS 1
+            GIT_SHALLOW 1
+            SOURCE_DIR "${THIRD_PARTY_DIR}/nlohmann_json"
+            BINARY_DIR "${THIRD_PARTY_DIR}/nlohmann_json-build"
+            INSTALL_DIR "${THIRD_PARTY_DIR}/nlohmann_json-install"
+            CMAKE_CACHE_ARGS
+            ${common_cmake_cache_args}
+            -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/nlohmann_json-install
+            -DBUILD_SHARED_LIBS:BOOL=ON
+            -DENABLE_TESTS:BOOL=OFF
+            -DENABLE_EXAMPLES:BOOL=OFF
+            )
+    set(nlohmann_json_DIR "${THIRD_PARTY_DIR}/nlohmann_json-install/lib/cmake/nlohmann_json")
+
     function(ExternalProject_AlwaysConfigure proj)
         _ep_get_step_stampfile(${proj} "configure" stampfile)
         ExternalProject_Add_Step(${proj} forceconfigure
@@ -120,6 +137,7 @@ if (${PROJECT_NAME}_SUPERBUILD)
 endif ()
 
 find_package(libmongocxx REQUIRED)
+find_package(nlohmann_json 3.4.0 REQUIRED)
 message("Found libmongocxx ${LIBMONGOCXX_LIBRARIES}")
 message("Found libbsoncxx ${LIBBSONCXX_LIBRARIES}")
 set(LIB_NO_ABI "${THIRD_PARTY_DIR}/libmongocxx-install/lib/libbsoncxx.so._noabi")
@@ -174,7 +192,7 @@ add_custom_target(run
         WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
         )
 
-target_link_libraries(test LINK_PUBLIC cpprest ${Boost_LIBRARIES} OpenSSL::Crypto ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES})
+target_link_libraries(test LINK_PUBLIC nlohmann_json::nlohmann_json cpprest ${Boost_LIBRARIES} OpenSSL::Crypto ${LIBMONGOCXX_LIBRARIES} ${LIBBSONCXX_LIBRARIES})
 target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(test PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 
