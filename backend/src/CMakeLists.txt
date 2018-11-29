@@ -27,6 +27,7 @@ target_include_directories(questmodel PUBLIC
 target_link_libraries(questmodel
         ${LIBMONGOCXX_LIBRARIES}
         nlohmann_json::nlohmann_json
+        model_manager_utils
         )
 
 file(GLOB history_model_srcs ${PROJECT_SOURCE_DIR}/history/model_manager/*.cpp)
@@ -51,4 +52,31 @@ target_include_directories(databaseconnection PUBLIC
         )
 target_link_libraries(databaseconnection
         ${LIBMONGOCXX_LIBRARIES}
+        )
+
+file(GLOB model_manager_srcs ${PROJECT_SOURCE_DIR}/core/model_manager/*.cpp)
+message(STATUS "${model_manager_srcs}")
+add_library(abstractmodel STATIC ${model_manager_srcs})
+message(STATUS "${model_manager_srcs}")
+target_include_directories(abstractmodel PUBLIC
+        ${LIBMONGOCXX_INCLUDE_DIRS}
+        ${PROJECT_SOURCE_DIR}/model_manager
+        )
+target_link_libraries(abstractmodel
+        ${LIBMONGOCXX_LIBRARIES}
+        nlohmann_json::nlohmann_json
+        model_manager_utils
+        )
+
+file(GLOB model_manager_utils_srcs ${PROJECT_SOURCE_DIR}/utils/model_manager/*.cpp)
+message(STATUS "${model_manager_utils_srcs}")
+add_library(model_manager_utils STATIC ${model_manager_utils_srcs})
+message(STATUS "${model_manager_utils_srcs}")
+target_include_directories(model_manager_utils PUBLIC
+        ${LIBMONGOCXX_INCLUDE_DIRS}
+        ${PROJECT_SOURCE_DIR}/model_manager
+        )
+target_link_libraries(model_manager_utils
+        ${LIBMONGOCXX_LIBRARIES}
+        nlohmann_json::nlohmann_json
         )
