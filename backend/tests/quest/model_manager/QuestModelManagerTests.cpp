@@ -8,7 +8,6 @@
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/stdx/make_unique.hpp>
-
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
 #include <vector>
@@ -64,11 +63,9 @@ TEST_F(QuestModelManagerTests, addCorrectQuest) {
   nlohmann::json inserted_quest = nlohmann::json::parse(quest_manager->create(data.dump()));
   ASSERT_TRUE(inserted_quest.find("error") == inserted_quest.end()) << "Get error on correct data";
   nlohmann::json query = {
-      {"id", inserted_quest["_id"]["$oid"]}
+      {"id", inserted_quest["id"]}
   };
-  data["_id"] = inserted_quest["_id"];
-  data["firstCardId"] = "";
-  data["lossCardId"] = "";
+  data["id"] = inserted_quest["id"];
   data["playerCount"] = 0;
   nlohmann::json received_quest = nlohmann::json::parse(quest_manager->get(query.dump()));
   ASSERT_TRUE(data == received_quest) << "The quest_manager has't been correctly added to the database";
@@ -89,7 +86,7 @@ TEST_F(QuestModelManagerTests, getQuestWithExistingId) {
       {"id", (*id_list)[0]}
   };
   nlohmann::json received_quest = nlohmann::json::parse(quest_manager->get(query.dump()));
-  ASSERT_EQ((*id_list)[0], received_quest["_id"]["$oid"]) << "Wrong quest_manager received";
+  ASSERT_EQ((*id_list)[0], received_quest["id"]) << "Wrong quest_manager received";
 }
 
 TEST_F(QuestModelManagerTests, getQuestWithIncorrectId) {

@@ -9,7 +9,6 @@
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/stdx/make_unique.hpp>
-
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
 #include <vector>
@@ -34,7 +33,7 @@ class HistoryModelManagerTests : public ::testing::Test {
                                         {"title", "quest1"},
                                         {"description", "about quest1"},
                                         {"image", "image1"},
-                                        {"resources", {"strength", "health", "wisdom"}}
+                                        {"resources", {"strength", "health", "wisdom"}},
                                     }));
     quests.push_back(nlohmann::json({
                                         {"title", "quest2"},
@@ -47,11 +46,25 @@ class HistoryModelManagerTests : public ::testing::Test {
           result = quest_collection.insert_one((bsoncxx::from_json(quest.dump()).view()));
       quest_id_list->push_back((*result).inserted_id().get_oid().value.to_string());
     }
+    nlohmann::json query;
+    query["$set"]["firstCardId"]["$oid"] = bsoncxx::oid().to_string();
+    query["$set"]["lossCardId"]["$oid"] = bsoncxx::oid().to_string();
+    quest_collection.update_one(bsoncxx::builder::stream::document{}
+                                    << "_id"
+                                    << bsoncxx::oid((*quest_id_list)[0])
+                                    << bsoncxx::builder::stream::finalize,
+                                bsoncxx::from_json(query.dump()).view());
+    quest_collection.update_one(bsoncxx::builder::stream::document{}
+                                    << "_id"
+                                    << bsoncxx::oid((*quest_id_list)[1])
+                                    << bsoncxx::builder::stream::finalize,
+                                bsoncxx::from_json(query.dump()).view());
+
     std::vector<nlohmann::json> histories;
     histories.push_back(nlohmann::json({
-                                           {"questId", (*quest_id_list)[0]},
-                                           {"userId", (*user_id_list)[0]},
-                                           {"cardId", bsoncxx::oid().to_string()},
+                                           {"questId", {{"$oid", (*quest_id_list)[0]}}},
+                                           {"userId", {{"$oid", (*user_id_list)[0]}}},
+                                           {"cardId", {{"$oid", bsoncxx::oid().to_string()}}},
                                            {"stage", "process"},
                                            {"resources", {
                                                {"health", 50},
@@ -59,9 +72,9 @@ class HistoryModelManagerTests : public ::testing::Test {
                                            }}
                                        }));
     histories.push_back(nlohmann::json({
-                                           {"questId", (*quest_id_list)[1]},
-                                           {"userId", (*user_id_list)[0]},
-                                           {"cardId", bsoncxx::oid().to_string()},
+                                           {"questId", {{"$oid", (*quest_id_list)[1]}}},
+                                           {"userId", {{"$oid", (*user_id_list)[0]}}},
+                                           {"cardId", {{"$oid", bsoncxx::oid().to_string()}}},
                                            {"stage", "process"},
                                            {"resources", {
                                                {"health", 50},
@@ -95,7 +108,7 @@ TEST_F(HistoryModelManagerTests, getHistoryWithExistingId) {
       {"questId", (*quest_id_list)[0]},
       {"userId", (*user_id_list)[0]}
   };
-  nlohmann::json received_history = nlohmann::json::parse(history_manager->get(query.dump()));
+  nlohmann::json received_history = nlohmann::json::parse(history_manager->get_user_history(query.dump()));
   ASSERT_EQ((*history_id_list)[0], received_history["id"]) << "Wrong history received";
 }
 
@@ -104,7 +117,7 @@ TEST_F(HistoryModelManagerTests, getHistoryWithIncorrectQuestId) {
       {"questId", ""},
       {"userId", (*user_id_list)[0]}
   };
-  nlohmann::json received_history = nlohmann::json::parse(history_manager->get(query.dump()));
+  nlohmann::json received_history = nlohmann::json::parse(history_manager->get_user_history(query.dump()));
   ASSERT_TRUE(received_history.find("error") != received_history.end())
                 << "Doesn't return error on incorrect quest_manager id";
 }
@@ -114,13 +127,13 @@ TEST_F(HistoryModelManagerTests, getHistoryWithIncorrectUserId) {
       {"questId", (*quest_id_list)[0]},
       {"userId", ""}
   };
-  nlohmann::json received_history = nlohmann::json::parse(history_manager->get(query.dump()));
+  nlohmann::json received_history = nlohmann::json::parse(history_manager->get_user_history(query.dump()));
   ASSERT_TRUE(received_history.find("error") != received_history.end()) << "Doesn't return error on incorrect user id";
 }
 
 TEST_F(HistoryModelManagerTests, getHistoryWithoutId) {
   nlohmann::json query = {};
-  nlohmann::json received_quest = nlohmann::json::parse(history_manager->get(query.dump()));
+  nlohmann::json received_quest = nlohmann::json::parse(history_manager->get_user_history(query.dump()));
   ASSERT_TRUE(received_quest.find("error") != received_quest.end()) << "Doesn't return error on incorrect data";
 }
 
@@ -129,7 +142,7 @@ TEST_F(HistoryModelManagerTests, getHistoryWithNotExictingQuestId) {
       {"questId", bsoncxx::oid().to_string()},
       {"userId", (*user_id_list)[0]}
   };
-  nlohmann::json received_history = nlohmann::json::parse(history_manager->get(query.dump()));
+  nlohmann::json received_history = nlohmann::json::parse(history_manager->get_user_history(query.dump()));
   ASSERT_TRUE(received_history.find("error") != received_history.end())
                 << "Doesn't return error on not existing quest_manager id";
 }
@@ -164,13 +177,8 @@ TEST_F(HistoryModelManagerTests, updateHistory) {
       }
       }
   };
-  nlohmann::json history_id = nlohmann::json::parse(history_manager->update(history_update_query.dump()));
-  nlohmann::json history_get_query = {
-      {"questId", (*quest_id_list)[0]},
-      {"userId", (*user_id_list)[0]}
-  };
-  nlohmann::json history = nlohmann::json::parse(history_manager->get(history_get_query.dump()));
+  nlohmann::json new_history = nlohmann::json::parse(history_manager->update(history_update_query.dump()));
   ASSERT_TRUE(
-      history_update_query["cardId"] == history["cardId"] && history_update_query["resources"] == history["resources"])
+      history_update_query["cardId"] == new_history["cardId"] && history_update_query["resources"] == new_history["resources"])
                 << "Incorrect history update";
 }

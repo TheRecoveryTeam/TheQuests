@@ -9,7 +9,6 @@
 #include <bsoncxx/builder/stream/document.hpp>
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/stdx/make_unique.hpp>
-
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
 #include <vector>
@@ -47,7 +46,7 @@ class CardModelManagerTests : public ::testing::Test {
     std::vector<nlohmann::json> cards;
     std::vector<nlohmann::json> card_links;
     cards.push_back(nlohmann::json({
-                                       {"questId", (*quest_id_list)[0]},
+                                       {"questId", {{"$oid", (*quest_id_list)[0]}}},
                                        {"title", "EndCard"},
                                        {"description", "End quest card"},
                                        {"type", "finish"}
@@ -56,7 +55,7 @@ class CardModelManagerTests : public ::testing::Test {
         result = collection.insert_one((bsoncxx::from_json(cards[0].dump()).view()));
     card_id_list->push_back((*result).inserted_id().get_oid().value.to_string());
     card_links.push_back(nlohmann::json({
-                                            {"toId", (*card_id_list)[0]},
+                                            {"toId", {{"$oid", (*card_id_list)[0]}}},
                                             {"weight", {
                                                 {"strength", -10},
                                                 {"health", -15}
@@ -65,7 +64,6 @@ class CardModelManagerTests : public ::testing::Test {
     result = card_link_collection.insert_one((bsoncxx::from_json(card_links[0].dump()).view()));
     card_link_id_list->push_back((*result).inserted_id().get_oid().value.to_string());
     card_links.push_back(nlohmann::json({
-                                            {"toId", ""},
                                             {"weight", {
                                                 {"strength", -100},
                                                 {"health", 200}
@@ -74,12 +72,12 @@ class CardModelManagerTests : public ::testing::Test {
     result = card_link_collection.insert_one((bsoncxx::from_json(card_links[1].dump()).view()));
     card_link_id_list->push_back((*result).inserted_id().get_oid().value.to_string());
     cards.push_back(nlohmann::json({
-                                       {"questId", (*quest_id_list)[0]},
+                                       {"questId", {{"$oid", (*quest_id_list)[0]}}},
                                        {"title", "RightCard"},
                                        {"description", "Right quest card"},
                                        {
                                            "links", {
-                                           {"lose", (*card_link_id_list)[1]}
+                                           {"lose", {{"$oid", (*card_link_id_list)[1]}}}
                                        }
                                        },
                                        {"type", "choose"}
@@ -87,7 +85,7 @@ class CardModelManagerTests : public ::testing::Test {
     result = collection.insert_one((bsoncxx::from_json(cards[1].dump()).view()));
     card_id_list->push_back((*result).inserted_id().get_oid().value.to_string());
     card_links.push_back(nlohmann::json({
-                                            {"toId", (*card_id_list)[1]},
+                                            {"toId", {{"$oid", (*card_id_list)[1]}}},
                                             {"weight", {
                                                 {"strength", 10},
                                                 {"health", 15}
@@ -96,13 +94,13 @@ class CardModelManagerTests : public ::testing::Test {
     result = card_link_collection.insert_one((bsoncxx::from_json(card_links[2].dump()).view()));
     card_link_id_list->push_back((*result).inserted_id().get_oid().value.to_string());
     cards.push_back(nlohmann::json({
-                                       {"questId", (*quest_id_list)[0]},
+                                       {"questId", {{"$oid", (*quest_id_list)[0]}}},
                                        {"title", "FirstCard"},
                                        {"description", "First quest card"},
                                        {
                                            "links", {
-                                           {"left card", (*card_link_id_list)[0]},
-                                           {"right card", (*card_link_id_list)[2]}
+                                           {"left card", {{"$oid", (*card_link_id_list)[0]}}},
+                                           {"right card", {{"$oid", (*card_link_id_list)[2]}}}
                                        }
                                        },
                                        {"type", "choose"}
@@ -110,7 +108,7 @@ class CardModelManagerTests : public ::testing::Test {
     result = collection.insert_one((bsoncxx::from_json(cards[2].dump()).view()));
     card_id_list->push_back((*result).inserted_id().get_oid().value.to_string());
     cards.push_back(nlohmann::json({
-                                       {"questId", (*quest_id_list)[0]},
+                                       {"questId", {{"$oid", (*quest_id_list)[0]}}},
                                        {"title", "GAMEOVER"},
                                        {"description", "YOU LOSE"},
                                        {"type", "choose"}
@@ -118,8 +116,8 @@ class CardModelManagerTests : public ::testing::Test {
     result = collection.insert_one((bsoncxx::from_json(cards[3].dump()).view()));
     card_id_list->push_back((*result).inserted_id().get_oid().value.to_string());
     nlohmann::json query;
-    query["$set"]["firstCardId"] = (*card_id_list)[2];
-    query["$set"]["lossCardId"] = (*card_id_list)[3];
+    query["$set"]["firstCardId"]["$oid"] = (*card_id_list)[2];
+    query["$set"]["lossCardId"]["$oid"] = (*card_id_list)[3];
     quest_collection.update_one(bsoncxx::builder::stream::document{}
                                     << "_id"
                                     << bsoncxx::oid((*quest_id_list)[0])
@@ -128,6 +126,11 @@ class CardModelManagerTests : public ::testing::Test {
   }
   void TearDown() {
     delete card_id_list;
+    delete quest_id_list;
+    delete card_link_id_list;
+    delete card_manager;
+    delete quest_manager;
+
   }
 
   std::vector<std::string> *card_id_list;
@@ -144,8 +147,8 @@ TEST_F(CardModelManagerTests, addCorrectCard) {
       {"description", "First project card_manager"},
       {
           "links", {
-          {"left way", "1"},
-          {"right way", "2"}
+          {"left card", (*card_link_id_list)[0]},
+          {"right card", (*card_link_id_list)[2]}
       }
       },
       {"type", "choose"}
@@ -153,10 +156,10 @@ TEST_F(CardModelManagerTests, addCorrectCard) {
   nlohmann::json inserted_card = nlohmann::json::parse(card_manager->create(data.dump()));
   ASSERT_TRUE(inserted_card.find("error") == inserted_card.end()) << "Get error on correct data";
   nlohmann::json query = {
-      {"cardId", inserted_card["_id"]}
+      {"id", inserted_card["id"]}
   };
   nlohmann::json received_card = nlohmann::json::parse(card_manager->get(query.dump()));
-  ASSERT_EQ(inserted_card["_id"], received_card["_id"]["$oid"]) << "The card_manager has't been added to the database";
+  ASSERT_EQ(inserted_card["id"], received_card["id"]) << "The card_manager has't been added to the database";
 }
 
 TEST_F(CardModelManagerTests, addIncorrectCard) {
@@ -165,8 +168,8 @@ TEST_F(CardModelManagerTests, addIncorrectCard) {
       {"description", "First project card_manager"},
       {
           "links", {
-          {"left way", "1"},
-          {"right way", "2"}
+          {"left card", (*card_link_id_list)[0]},
+          {"right card", (*card_link_id_list)[2]}
       }
       },
       {"type", "choose"}
@@ -181,8 +184,8 @@ TEST_F(CardModelManagerTests, addCardWithNotExistingQuestId) {
       {"description", "First project card_manager"},
       {
           "links", {
-          {"left way", "1"},
-          {"right way", "2"}
+          {"left card", (*card_link_id_list)[0]},
+          {"right card", (*card_link_id_list)[2]}
       }
       },
       {"type", "choose"}
@@ -193,15 +196,15 @@ TEST_F(CardModelManagerTests, addCardWithNotExistingQuestId) {
 
 TEST_F(CardModelManagerTests, getCardWithExistingId) {
   nlohmann::json query = {
-      {"cardId", (*card_id_list)[0]}
+      {"id", (*card_id_list)[0]}
   };
   nlohmann::json received_card = nlohmann::json::parse(card_manager->get(query.dump()));
-  ASSERT_EQ((*card_id_list)[0], received_card["_id"]["$oid"]) << "Wrong card received";
+  ASSERT_EQ((*card_id_list)[0], received_card["id"]) << "Wrong card received";
 }
 
 TEST_F(CardModelManagerTests, getCardWithIncorrectId) {
   nlohmann::json query = {
-      {"cardId", ""}
+      {"id", ""}
   };
   nlohmann::json received_card = nlohmann::json::parse(card_manager->get(query.dump()));
   ASSERT_TRUE(received_card.find("error") != received_card.end()) << "Doesn't return error on incorrect caed id";
@@ -217,8 +220,8 @@ TEST_F(CardModelManagerTests, getCardWithoutId) {
 
 TEST_F(CardModelManagerTests, getNextEndCard) {
   nlohmann::json query = {
+      {"id", (*card_id_list)[2]},
       {"userId", bsoncxx::oid().to_string()},
-      {"cardId", (*card_id_list)[2]},
       {"answer", "left card"}
   };
   nlohmann::json result = nlohmann::json::parse(card_manager->get_next_card(query.dump()));
@@ -235,8 +238,8 @@ TEST_F(CardModelManagerTests, getNextEndCard) {
 
 TEST_F(CardModelManagerTests, getNextCard) {
   nlohmann::json query = {
+      {"id", (*card_id_list)[2]},
       {"userId", bsoncxx::oid().to_string()},
-      {"cardId", (*card_id_list)[2]},
       {"answer", "right card"}
   };
   nlohmann::json result = nlohmann::json::parse(card_manager->get_next_card(query.dump()));
@@ -253,8 +256,8 @@ TEST_F(CardModelManagerTests, getNextCard) {
 
 TEST_F(CardModelManagerTests, getNextLoseCard) {
   nlohmann::json query = {
+      {"id", (*card_id_list)[1]},
       {"userId", bsoncxx::oid().to_string()},
-      {"cardId", (*card_id_list)[1]},
       {"answer", "lose"}
   };
   nlohmann::json result = nlohmann::json::parse(card_manager->get_next_card(query.dump()));
