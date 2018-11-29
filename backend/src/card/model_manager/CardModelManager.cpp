@@ -10,153 +10,148 @@
 #include <bsoncxx/exception/exception.hpp>
 #include <bsoncxx/json.hpp>
 
-CardModelManager::CardModelManager::CardModelManager() {
-  auto client = MongoAccess::MongoAccess::instance().get_connection();
-  collection_ = (*client)["testdb"]["Card"];
+CardModelManager::CardModelManager::CardModelManager() : AbstractModelManager::AbstractModelManager("Card"){
   quest_manager_ = new QuestModelManager::QuestModelManager();
   cardlink_manager_ = new CardLinkModelManager::CardLinkModelManager();
   history_manager_ = new HistoryModelManager::HistoryModelManager();
 }
 
-std::string CardModelManager::CardModelManager::get(const std::string &request) {
-  auto data = nlohmann::json::parse(request);
-  if (data.find("cardId") != data.end()) {
-    std::string id = data["cardId"];
-    try {
-      auto oid = bsoncxx::oid(id);
-    } catch (bsoncxx::exception &exception) {
-      return nlohmann::json({{"error", "Incorrect id"}}).dump();
+std::string CardModelManager::CardModelManager::get(const std::string &request, const std::vector<std::string> *projection) {
+  auto result = nlohmann::json::parse(AbstractModelManager::get(request, projection));
+  if (result.find("error") == result.end()) {
+    std::vector<std::string> id_data = {"questId"};
+    if (result.find("links") != result.end()) {
+      for (auto& link : result["links"]) {
+        link = link["$oid"];
+      }
     }
-    auto query = bsoncxx::builder::stream::document{}
-        << "_id" << bsoncxx::oid(id)
-        << bsoncxx::builder::stream::finalize;
-    bsoncxx::stdx::optional<bsoncxx::document::value> result = collection_.find_one(query.view());
-    if (result) {
-      return bsoncxx::to_json(*result);
-    }
-    return nlohmann::json({{"error", "CardDoesNotExist"}}).dump();
+    return DataManager::UnpackOid(result, id_data);
   }
-  return nlohmann::json({{"error", "NotEnoughData"}}).dump();
+  return result.dump();
 }
 
 std::string CardModelManager::CardModelManager::create(const std::string &request) {
+  std::vector<std::string> required_data = {"questId", "title", "type"};
+  std::vector<std::string> not_required_data = {"imagePath", "description", "links"};
+  std::vector<std::string> id_data = {"questId"};
   auto data = nlohmann::json::parse(request);
-  if (data.find("questId") == data.end() || data.find("title") == data.end() || data.find("type") == data.end()) {
-    return nlohmann::json({{"error", "NotEnoughData"}}).dump();
+  if (!DataManager::CheckRequiredParameters(data, required_data)) {
+    return nlohmann::json({{"error", "IncorrectId"}}).dump();
   }
-  nlohmann::json query;
-  std::string quest_id = data["questId"];
-  try {
-    auto quest_oid = bsoncxx::oid(quest_id);
-  } catch (bsoncxx::exception &exception) {
-    return nlohmann::json({{"error", "Incorrect id"}}).dump();
+  if (!DataManager::CheckIdCorrectness(data, id_data)) {
+    return nlohmann::json({{"error", "IncorrectId"}}).dump();
   }
-  auto quest = nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", quest_id}}).dump()));
+  auto quest = nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", data["questId"]}}).dump()));
   if (quest.find("error") != quest.end()) {
     return nlohmann::json({{"error", "QuestDoesNotExist"}}).dump();
   }
-  query["questId"] = data["questId"];
-  query["title"] = data["title"];
-  query["type"] = data["type"];
-  if (data.find("imagePath") != data.end()) {
-    query["imagePath"] = data["imagePath"];
-  }
-  if (data.find("description") != data.end()) {
-    query["description"] = data["description"];
-  }
+  nlohmann::json new_card = {
+      {"questId", {{"$oid", data["questId"]}}},
+      {"title", data["title"]},
+      {"type", data["type"]}
+  };
   if (data.find("links") != data.end()) {
-    query["links"] = data["links"];
+    for (auto &link : data["links"].get<std::map<std::string, std::string>>()) {
+      data["links"].erase(link.first);
+      data["links"][link.first]["$oid"] = link.second;
+    }
   }
+  DataManager::WriteNotRequiredParameters(data, new_card, not_required_data);
   bsoncxx::stdx::optional<mongocxx::result::insert_one>
-      result = collection_.insert_one((bsoncxx::from_json(query.dump()).view()));
+      result = collection_.insert_one((bsoncxx::from_json(new_card.dump()).view()));
   if (result) {
-    return nlohmann::json({{"_id", (*result).inserted_id().get_oid().value.to_string()}}).dump();
+    return get(nlohmann::json({{"id", (*result).inserted_id().get_oid().value.to_string()}}).dump());
   } else {
     return nlohmann::json({{"error", "CreationError"}}).dump();
   }
 }
 
 std::string CardModelManager::CardModelManager::get_next_card(const std::string &request) {
+  // Проверка корректности входных параметров
+  std::vector<std::string> required_data = {"id", "userId", "answer"};
+  std::vector<std::string> id_data = {"id", "userId"};
   auto data = nlohmann::json::parse(request);
-  if (data.find("cardId") == data.end() || data.find("answer") == data.end() || data.find("userId") == data.end()) {
+  if (!DataManager::CheckRequiredParameters(data, required_data)) {
     return nlohmann::json({{"error", "NotEnoughData"}}).dump();
   }
-  std::string answer = data["answer"];
-  auto query = bsoncxx::builder::stream::document{}
-      << "_id" << bsoncxx::oid(data["cardId"])
-      << bsoncxx::builder::stream::finalize;
-  mongocxx::options::find opts{};
-  opts.projection(
-      bsoncxx::builder::stream::document{} << "links" << 1 << "questId" << 1 << bsoncxx::builder::stream::finalize);
-  bsoncxx::stdx::optional<bsoncxx::document::value> result = collection_.find_one(query.view(), opts);
-  if (result && (*result).view().find("links") != (*result).view().end()) {
-    auto card = nlohmann::json::parse(bsoncxx::to_json((*result)));
-    auto links = card["links"];
-    if (links.find(answer) != links.end()) {
-      nlohmann::json card_link = nlohmann::json::parse(cardlink_manager_
-                                                           ->get(nlohmann::json({{"id", links[answer]}}).dump()));
-      // Осторожно! Захардкоденый юзер!
-      nlohmann::json history = nlohmann::json::parse(history_manager_
-                                                         ->get(nlohmann::json({{"userId", data["userId"]},
-                                                                               {"questId", card["questId"]}}).dump()));
-      if (history.find("warning") != history.end()) {
-        history = nlohmann::json::parse(history_manager_
-                                            ->create(nlohmann::json({{"userId", data["userId"]},
-                                                                     {"questId", card["questId"]}}).dump()));
-      }
-      bool end_game = false;
-      for (auto &resource : card_link["weight"].get<std::map<std::string, int>>()) {
-        history["resources"][resource.first] = (int) history["resources"][resource.first] + resource.second;
-
-        if ((int) history["resources"][resource.first] <= 0) {
-          history["resources"][resource.first] = 0;
-          end_game = true;
-        } else if ((int) history["resources"][resource.first] >= 100) {
-          history["resources"][resource.first] = 100;
-          end_game = true;
-        }
-      }
-      std::string next_card_id;
-      nlohmann::json next_card = nlohmann::json::parse(get(nlohmann::json({{"cardId", card_link["toId"]}}).dump()));
-      if (end_game || next_card["type"] == "finish") {
-        nlohmann::json query_history_update = {
-            {"id", history["id"]},
-            {"cardId", ""},
-            {"resources", history["resources"]},
-            {"stage", "end"}
-        };
-        if (!end_game) {
-          query_history_update["cardId"] = card_link["toId"];
-        } else {
-          auto loss_card_id =
-              nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", card["questId"]}}).dump()));
-          query_history_update["cardId"] = loss_card_id["lossCardId"];
-        }
-        nlohmann::json update_result = history_manager_->update(query_history_update.dump());
-        if (update_result.find("error") != update_result.end()) {
-          return update_result;
-        }
-        next_card = query_history_update["cardId"];
-      } else {
-        nlohmann::json query_history_update = {
-            {"id", history["id"]},
-            {"cardId", card_link["toId"]},
-            {"resources", history["resources"]}
-        };
-        nlohmann::json update_result = history_manager_->update(query_history_update.dump());
-        if (update_result.find("error") != update_result.end()) {
-          return update_result;
-        }
-        next_card = query_history_update["cardId"];
-      }
-      return nlohmann::json({
-                                {"nextCardId", next_card},
-                                {"resources", history["resources"]}
-                            }).dump();
-    } else {
-      return nlohmann::json({{"error", "LinkDoesNotExist"}}).dump();
-    }
-  } else {
+  if (!DataManager::CheckIdCorrectness(data, id_data)) {
+    return nlohmann::json({{"error", "IncorrectId"}}).dump();
+  }
+  // Получение QuestId и Links текущей карточки
+  nlohmann::json query = {
+      {"id", data["id"]}
+  };
+  std::vector<std::string> options = {"links", "questId"};
+  auto card = nlohmann::json::parse(get(query.dump(), &options));
+  // Проверка отсутствия ошибок поиска карточки и наличия Links
+  if (!(card.find("error") == card.end() && card.find("links") != card.end())) {
     return nlohmann::json({{"error", "CardDoesNotExist"}}).dump();
   }
+  auto links = card["links"];
+  std::string answer = data["answer"];
+  // Проверка присутствия полученного ответа в Links
+  if (links.find(answer) == links.end()) {
+    return nlohmann::json({{"error", "LinkDoesNotExist"}}).dump();
+  }
+  // Получение CardLink и History
+  nlohmann::json card_link = nlohmann::json::parse(cardlink_manager_
+                                                       ->get(nlohmann::json({{"id", links[answer]}}).dump()));
+  nlohmann::json history = nlohmann::json::parse(history_manager_
+                                                     ->get_user_history(nlohmann::json({{"userId", data["userId"]},
+                                                                           {"questId", card["questId"]}}).dump()));
+  // Если History для данного пользователя еще не создана, то добавляем ее
+  if (history.find("warning") != history.end()) {
+    history = nlohmann::json::parse(history_manager_
+                                        ->create(nlohmann::json({{"userId", data["userId"]},
+                                                                 {"questId", card["questId"]}}).dump()));
+  }
+  bool lose_game = false; // Флаг проигрыша игры
+  // Обновление списка ресурсов
+  for (auto &resource : card_link["weight"].get<std::map<std::string, int>>()) {
+    history["resources"][resource.first] = (int) history["resources"][resource.first] + resource.second;
+    // Проверка выхода ресурсов за границы
+    if ((int) history["resources"][resource.first] <= 0) {
+      history["resources"][resource.first] = 0;
+      lose_game = true;
+    } else if ((int) history["resources"][resource.first] >= 100) {
+      history["resources"][resource.first] = 100;
+      lose_game = true;
+    }
+  }
+  // Получаем следующую карточку
+  nlohmann::json query_history_update;
+  // Проверка окончания игры (либо ресурсы вышли за допустимые границы, либо следующая карточка финишная
+  if (lose_game || nlohmann::json::parse(get(nlohmann::json({{"id", card_link["toId"]}}).dump()))["type"] == "finish") {
+    // Собираем обновленную History
+    query_history_update = {
+        {"id", history["id"]},
+        {"resources", history["resources"]},
+        {"stage", "end"}
+    };
+    // Если выиграли
+    if (!lose_game) {
+      query_history_update["cardId"] = card_link["toId"];
+    } else {
+      // Будьте добры пройти на карточку проигрыша
+      auto loss_card_id =
+          nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", card["questId"]}}).dump()));
+      query_history_update["cardId"] = loss_card_id["lossCardId"];
+    }
+  } else { // Продолжаем играть, если с ресурсами все хорошо и еще не конец
+    query_history_update = {
+        {"id", history["id"]},
+        {"cardId", card_link["toId"]},
+        {"resources", history["resources"]}
+    };
+  }
+  // Обновляем History
+  nlohmann::json update_result = history_manager_->update(query_history_update.dump());
+  if (update_result.find("error") != update_result.end()) {
+    return update_result;
+  }
+  std::string next_card_id = query_history_update["cardId"];
+  return nlohmann::json({
+                            {"nextCardId", next_card_id},
+                            {"resources", history["resources"]}
+                        }).dump();
 }
