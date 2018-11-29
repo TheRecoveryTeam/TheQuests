@@ -136,7 +136,7 @@ find_package(nlohmann_json 3.4.0 REQUIRED)
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/)
-target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} cardmodel questmodel databaseconnection)
+target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} cardmodel questmodel abstractmodel databaseconnection)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 
@@ -145,7 +145,8 @@ add_executable(test tests/card/model_manager/CardModelManagerTests.cpp tests/que
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest
         ${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest-build
         EXCLUDE_FROM_ALL)
-target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} cardmodel questmodel historymodel databaseconnection)
+target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} cardmodel questmodel historymodel abstractmodel databaseconnection)
+#target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} questmodel historymodel abstractmodel databaseconnection cardmodel)
 target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(test PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 add_test(NAME CardModelManagerTest COMMAND test)
