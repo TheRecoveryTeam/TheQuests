@@ -1,11 +1,13 @@
 //
 // Created by Арсений Зорин on 11/11/2018.
 //
+#ifndef THEQUESTS_DATABASE_CONNECTION_SINGLETON_H
+#define THEQUESTS_DATABASE_CONNECTION_SINGLETON_H
+
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
 #include <mongocxx/pool.hpp>
-#ifndef THEQUESTS_DATABASE_CONNECTION_SINGLETON_H
-#define THEQUESTS_DATABASE_CONNECTION_SINGLETON_H
+
 
 namespace MongoAccess {
 class MongoAccess {
