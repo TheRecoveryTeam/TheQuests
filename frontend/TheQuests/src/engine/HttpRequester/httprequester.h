@@ -39,11 +39,19 @@ public:
                 const handleFunc& onSuccess,
                 const handleFunc& onError);
 
+    void doPost(const QString& path,
+                const handleFunc& onSuccess,
+                const handleFunc& onError);
+
     void doGet(const QString& path,
                const IQueryable& queryParams,
                const handleFunc& onSuccess,
                const handleFunc& onError);
 
+
+    void doGet(const QString& path,
+               const handleFunc& onSuccess,
+               const handleFunc& onError);
     // reset token if value == ""
     void setToken(const QString& value = "");
     const QString& getToken() const;
@@ -53,6 +61,7 @@ public:
 
 private:
     static const QString httpTemplate;
+    static const QString httpEmptyTemplate;
     static HttpRequester* createInstance();
 
     explicit HttpRequester(const QString& baseUrl = "", QObject* parent = nullptr);

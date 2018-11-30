@@ -11,6 +11,8 @@ Item {
     property string textColor: '#333333'
     property bool contained: true
     property double backgrounOpacity: 0.6
+    property int spacing: 4
+    property bool disabled: false
 
     anchors {
         left: wide ? parent.left : undefined
@@ -30,7 +32,7 @@ Item {
         }
         Rectangle {
             radius: parent.radius
-            opacity: mouseArea.containsPress
+            opacity: mouseArea.containsPress && !disabled
                      ? customButton.backgrounOpacity + 0.2
                      : customButton.backgrounOpacity
             color: customButton.backgroundColor
@@ -38,7 +40,11 @@ Item {
             MouseArea {
                 id: mouseArea
                 anchors.fill: parent
-                onClicked: { onClick() }
+                onClicked: {
+                    if (!customButton.disabled) {
+                        onClick()
+                    }
+                }
             }
         }
     }
@@ -49,5 +55,6 @@ Item {
         anchors.fill: parent
         wrapMode: Text.NoWrap
         color: customButton.textColor
+        spacing: parent.spacing
     }
 }

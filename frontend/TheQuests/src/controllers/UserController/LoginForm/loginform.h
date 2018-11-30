@@ -15,7 +15,6 @@ class LoginForm: public IForm
                NOTIFY emailChanged)
     Q_PROPERTY(const QString& emailError
                READ getEmailError
-               WRITE setEmailError
                NOTIFY emailErrorChanged)
     Q_PROPERTY(const QString& password
                READ getPassword
@@ -23,13 +22,13 @@ class LoginForm: public IForm
                NOTIFY passwordChanged)
     Q_PROPERTY(const QString& passwordError
                READ getPasswordError
-               WRITE setPasswordError
                NOTIFY passwordErrorChanged)
 
 public:
     LoginForm(QObject* parent = nullptr);
     ~LoginForm() override = default;
-    virtual bool isValid() override;
+    virtual bool isValid() const override;
+    Q_INVOKABLE virtual void validate() override;
     Q_INVOKABLE virtual void send() override;
 
     const QString& getEmail() const;
@@ -51,8 +50,8 @@ signals:
     void passwordErrorChanged(const QString&);
 
 protected:
-    void validateEmail();
-    void validatePassword();
+    virtual void validateEmail();
+    virtual void validatePassword();
 
     UserController* userController;
 

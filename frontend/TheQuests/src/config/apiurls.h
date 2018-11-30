@@ -9,10 +9,15 @@ namespace apiUrls {
 namespace card {
     const QString GET = "/api/card.get";
     const QString DO_ANSWER = "/api/card.do_answer";
-    const QString USER_CREATE = "/api/user.create";
-    const QString USER_LOGIN = "/api/user.login";
-    const QString USER_LOGOUT = "/api/user.logout";
-    const QString USER_EDIT = "/api/user.edit";
+}
+
+namespace user {
+    const QString CREATE = "/api/user.create";
+    const QString LOGIN = "/api/user.login";
+    const QString LOGOUT = "/api/user.logout";
+    const QString EDIT = "/api/user.edit";
+    const QString FIND_EMAIL = "/api/user.find_email";
+    const QString FIND_NICKNAME = "/api/user.find_nickname";
 }
 
 }

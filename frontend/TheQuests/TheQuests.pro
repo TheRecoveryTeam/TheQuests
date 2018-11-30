@@ -43,7 +43,10 @@ SOURCES += \
     src/data_structures/network/UserLoginRequest/userloginrequest.cpp \
     src/data_structures/network/UserLoginResponse/userloginresponse.cpp \
     src/data_structures/network/UserEditRequest/usereditrequest.cpp \
-    src/mappers/UserMapper/usermapper.cpp
+    src/mappers/UserMapper/usermapper.cpp \
+    src/data_structures/network/UserFindEmailReqeust/userfindemailrequest.cpp \
+    src/data_structures/network/UserFindNicknameReqeust/userfindnicknamerequest.cpp \
+    src/controllers/UserController/SignUpFinishForm/signupfinishform.cpp
 
 RESOURCES += qml.qrc
 
@@ -103,4 +106,7 @@ HEADERS += \
     src/data_structures/network/UserLoginRequest/userloginrequest.h \
     src/data_structures/network/UserLoginResponse/userloginresponse.h \
     src/data_structures/network/UserEditRequest/usereditrequest.h \
-    src/mappers/UserMapper/usermapper.h
+    src/mappers/UserMapper/usermapper.h \
+    src/data_structures/network/UserFindEmailReqeust/userfindemailrequest.h \
+    src/data_structures/network/UserFindNicknameReqeust/userfindnicknamerequest.h \
+    src/controllers/UserController/SignUpFinishForm/signupfinishform.h

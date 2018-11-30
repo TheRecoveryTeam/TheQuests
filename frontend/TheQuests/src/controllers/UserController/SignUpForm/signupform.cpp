@@ -1,4 +1,5 @@
 #include "signupform.h"
+#include "../usercontroller.h"
 
 SignUpForm::SignUpForm(QObject* parent) : LoginForm(parent),
     passwordRepeat(""),
@@ -6,25 +7,18 @@ SignUpForm::SignUpForm(QObject* parent) : LoginForm(parent),
     passwordRepeatTouched(false)
 { }
 
-bool SignUpForm::isValid()
+void SignUpForm::validate()
+{
+    LoginForm::validate();
+    validatePasswordRepeat();
+}
+
+bool SignUpForm::isValid() const
 {
     return LoginForm::isValid()
             && !passwordRepeat.isEmpty()
             && passwordRepeatError.isEmpty()
             && passwordRepeatTouched;
-}
-
-void SignUpForm::send()
-{
-    setEmail(email);
-    setPassword(password);
-    setPasswordRepeat(passwordRepeat);
-    if (isValid()) {
-
-    }
-    else {
-
-    }
 }
 
 QString SignUpForm::getPasswordRepeat() const
@@ -51,6 +45,34 @@ void SignUpForm::setPasswordRepeatError(const QString& value)
     emit passwordRepeatErrorChanged(passwordRepeatError);
 }
 
+void SignUpForm::validateEmail()
+{
+    LoginForm::validateEmail();
+    if (emailError == "") {
+        this->userController->findEmail(email, [this](bool found){
+            if (found) {
+                this->setEmailError("Данный email уже занят");
+            }
+            else {
+                this->setEmailError("");
+            }
+            emit this->isValidChanged(this->isValid());
+        });
+    }
+}
+
+void SignUpForm::validatePassword()
+{
+    const int minPassworLenght = 8;
+    if (password.size() < minPassworLenght) {
+        setPasswordError(QString("Пароль слишком короткий"));
+    }
+    else {
+        setPasswordError("");
+    }
+    isValidChanged(isValid());
+}
+
 void SignUpForm::validatePasswordRepeat()
 {
     if (passwordRepeat != password) {
@@ -59,4 +81,5 @@ void SignUpForm::validatePasswordRepeat()
     else {
         setPasswordRepeatError("");
     }
+    isValidChanged(isValid());
 }

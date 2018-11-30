@@ -11,6 +11,7 @@
 #include "httprequester.h"
 
 const QString HttpRequester::httpTemplate = "%1%2?%3";
+const QString HttpRequester::httpEmptyTemplate = "%1%2";
 
 HttpRequester::HttpRequester(const QString& baseUrl, QObject* parent):
     QObject (parent),
@@ -42,6 +43,18 @@ void HttpRequester::doPost(
     processRequest(reply, onSuccess, onError);
 }
 
+void HttpRequester::doPost(const QString& path, const HttpRequester::handleFunc& onSuccess, const HttpRequester::handleFunc& onError)
+{
+    auto url = HttpRequester::httpTemplate
+            .arg(baseUrl)
+            .arg(path)
+            .arg("");
+
+    auto request = createRequest(url);
+    auto reply = manager->post(request, QByteArray());
+    processRequest(reply, onSuccess, onError);
+}
+
 void HttpRequester::doGet(
         const QString& path,
         const IQueryable& queryParams,
@@ -53,6 +66,19 @@ void HttpRequester::doGet(
             .arg(baseUrl)
             .arg(path)
             .arg(queryParams.toQueryString());
+
+    auto request = createRequest(url);
+    auto reply = manager->get(request);
+    processRequest(reply, onSuccess, onError);
+}
+
+void HttpRequester::doGet(const QString& path,
+                          const HttpRequester::handleFunc& onSuccess,
+                          const HttpRequester::handleFunc& onError)
+{
+    auto url = HttpRequester::httpEmptyTemplate
+            .arg(baseUrl)
+            .arg(path);
 
     auto request = createRequest(url);
     auto reply = manager->get(request);
@@ -88,6 +114,7 @@ void HttpRequester::processRequest(QNetworkReply* reply, const HttpRequester::ha
         QJsonObject obj = parseReply(reply);
         if (onFinishRequest(reply)) {
             if (onSuccess != nullptr) {
+                qDebug() << "success";
                 onSuccess(obj);
             }
         }
@@ -105,8 +132,9 @@ void HttpRequester::processRequest(QNetworkReply* reply, const HttpRequester::ha
 bool HttpRequester::onFinishRequest(QNetworkReply *reply)
 {
     auto replyError = reply->error();
-    if (replyError == QNetworkReply::NoError ) {
+    if (replyError == QNetworkReply::NoError || replyError == QNetworkReply::ContentNotFoundError) {
         int code = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        qDebug() << code;
         if ((code >=200) && (code < 300)) {
             return true;
         }
@@ -129,8 +157,10 @@ QJsonObject HttpRequester::parseReply(QNetworkReply* reply)
     jsonDoc = QJsonDocument::fromJson(replyText, &parseError);
 
     if(parseError.error != QJsonParseError::NoError){
-        qWarning() << "Json parse error: " << parseError.errorString();
-        jsonObj[config::network::ERROR_KEY] = parseError.errorString();
+        if (reply->error() != QNetworkReply::ContentNotFoundError) {
+            qWarning() << "Json parse error: " << parseError.errorString();
+            jsonObj[config::network::ERROR_KEY] = parseError.errorString();
+        }
     }
     else {
         if(jsonDoc.isObject()) {

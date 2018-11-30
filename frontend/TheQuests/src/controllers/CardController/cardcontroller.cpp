@@ -21,14 +21,11 @@ CardController* CardController::instance()
 
 void CardController::get(const QString& cardId) const
 {
-    httpRequester->doGet(
-                config::apiUrls::card::GET,
-                data_structures::CardGetRequest(cardId),
-    [this](QJsonObject obj){
-
+    auto handleSuccess = [this](QJsonObject obj){
         CardMapper mapper;
         auto cardDetail = mapper.convertCardDetail(obj);
         cardModel->setCardDetal(cardDetail);
+
         if (cardDetail.type == config::QuestCardTypes::CHOOSE) {
             auto cardLinkListStruct = mapper.convertCardLinkList(obj);
 
@@ -44,28 +41,35 @@ void CardController::get(const QString& cardId) const
             }
             cardModel->setController(cardChooseController);
         }
+    };
 
-    },
-    [](QJsonObject obj){
+    auto handleError = [](QJsonObject obj) {
         qDebug() << "error" << obj;
-    });
+    };
+
+    httpRequester->doGet(
+                config::apiUrls::card::GET,
+                data_structures::CardGetRequest(cardId),
+                handleSuccess, handleError);
 }
 
 void CardController::doAnswer(const QString& cardId, const QString& answer) const
 {
-    httpRequester->doPost(
-        config::apiUrls::card::DO_ANSWER,
-        data_structures::CardDoAnswerRequest(cardId, answer),
-    [this](QJsonObject obj){
+    auto handleSuccess = [this](QJsonObject obj){
         if(obj["nextCardId"].isString()) {
             auto nextCardId = obj["nextCardId"].toString();
             this->get(nextCardId);
         }
-    },
-    [](QJsonObject obj){
+    };
+
+    auto handleError = [](QJsonObject obj){
         qDebug() << "error" << obj;
-    }
-    );
+    };
+
+    httpRequester->doPost(
+        config::apiUrls::card::DO_ANSWER,
+        data_structures::CardDoAnswerRequest(cardId, answer),
+        handleSuccess, handleError);
 }
 
 CardController* CardController::createInstance()

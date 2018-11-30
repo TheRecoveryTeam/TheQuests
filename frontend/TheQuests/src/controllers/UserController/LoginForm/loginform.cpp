@@ -1,5 +1,6 @@
 #include <QRegExp>
 #include <QDebug>
+#include <QJsonObject>
 #include "loginform.h"
 #include "../usercontroller.h"
 
@@ -12,12 +13,12 @@ LoginForm::LoginForm(QObject* parent):
     password(""),
     passwordError(""),
     passwordTouched(false)
-{
+{ }
 
-}
-
-bool LoginForm::isValid()
+bool LoginForm::isValid() const
 {
+    // Для того, чтобы даже если поля еще не touched они стали touched
+    // и испустились все необходимые сигналы
     return emailTouched
             && passwordTouched
             && emailError.isEmpty()
@@ -26,14 +27,24 @@ bool LoginForm::isValid()
             && !password.isEmpty();
 }
 
+void LoginForm::validate()
+{
+    validateEmail();
+    validatePassword();
+    emit isValidChanged(isValid());
+}
+
 void LoginForm::send()
 {
-    // Для того, чтобы даже если поля еще не touched они стали touched
-    // и испустились все необходимые сигналы
-    setEmail(email);
-    setPassword(password);
     if (isValid()) {
-        qDebug() << "should send";
+        userController->authenticate(email, password, [this](const QJsonObject& obj) {
+            if (obj["emailError"].isString()) {
+                this->setEmailError(obj["emailError"].toString());
+            }
+            if (obj["passwordError"].isString()) {
+                this->setPasswordError(obj["passwordError"].toString());
+            }
+        });
     }
     else {
         qDebug() << "form not valid";
@@ -99,15 +110,16 @@ void LoginForm::validateEmail()
     else {
         setEmailError("");
     }
+    isValidChanged(isValid());
 }
 
 void LoginForm::validatePassword()
 {
-    const int minPassworLenght = 8;
-    if (password.size() < minPassworLenght) {
-        setPasswordError(QString("Пароль слишком короткий"));
+    if (password.size() == 0) {
+        setPasswordError(QString("Заполните пароль"));
     }
     else {
         setPasswordError("");
     }
+    isValidChanged(isValid());
 }

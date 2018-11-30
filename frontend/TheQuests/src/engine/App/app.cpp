@@ -15,6 +15,7 @@
 #include "src/controllers/UserController/usercontroller.h"
 #include "src/controllers/UserController/LoginForm/loginform.h"
 #include "src/controllers/UserController/SignUpForm/signupform.h"
+#include "src/controllers/UserController/SignUpFinishForm/signupfinishform.h"
 
 App::App(QObject *parent):
     QObject(parent)
@@ -45,4 +46,5 @@ void App::registerTypes() const
 
     qmlRegisterType<LoginForm>("application", 1, 0, "LoginForm");
     qmlRegisterType<SignUpForm>("application", 1, 0, "SignUpForm");
+    qmlRegisterType<SignUpFinishForm>("application", 1, 0, "SignUpFinishFrom");
 }

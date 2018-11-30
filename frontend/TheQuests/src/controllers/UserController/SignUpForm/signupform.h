@@ -4,6 +4,7 @@
 #include <QObject>
 #include "../LoginForm/loginform.h"
 
+class UserController;
 class SignUpForm : public LoginForm
 {
     Q_OBJECT
@@ -19,8 +20,8 @@ class SignUpForm : public LoginForm
 public:
     explicit SignUpForm(QObject *parent = nullptr);
 
-    bool isValid() override;
-    Q_INVOKABLE void send() override;
+    bool isValid() const override;
+    Q_INVOKABLE void validate() override;
 
     QString getPasswordRepeat() const;
     void setPasswordRepeat(const QString& value);
@@ -32,12 +33,18 @@ signals:
     void passwordRepeatChanged(const QString&);
     void passwordRepeatErrorChanged(const QString&);
 
-private:
+protected:
+    void validateEmail() override;
+    void validatePassword() override;
     void validatePasswordRepeat();
 
     QString passwordRepeat;
     QString passwordRepeatError;
     bool passwordRepeatTouched;
+
+private:
+    // Эта форма является промежуточной, поэтому ее нельзя отправить
+    void send() override {}
 };
 
 #endif // SIGNUPFORM_H

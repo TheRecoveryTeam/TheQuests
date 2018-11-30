@@ -1,60 +1,89 @@
 import QtQuick 2.0
 import 'qrc:/components/form/FormContainer'
 import 'qrc:/components/form/TextInput'
+import 'qrc:/components/CustomButton'
 import application 1.0
 
-FormContainer {
-    id: loginFormContainer
-    label: 'Регистрация'
-
+Column {
+    id: signUpView
+    property var onOpenLoginForm: Function
+    property var onContinueSignUp: Function
     property SignUpForm form: SignUpForm {}
-    anchors {
-        left: parent.left
-        right: parent.right
+    spacing: 10
+
+    FormContainer {
+        id: signUpFormContainer
+        label: 'Регистрация'
+
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+
+        inputsBlock: Column {
+            spacing: 10
+
+            TextInput {
+                id: emailInput
+                nextInput: passwordInput.inputId
+                inputId {
+                    onTextChanged: {
+                        signUpView.form.email = inputId.text
+                    }
+                    text: signUpView.form.email
+                }
+                label: 'Email'
+                errorText: signUpView.form.emailError
+            }
+
+            TextInput {
+                id: passwordInput
+                nextInput: passwordRepeatInput.inputId
+                inputId {
+                    onTextChanged: {
+                        signUpView.form.password = inputId.text
+                    }
+                    text: signUpView.form.password
+                }
+                label: 'Пароль'
+                password: true
+                errorText: signUpView.form.passwordError
+            }
+
+            TextInput {
+                id: passwordRepeatInput
+                nextInput: emailInput.inputId
+                inputId {
+                    onTextChanged: {
+                        signUpView.form.passwordRepeat = inputId.text
+                    }
+                    text: signUpView.form.passwordRepeat
+                }
+                label: 'Повторите пароль'
+                password: true
+                errorText: signUpView.form.passwordRepeatError
+            }
+        }
     }
 
-    inputsBlock: Column {
-        spacing: 10
+    Row {
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+        spacing: 20
 
-        TextInput {
-            id: emailInput
-            nextInput: passwordInput.inputId
-            inputId {
-                onTextChanged: {
-                    form.email = inputId.text
-                }
-                text: form.email
-            }
-            label: 'Email'
-            errorText: form.emailError
+        WhiteCustomButton {
+            id: continueButton
+            text: 'Вход'
+            onClick: signUpView.onOpenLoginForm
         }
 
-        TextInput {
-            id: passwordInput
-            nextInput: passwordRepeatInput.inputId
-            inputId {
-                onTextChanged: {
-                    form.password = inputId.text
-                }
-                text: form.password
-            }
-            label: 'Пароль'
-            password: true
-            errorText: form.passwordError
-        }
-
-        TextInput {
-            id: passwordRepeatInput
-            nextInput: emailInput.inputId
-            inputId {
-                onTextChanged: {
-                    form.passwordRepeat = inputId.text
-                }
-                text: form.passwordRepeat
-            }
-            label: 'Повторите пароль'
-            password: true
-            errorText: form.passwordRepeatError
+        WhiteCustomButton {
+            text: 'Далее'
+            primary: true
+            disabled: !signUpView.form.isValid
+            onClick: signUpView.onContinueSignUp
         }
     }
 }

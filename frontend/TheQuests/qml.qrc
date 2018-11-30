@@ -15,6 +15,7 @@
         <file alias="TexturedRect/TexturedRect.qml">qml/components/TexturedRect/TexturedRect.qml</file>
         <file alias="form/FormContainer/FormContainer.qml">qml/components/form/FormContainer/FormContainer.qml</file>
         <file alias="form/TextInput/TextInput.qml">qml/components/form/TextInput/TextInput.qml</file>
+        <file alias="CustomButton/WhiteCustomButton.qml">qml/components/CustomButton/WhiteCustomButton.qml</file>
     </qresource>
     <qresource prefix="/views">
         <file alias="CardView/CardView.qml">qml/views/CardView/CardView.qml</file>
@@ -24,6 +25,7 @@
         <file alias="AuthenticationView/components/LogoText/LogoText.qml">qml/views/AuthenticationView/components/LogoText/LogoText.qml</file>
         <file alias="AuthenticationView/components/LoginFormView/LoginFormView.qml">qml/views/AuthenticationView/components/LoginView/LoginView.qml</file>
         <file alias="AuthenticationView/components/SignUpFormView/SignUpFormView.qml">qml/views/AuthenticationView/components/SignUpFormView/SignUpFormView.qml</file>
+        <file alias="AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml">qml/views/AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>
