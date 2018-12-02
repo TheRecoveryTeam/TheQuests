@@ -127,27 +127,30 @@ set(nlohmann_json_DIR "${THIRD_PARTY_DIR}/nlohmann_json-install/lib/cmake/nlohma
 
 find_package(libmongoc REQUIRED NAMES libmongoc libmongoc-1.0)
 find_package(libmongocxx REQUIRED NAMES libmongocxx libmongocxx-1.0)
+
 find_package(Boost REQUIRED)
 find_package(Boost REQUIRED system)
 find_package(cpprestsdk REQUIRED)
 find_package(nlohmann_json 3.4.0 REQUIRED)
-
+find_package(OpenSSL REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/)
-target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES} cardmodel questmodel abstractmodel databaseconnection)
+target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES}
+        cardmodel questmodel abstractmodel sessionmodel usermodel databaseconnection)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 
 add_executable(test tests/card/model_manager/CardModelManagerTests.cpp tests/quest/model_manager/QuestModelManagerTests.cpp
-        tests/history/model_manager/HistoryModelManagerTests.cpp tests/card/model_manager/CardLinkModelManagerTests.cpp)
+        tests/history/model_manager/HistoryModelManagerTests.cpp tests/card/model_manager/CardLinkModelManagerTests.cpp
+        tests/session/model_manager/SessionModelManagerTests.cpp tests/user/model_manager/UserModelManagerTests.cpp)
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest
         ${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest-build
         EXCLUDE_FROM_ALL)
-target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} cardmodel questmodel historymodel abstractmodel databaseconnection)
-#target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} questmodel historymodel abstractmodel databaseconnection cardmodel)
-target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
+target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
 target_compile_definitions(test PUBLIC ${LIBMONGOCXX_DEFINITIONS})
+target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} OpenSSL::Crypto cardmodel questmodel historymodel abstractmodel sessionmodel usermodel databaseconnection)
+#target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} questmodel historymodel abstractmodel databaseconnection cardmodel)
 add_test(NAME CardModelManagerTest COMMAND test)
 #add_test(NAME CardLinkModelManagerTest COMMAND test)
