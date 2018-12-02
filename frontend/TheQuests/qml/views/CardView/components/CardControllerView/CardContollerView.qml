@@ -16,6 +16,7 @@ TexturedRect {
         Component {
             id: chooseContainer
             ChooseControllerView {
+                anchors.fill: parent
                 controller: cardContollerView.controller
             }
         }

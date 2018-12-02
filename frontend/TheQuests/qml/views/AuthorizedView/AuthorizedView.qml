@@ -43,7 +43,7 @@ StackView {
                 QuestShort {
                     title: 'Заголовок квеста'
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor facilisis leo et feugiat. Maecenas molestie pellentesque libero, ut egestas diam lacinia in. In ac neque rhoncus, interdum mi vitae.'
-                    id: 'questId'
+                    questId: 'questId'
                     authorNickname: 'Imechko Familiya'
                     playerCount: 761
                     anchors.left: parent.left
@@ -53,7 +53,7 @@ StackView {
                 QuestShort {
                     title: 'Заголовок квеста'
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor facilisis leo et feugiat. Maecenas molestie pellentesque libero, ut egestas diam lacinia in. In ac neque rhoncus, interdum mi vitae.'
-                    id: 'questId1'
+                    questId: 'questId1'
                     authorNickname: 'Imechko Familiya'
                     playerCount: 761
                     anchors.left: parent.left
@@ -63,7 +63,7 @@ StackView {
                 QuestShort {
                     title: 'Заголовок квеста'
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor facilisis leo et feugiat. Maecenas molestie pellentesque libero, ut egestas diam lacinia in. In ac neque rhoncus, interdum mi vitae.'
-                    id: 'questId2'
+                    questId: 'questId2'
                     authorNickname: 'Imechko Familiya'
                     playerCount: 761
                     anchors.left: parent.left
@@ -73,7 +73,7 @@ StackView {
                 QuestShort {
                     title: 'Заголовок квеста'
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor facilisis leo et feugiat. Maecenas molestie pellentesque libero, ut egestas diam lacinia in. In ac neque rhoncus, interdum mi vitae.'
-                    id: 'questId3'
+                    questId: 'questId3'
                     authorNickname: 'Imechko Familiya'
                     playerCount: 761
                     anchors.left: parent.left

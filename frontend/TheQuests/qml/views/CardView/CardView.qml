@@ -20,7 +20,7 @@ Card {
             ImageContainer {
                 anchors.fill: parent
                 source: CardModel.imagePath
-                placeholderColor: '#4b413a'
+                placeholderColor: '#1D1D1D'
             }
         }
         CardControllerView {

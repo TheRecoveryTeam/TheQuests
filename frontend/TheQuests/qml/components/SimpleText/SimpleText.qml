@@ -2,7 +2,7 @@ import QtQuick 2.11
 
 Text {
     id: cardDescriptionText
-    property int spacing: 4
+    property int spacing: 3
     property int size: 18
 
     FontLoader {

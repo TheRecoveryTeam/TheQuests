@@ -5,6 +5,11 @@ Rectangle {
     property string text
 
     SimpleText {
+        anchors {
+            left: parent.left
+            right: parent.right
+        }
+
         id: cardDescriptionText
         text: parent.text
     }

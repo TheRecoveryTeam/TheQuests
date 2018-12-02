@@ -7,15 +7,28 @@ import controllers 1.0
 Item {
     property ChooseCardModel controller
 
-    ListView {
-        interactive: false
-        anchors.fill: parent
-        model: controller ? controller.linksList : 0;
-        spacing: 20
-        delegate: CustomButton {
-            text: model.link.answer
-            onClick: function () {
-                CardController.doAnswer('123', model.link.answer)
+    Item {
+        id: column
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+
+        ListView {
+            id: listView
+            interactive: false
+            anchors.fill: parent
+
+            model: controller ? controller.linksList : 0;
+            spacing: 20
+            delegate: CustomButton {
+                id: button
+                text: model.link.answer
+                onClick: function () {
+                    CardController.doAnswer('123', model.link.answer)
+                }
+            }
+            onCountChanged: {
+                column.height = listView.visibleChildren[0].height
             }
         }
     }

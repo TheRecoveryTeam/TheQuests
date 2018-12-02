@@ -8,7 +8,7 @@ import 'qrc:/components/IconText'
 
 Rectangle {
     id: questShort
-    property string id
+    property string questId
     property string title
     property string description
     property string authorNickname

@@ -11,7 +11,7 @@ Item {
     property string textColor: '#333333'
     property bool contained: true
     property double backgrounOpacity: 0.6
-    property int spacing: 4
+    property int spacing: 3
     property bool disabled: false
 
     anchors {

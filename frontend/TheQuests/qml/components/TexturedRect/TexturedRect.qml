@@ -8,5 +8,5 @@ Rectangle {
         verticalAlignment: Image.verticalCenter
         horizontalAlignment: Image.horizontalCenter
     }
-    color: '#403933'
+    color: '#1D1D1D'
 }

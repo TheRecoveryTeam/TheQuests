@@ -8,7 +8,7 @@ Label {
         name: 'RobotoSlabBold'
     }
     property string label: 'Card Heading'
-    property int spacing: 5
+    property int spacing: 3
     property int pixelSize: 16
 
     id: title

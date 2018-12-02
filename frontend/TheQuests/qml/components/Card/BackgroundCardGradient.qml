@@ -3,7 +3,7 @@ import QtGraphicalEffects 1.0
 
 LinearGradient {
     property string startColor: '#303434'
-    property string endColor: '#0B4A60'
+    property string endColor: '#1D1D1D'
 
     anchors {
         left: parent.left

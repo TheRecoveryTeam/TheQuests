@@ -20,7 +20,7 @@ ApplicationWindow {
 
     Component {
         id: cardContainer
-        AuthorizedView {
+        CardView {
             anchors.fill: parent
         }
     }
