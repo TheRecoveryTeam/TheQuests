@@ -1,7 +1,7 @@
 #include <QDebug>
 #include <QJsonObject>
-#include "src/config/apiurls.h"
 #include "usercontroller.h"
+#include "src/config/apiurls.h"
 #include "src/models/UserModel/usermodel.h"
 #include "src/utils/singleton.h"
 #include "src/engine/HttpRequester/httprequester.h"
@@ -14,7 +14,7 @@
 #include "src/mappers/UserMapper/usermapper.h"
 
 
-UserController*UserController::instance()
+UserController* UserController::instance()
 {
     return Singleton<UserController>::instance(UserController::createInstance);
 }
