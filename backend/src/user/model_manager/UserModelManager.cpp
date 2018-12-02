@@ -43,7 +43,7 @@ std::string UserModelManager::UserModelManager::login(const std::string &request
     };
     auto session = nlohmann::json::parse(session_manager_->create(new_session.dump()));
     if (session.find("error") != session.end()) {
-      return session.dump();
+      return nlohmann::json({{"error", "SessionCreationError"}});
     }
     result_json["token"] = session["token"];
     return result_json.dump();
@@ -101,6 +101,9 @@ std::string UserModelManager::UserModelManager::create(const std::string &reques
     if (session.find("error") != session.end()) {
       return nlohmann::json({{"error", "SessionCreationError"}});
     }
+    session.erase("expires");
+    session["id"] = session["userId"];
+    session.erase("userId");
     return session.dump();
   } else {
     return nlohmann::json({{"error", "UserCreationError"}}).dump();
