@@ -20,6 +20,7 @@ class HistoryModelManager : AbstractModelManager::AbstractModelManager{
   std::string update(const std::string &request);
   std::string get(const std::string &request, const std::vector<std::string> *projection = nullptr);
   std::string get_user_history(const std::string &request);
+  ~HistoryModelManager();
 
  private:
   QuestModelManager::QuestModelManager *quest_manager_;

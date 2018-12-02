@@ -23,6 +23,7 @@ class QuestModelManager : public AbstractModelManager::AbstractModelManager {
   std::string create(const std::string &request);
   std::string remove(const std::string &request);
   std::string update(const std::string &request);
+  ~QuestModelManager() = default;
 };
 }
 

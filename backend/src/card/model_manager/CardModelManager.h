@@ -24,6 +24,7 @@ class CardModelManager : AbstractModelManager::AbstractModelManager{
   std::string get(const std::string &request, const std::vector<std::string> *projection = nullptr);
   std::string get_by_quest(const std::string &request);
   std::string get_next_card(const std::string &request);
+  ~CardModelManager();
 
  private:
   QuestModelManager::QuestModelManager *quest_manager_;

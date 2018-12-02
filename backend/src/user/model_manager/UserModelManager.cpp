@@ -8,6 +8,10 @@ UserModelManager::UserModelManager::UserModelManager() : AbstractModelManager::A
   session_manager_ = new SessionModelManager::SessionModelManager();
 }
 
+UserModelManager::UserModelManager::~UserModelManager() {
+  delete session_manager_;
+}
+
 std::string UserModelManager::UserModelManager::login(const std::string &request) {
   std::vector<std::string> required_data = {"email", "password"};
   auto data = nlohmann::json::parse(request);

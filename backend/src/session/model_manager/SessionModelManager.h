@@ -28,6 +28,7 @@ namespace SessionModelManager {
     std::string create(const std::string &request);
     std::string remove(const std::string &request);
     std::string update(const std::string &request);
+    ~SessionModelManager() = default;
   };
 }
 

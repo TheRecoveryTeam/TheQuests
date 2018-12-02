@@ -15,6 +15,10 @@ HistoryModelManager::HistoryModelManager::HistoryModelManager() : AbstractModelM
   quest_manager_ = new QuestModelManager::QuestModelManager();
 }
 
+HistoryModelManager::HistoryModelManager::~HistoryModelManager() {
+  delete quest_manager_;
+}
+
 std::string HistoryModelManager::HistoryModelManager::get(const std::string &request,
                                                           const std::vector<std::string> *projection) {
   auto result = nlohmann::json::parse(AbstractModelManager::get(request, projection));

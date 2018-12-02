@@ -30,6 +30,8 @@ namespace UserModelManager {
     std::string login(const std::string &request);
     std::string logout(const std::string &request);
     bool Contains(const std::string &request);
+    ~UserModelManager();
+
    private:
     SessionModelManager::SessionModelManager* session_manager_;
   };

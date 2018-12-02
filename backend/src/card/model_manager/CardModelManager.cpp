@@ -16,6 +16,12 @@ CardModelManager::CardModelManager::CardModelManager() : AbstractModelManager::A
   history_manager_ = new HistoryModelManager::HistoryModelManager();
 }
 
+CardModelManager::CardModelManager::~CardModelManager() {
+  delete quest_manager_;
+  delete cardlink_manager_;
+  delete history_manager_;
+}
+
 std::string CardModelManager::CardModelManager::get(const std::string &request, const std::vector<std::string> *projection) {
   auto result = nlohmann::json::parse(AbstractModelManager::get(request, projection));
   if (result.find("error") == result.end()) {
