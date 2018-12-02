@@ -228,9 +228,9 @@ TEST_F(CardModelManagerTests, getNextEndCard) {
   nlohmann::json expected_result = {
       {"nextCardId", (*card_id_list)[0]},
       {"resources", {
-          {"strength", 40},
-          {"health", 35},
-          {"wisdom", 50}
+          {{"name", "health"}, {"value", 35}},
+          {{"name", "strength"},{"value", 40}},
+          {{"name", "wisdom"}, {"value", 50}}
       }}
   };
   ASSERT_TRUE(expected_result == result) << "Incorrect get end next card";
@@ -246,9 +246,9 @@ TEST_F(CardModelManagerTests, getNextCard) {
   nlohmann::json expected_result = {
       {"nextCardId", (*card_id_list)[1]},
       {"resources", {
-          {"strength", 60},
-          {"health", 65},
-          {"wisdom", 50}
+          {{"name", "health"}, {"value", 65}},
+          {{"name", "strength"}, {"value", 60}},
+          {{"name", "wisdom"}, {"value", 50}}
       }}
   };
   ASSERT_TRUE(expected_result == result) << "Incorrect get next card";
@@ -264,11 +264,13 @@ TEST_F(CardModelManagerTests, getNextLoseCard) {
   nlohmann::json expected_result = {
       {"nextCardId", (*card_id_list)[3]},
       {"resources", {
-          {"strength", 0},
-          {"health", 100},
-          {"wisdom", 50}
+          {{"name", "health"}, {"value", 100}},
+          {{"name", "strength"}, {"value", 0}},
+          {{"name", "wisdom"}, {"value", 50}}
       }}
   };
+  std::cout << expected_result << std::endl;
+  std::cout << result << std::endl;
   ASSERT_TRUE(expected_result == result) << "Incorrect get lose next card";
 }
 
