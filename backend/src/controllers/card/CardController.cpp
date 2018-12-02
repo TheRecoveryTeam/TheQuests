@@ -57,9 +57,25 @@ void CardController::add(const web::http::http_request message) {
             web::json::value title = body.at(U("title"));
             web::json::value description = body.at(U("description"));
             web::json::value type = body, at(U("type"));
+            nlohmann::json new_card = {
+                    {"questId",     questId.as_string()},
+                    {"title",       title.as_string()},
+                    {"description", description.as_string()},
+                    {"type",        type.as_string()},
+            };
 
-            //TODO: Add to DB
-            message.reply(web::http::status_codes::OK, response);
+            CardModelManager::CardModelManager manager;
+            std::string db_response = manager.create(new_card.dump());
+            auto data = nlohmann::json::parse(db_response);
+            auto status_code = web::http::status_codes::OK;
+            if (data.find("error") != data.end()) {
+                response["error"] = web::json::value::string(data["error"].get<std::string>());
+                status_code = web::http::status_codes::NotFound;
+            } else {
+                response["id"] = web::json::value::string(data["id"].get<std::string>());
+            }
+            message.reply(status_code, response);
+
         }
         catch (web::json::json_exception &e) {
             response["code"] = 400;
@@ -249,20 +265,7 @@ void CardController::list(web::http::http_request message) {
     }
 }
 
-
 void CardController::ConfigureRouting() {
-    _routingEntries.push_back(networkhelper::RoutingEntry{
-            U("get"),
-            web::http::methods::GET,
-            CPPRESTHELPER_HANDLER(CardController, get)
-    });
-
-    _routingEntries.push_back(networkhelper::RoutingEntry{
-            U("list"),
-            web::http::methods::GET,
-            CPPRESTHELPER_HANDLER(CardController, list)
-    });
-
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("do_answer"),
             web::http::methods::POST,
