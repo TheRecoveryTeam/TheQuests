@@ -38,6 +38,7 @@ class UserModelManagerTests : public ::testing::Test {
   }
   void TearDown() {
     delete id_list;
+    delete user_manager;
   }
 
   std::vector<std::string> *id_list;
