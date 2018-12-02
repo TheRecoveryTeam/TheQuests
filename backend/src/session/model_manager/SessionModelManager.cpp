@@ -38,7 +38,6 @@ std::string SessionModelManager::SessionModelManager::get_by_token(const std::st
   }
 }
 
-
 std::string SessionModelManager::SessionModelManager::create(const std::string &request) {
   std::vector<std::string> required_data = {"userId", "email", "password"};
   std::vector<std::string> id_data = {"userId"};
@@ -87,6 +86,6 @@ std::string SessionModelManager::SessionModelManager::remove(const std::string &
   if (result) {
     return nlohmann::json().dump();
   } else {
-    return nlohmann::json({{"error", "DeleteError"}}).dump();
+    return nlohmann::json({{"error", "SessionDeleteError"}}).dump();
   }
 }
