@@ -10,6 +10,7 @@ Rectangle {
     id: questShort
     property string questId
     property string title
+    property var onClick
     property string description
     property string authorNickname
     property int playerCount
@@ -153,6 +154,13 @@ Rectangle {
             anchors.rightMargin: 20
             size: 14
             spacing: 1
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            onClick(questId)
         }
     }
 }

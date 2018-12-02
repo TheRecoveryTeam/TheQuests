@@ -35,6 +35,7 @@
         <file alias="AuthorizedView/AuthorizedView.qml">qml/views/AuthorizedView/AuthorizedView.qml</file>
         <file alias="AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml">qml/views/AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml</file>
         <file alias="AuthorizedView/components/SettingsPage/SettingsPage.qml">qml/views/AuthorizedView/components/SettingsPage/SettingsPage.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/QuestPage.qml">qml/views/AuthorizedView/components/QuestPage/QuestPage.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>

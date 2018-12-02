@@ -24,7 +24,6 @@ TexturedRect {
         Loader {
             anchors.fill: parent
             sourceComponent: {
-                console.log(controller);
                 if (controller !== null && controller.type === 'choose') {
                     return chooseContainer;
                 }

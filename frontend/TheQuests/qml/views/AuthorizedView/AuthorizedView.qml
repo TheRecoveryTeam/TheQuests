@@ -48,6 +48,9 @@ StackView {
                     playerCount: 761
                     anchors.left: parent.left
                     anchors.right: parent.right
+                    onClick: function(questId) {
+                        console.log(questId);
+                    }
                 }
 
                 QuestShort {

@@ -27,7 +27,6 @@ Rectangle {
         var prevPosition = 0;
         curRealHeight = maxHeight;
         return function(scrollPosition) {
-            console.log(contentHeight)
             scrollPosition = Math.min(scrollPosition, contentHeight)
             scrollPosition = Math.max(scrollPosition, 0)
 
