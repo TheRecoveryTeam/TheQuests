@@ -11,7 +11,6 @@ Text {
         name: 'Exo2-Regular'
     }
 
-//    anchors.fill: parent
     wrapMode: Text.Wrap
     color: 'white'
     horizontalAlignment: Text.AlignHCenter

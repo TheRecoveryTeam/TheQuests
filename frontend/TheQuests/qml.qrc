@@ -21,6 +21,7 @@
         <file alias="Divider/Divider.qml">qml/components/Divider/Divider.qml</file>
         <file alias="CustomHeader/CustomHeader.qml">qml/components/CustomHeader/CustomHeader.qml</file>
         <file alias="QuestShort/QuestShort.qml">qml/components/QuestShort/QuestShort.qml</file>
+        <file alias="IconText/IconText.qml">qml/components/IconText/IconText.qml</file>
     </qresource>
     <qresource prefix="/views">
         <file alias="CardView/CardView.qml">qml/views/CardView/CardView.qml</file>
@@ -33,6 +34,7 @@
         <file alias="AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml">qml/views/AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml</file>
         <file alias="AuthorizedView/AuthorizedView.qml">qml/views/AuthorizedView/AuthorizedView.qml</file>
         <file alias="AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml">qml/views/AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml</file>
+        <file alias="AuthorizedView/components/SettingsPage/SettingsPage.qml">qml/views/AuthorizedView/components/SettingsPage/SettingsPage.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>

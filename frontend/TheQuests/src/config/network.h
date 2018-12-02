@@ -10,7 +10,7 @@ namespace network {
         POST,
     };
 
-    const QString BASE_URL = "http://cherkov.ru";
+    const QString BASE_URL = "http://localhost:5000";
     const QString ERROR_KEY = "__error__";
     const QString ITEMS_KEY = "__items__";
 }

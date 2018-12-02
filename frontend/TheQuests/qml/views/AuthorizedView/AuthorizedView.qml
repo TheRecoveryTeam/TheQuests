@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 import 'components/UserInfoHeader'
+import 'components/SettingsPage'
 import 'qrc:/components/CustomHeader'
 import 'qrc:/components/QuestShort'
 
@@ -15,24 +16,9 @@ StackView {
         header: UserInfoHeader {
             id: pageHeader
             curStackView: autorizedStackView
-            settingsPage: Page {
-                anchors.fill: parent
-                Rectangle {
-                    anchors.fill: parent
-                    color: 'white'
-
-                    CustomHeader {
-                        anchors {
-                            top: parent.top
-                            left: parent.left
-                            right: parent.right
-                        }
-
-                        label: 'Настройки'
-                        onClose: function () {
-                            autorizedStackView.pop();
-                        }
-                    }
+            settingsPage: SettingsPage {
+                onClose: function () {
+                    autorizedStackView.pop();
                 }
             }
         }
@@ -41,6 +27,7 @@ StackView {
         contentChildren: [ Flickable {
             anchors.fill: parent
             contentHeight: questColumnLayout.implicitHeight
+                           + questColumnLayout.anchors.margins * 2
 
             Column {
                 id: questColumnLayout

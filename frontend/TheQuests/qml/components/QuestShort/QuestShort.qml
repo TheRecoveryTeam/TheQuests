@@ -1,8 +1,10 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import 'qrc:/components/Title'
 import 'qrc:/components/SimpleText'
+import 'qrc:/components/IconText'
 
 Rectangle {
     id: questShort
@@ -47,11 +49,7 @@ Rectangle {
 
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#ffffff" }
-            GradientStop { position: (
-                                         descriptionContainer.height
-                                         + titleContainer.height
-                                         + contentContainer.spacing
-                ) / height; color: "#e2ffffff" }
+            GradientStop { position: contentContainer.implicitHeight / height; color: "#e2ffffff" }
             GradientStop { position: 1.0; color: "transparent" }
         }
 
@@ -64,7 +62,9 @@ Rectangle {
     Column {
         id: contentContainer
         anchors {
-            fill: parent
+            top: parent.top
+            left: parent.left
+            right: parent.right
             margins: 20
         }
         spacing: 20
@@ -98,6 +98,61 @@ Rectangle {
         border {
             width: 1
             color: '#E5E5E5'
+        }
+    }
+
+    Item {
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            margins: 10
+        }
+        height: 40
+
+        Rectangle {
+            radius: 20
+            anchors.fill: parent
+            opacity: 0.9
+            border {
+                width: 1
+                color: '#E5E5E5'
+            }
+        }
+
+        IconText {
+            id: playerCountIcon
+            anchors {
+                left: parent.left
+                top: parent.top
+                bottom: parent.bottom
+                leftMargin: 20
+            }
+
+            color: '#565656'
+            text: qsTr('')
+        }
+
+        SimpleText {
+            text: "" + questShort.playerCount
+            color: '#565656'
+            anchors.left: playerCountIcon.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.leftMargin: 10
+            size: 14
+            spacing: 1
+        }
+
+        SimpleText {
+            text: questShort.authorNickname
+            color: '#565656'
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.rightMargin: 20
+            size: 14
+            spacing: 1
         }
     }
 }

@@ -48,6 +48,8 @@ Rectangle {
                     onClick: function() {
                         headerPanel.curStackView.push(settingsPage)
                     }
+
+                    borderColor: '#E5E5E5'
                 }
             }
             Column {

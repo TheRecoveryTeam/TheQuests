@@ -18,8 +18,8 @@ Column {
         SimpleText {
             id: formLabel
             anchors {
-                left: formContainer.left
-                right: formContainer.right
+                left: parent.left
+                right: parent.right
             }
 
             text: formContainer.label

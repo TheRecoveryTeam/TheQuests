@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick 2.11
+import 'qrc:/components/IconText'
 
 Item {
     id: iconButton
@@ -7,6 +8,7 @@ Item {
     property string backgroundColor: '#ffffff'
     property string textColor: 'black'
     property bool disabled: false
+    property string borderColor: 'transparent'
 
     height: 40
     width: height
@@ -16,7 +18,7 @@ Item {
         anchors.fill: parent
         radius: parent.height / 2
         color: mouseArea.containsPress && !iconButton.disabled
-                ? Qt.darker(iconButton.backgroundColor, 1.05)
+                ? Qt.darker(iconButton.backgroundColor, 1.1)
                 : iconButton.backgroundColor
         MouseArea {
             id: mouseArea
@@ -29,25 +31,22 @@ Item {
         }
     }
 
-    FontLoader {
-        id: iconFont
-        source: 'qrc:/media/MaterialIcons-Regular.ttf'
-        name: 'MaterialIcons'
+    Rectangle {
+        anchors.fill: parent
+        radius: parent.height / 2
+        color: 'transparent'
+        border {
+            width: 1
+            color: parent.borderColor
+        }
     }
 
-    Text {
+    IconText {
         id: iconText
 
         anchors.centerIn: parent
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-
 
         text: iconButton.symbolIcon
         color: iconButton.textColor
-        font {
-            family: iconFont.name
-            pixelSize: 18
-        }
     }
 }

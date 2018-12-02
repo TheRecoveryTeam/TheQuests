@@ -44,6 +44,9 @@ void App::registerTypes() const
     qmlRegisterType<CardLink>("application", 1, 0, "CardLink");
     qmlRegisterType<AbstractCardController>("application", 1, 0, "AbstractCardController");
 
+
+    qmlRegisterSingletonType<UserController>("controllers", 1, 0, "UserController",
+                                        reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(UserController::instance));
     qmlRegisterType<LoginForm>("application", 1, 0, "LoginForm");
     qmlRegisterType<SignUpForm>("application", 1, 0, "SignUpForm");
     qmlRegisterType<SignUpFinishForm>("application", 1, 0, "SignUpFinishFrom");

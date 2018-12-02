@@ -7,7 +7,7 @@ Item {
     property string text
     property var onClick
     property string backgroundColor: '#ffffff'
-    property bool border: true
+    property string borderColor: backgroundColor
     property string textColor: '#333333'
     property bool contained: true
     property double backgrounOpacity: 0.6
@@ -17,7 +17,7 @@ Item {
     anchors {
         left: wide ? parent.left : undefined
         right: wide ? parent.right : undefined
-        margins: 20
+//        margins: 20
     }
     height: 50
     width: wide ? undefined : buttonText.implicitWidth + 40
@@ -27,8 +27,8 @@ Item {
         radius: 10
         color: 'transparent'
         border {
-            width: customButton.border ? 1 : 0
-            color: customButton.backgroundColor
+            width: 1
+            color: customButton.borderColor
         }
         Rectangle {
             radius: parent.radius
@@ -45,6 +45,7 @@ Item {
                         onClick()
                     }
                 }
+
             }
         }
     }
