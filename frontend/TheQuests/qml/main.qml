@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 import QtQuick.Window 2.11
 import 'views/CardView'
 import 'views/AuthenticationView'
+import 'views/AuthorizedView'
 import 'components/CustomButton'
 import models 1.0
 
@@ -19,7 +20,7 @@ ApplicationWindow {
 
     Component {
         id: cardContainer
-        CardView {
+        AuthorizedView {
             anchors.fill: parent
         }
     }

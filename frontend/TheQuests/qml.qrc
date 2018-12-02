@@ -11,11 +11,16 @@
         <file alias="Title/Title.qml">qml/components/Title/Title.qml</file>
         <file alias="SimpleText/SimpleText.qml">qml/components/SimpleText/SimpleText.qml</file>
         <file alias="CustomButton/CustomButton.qml">qml/components/CustomButton/CustomButton.qml</file>
+        <file alias="CustomButton/IconButton.qml">qml/components/CustomButton/IconButton.qml</file>
+        <file alias="CustomButton/WhiteCustomButton.qml">qml/components/CustomButton/WhiteCustomButton.qml</file>
         <file alias="ImageContainer/ImageContainer.qml">qml/components/ImageContainer/ImageContainer.qml</file>
         <file alias="TexturedRect/TexturedRect.qml">qml/components/TexturedRect/TexturedRect.qml</file>
         <file alias="form/FormContainer/FormContainer.qml">qml/components/form/FormContainer/FormContainer.qml</file>
         <file alias="form/TextInput/TextInput.qml">qml/components/form/TextInput/TextInput.qml</file>
-        <file alias="CustomButton/WhiteCustomButton.qml">qml/components/CustomButton/WhiteCustomButton.qml</file>
+        <file alias="ImageCircled/ImageCircled.qml">qml/components/ImageCircled/ImageCircled.qml</file>
+        <file alias="Divider/Divider.qml">qml/components/Divider/Divider.qml</file>
+        <file alias="CustomHeader/CustomHeader.qml">qml/components/CustomHeader/CustomHeader.qml</file>
+        <file alias="QuestShort/QuestShort.qml">qml/components/QuestShort/QuestShort.qml</file>
     </qresource>
     <qresource prefix="/views">
         <file alias="CardView/CardView.qml">qml/views/CardView/CardView.qml</file>
@@ -26,10 +31,13 @@
         <file alias="AuthenticationView/components/LoginFormView/LoginFormView.qml">qml/views/AuthenticationView/components/LoginView/LoginView.qml</file>
         <file alias="AuthenticationView/components/SignUpFormView/SignUpFormView.qml">qml/views/AuthenticationView/components/SignUpFormView/SignUpFormView.qml</file>
         <file alias="AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml">qml/views/AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml</file>
+        <file alias="AuthorizedView/AuthorizedView.qml">qml/views/AuthorizedView/AuthorizedView.qml</file>
+        <file alias="AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml">qml/views/AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>
         <file alias="Exo2-Regular.ttf">qml/media/Exo2-Regular.ttf</file>
+        <file alias="MaterialIcons-Regular.ttf">qml/media/MaterialIcons-Regular.ttf</file>
         <file alias="king.jpg">qml/media/kingImage.jpg</file>
         <file alias="pointStars.svg">qml/media/4-point-stars.svg</file>
     </qresource>

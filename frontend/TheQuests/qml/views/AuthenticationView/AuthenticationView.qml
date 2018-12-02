@@ -121,8 +121,12 @@ Page {
                 visible: false
                 background: Rectangle { color: 'transparent' }
                 Item {
-                    anchors.margins: 10
-                    anchors.fill: parent
+                    anchors {
+                        leftMargin: 10
+                        rightMargin: 10
+                        fill: parent
+                    }
+
                     SignUpFinishFormView {
                         anchors.fill: parent
                         form: signupFinishForm

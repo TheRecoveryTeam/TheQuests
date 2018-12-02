@@ -5,8 +5,12 @@ import QtQuick.Controls 2.4
 Item {
     id: imageContainer
     property string source: 'qrc:/media/king.jpg'
+    property string placeholderColor: 'transparent'
+    property alias rawImage: image
+    property alias placeholder: placeholder
 
     Rectangle {
+        id: placeholder
         anchors.fill: parent
         BusyIndicator {
             anchors {
@@ -16,7 +20,7 @@ Item {
 
             running: image.status === Image.Loading
         }
-        color: '#4b413a'
+        color: imageContainer.placeholderColor
     }
 
     Image {
