@@ -16,6 +16,8 @@ StackView {
         header: UserInfoHeader {
             id: pageHeader
             curStackView: autorizedStackView
+            scrollPosition: flickableContainer.contentY
+            contentHeight: flickableContainer.contentHeight / 2
             settingsPage: SettingsPage {
                 onClose: function () {
                     autorizedStackView.pop();
@@ -25,6 +27,7 @@ StackView {
 
 
         contentChildren: [ Flickable {
+            id: flickableContainer;
             anchors.fill: parent
             contentHeight: questColumnLayout.implicitHeight
                            + questColumnLayout.anchors.margins * 2
