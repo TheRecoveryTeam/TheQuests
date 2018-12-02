@@ -156,6 +156,15 @@ std::string CardModelManager::CardModelManager::get_next_card(const std::string 
     return update_result;
   }
   std::string next_card_id = query_history_update["cardId"];
+  // Переводим resources из map в array
+  auto resources_array =nlohmann::json();
+  for (auto &resource: history["resources"].get<std::map<std::string, int>>()) {
+    resources_array.push_back({
+                                  {"name", resource.first},
+                                  {"value", resource.second}
+                              });
+  }
+  history["resources"] = resources_array;
   return nlohmann::json({
                             {"nextCardId", next_card_id},
                             {"resources", history["resources"]}
