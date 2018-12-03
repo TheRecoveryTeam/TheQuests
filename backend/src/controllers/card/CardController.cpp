@@ -101,7 +101,7 @@ void CardController::links_upsert(web::http::http_request message) {
             web::json::value id = body.at(U("id"));
             web::json::value questId = body.at(U("links"));
 
-            //TODO: Edit from DB
+            //TODO: Links upsert from DB
             message.reply(web::http::status_codes::OK, response);
         }
         catch (web::json::json_exception &e) {

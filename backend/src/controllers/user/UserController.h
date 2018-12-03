@@ -28,6 +28,10 @@ public:
 
     void password_edit(web::http::http_request message);
 
+    void find_nickname(web::http::http_request message);
+
+    void find_email(web::http::http_request message);
+
 
 private:
     static web::json::value responseNotImpl(const web::http::method &method);
