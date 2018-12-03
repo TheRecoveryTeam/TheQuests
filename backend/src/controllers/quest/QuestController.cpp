@@ -54,7 +54,7 @@ void QuestController::edit_image(web::http::http_request message) {
 
 }
 
-void QuestController::detail(web::http::http_request message) {
+void QuestController::get(web::http::http_request message) {
 
 }
 
@@ -68,9 +68,9 @@ void QuestController::list(web::http::http_request message) {
 
 void QuestController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
-            U("detail"),
+            U("get"),
             web::http::methods::GET,
-            CPPRESTHELPER_HANDLER(QuestController, detail)
+            CPPRESTHELPER_HANDLER(QuestController, get)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{

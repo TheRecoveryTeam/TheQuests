@@ -26,7 +26,7 @@ public:
 
     void edit_image(web::http::http_request message);
 
-    void detail(web::http::http_request message);
+    void get(web::http::http_request message);
 
     void resources(web::http::http_request message);
 
