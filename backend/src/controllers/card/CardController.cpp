@@ -18,6 +18,8 @@ void CardController::initRestOpHandlers() {
     _listener.support([this](const web::http::http_request &message) {
         std::wcout << "CARD CONTROLLER" << std::endl;
         std::wcout << message.relative_uri().path().c_str() << std::endl;
+        auto response = web::json::value::object();
+
         bool found = false;
         for (auto &entry : _routingEntries) {
             if (message.relative_uri().path() != entry.url || message.method() != entry.method) {
@@ -28,9 +30,9 @@ void CardController::initRestOpHandlers() {
             break;
         }
         if (!found) {
-            auto response = web::json::value::object();
             response["code"] = 400;
             response["message"] = web::json::value::string("Request to CardController is not valid!");
+
             message.reply(web::http::status_codes::BadRequest, response);
         }
     });
@@ -50,42 +52,59 @@ void CardController::add(const web::http::http_request message) {
     auto path = requestPath(message);
     auto response = web::json::value::object();
     if (!path.empty()) {
-        auto body = message.extract_json().get();
-        try {
-            web::json::value id = body.at(U("id"));
-            web::json::value questId = body.at(U("questId"));
-            web::json::value title = body.at(U("title"));
-            web::json::value description = body.at(U("description"));
-            web::json::value type = body, at(U("type"));
-            nlohmann::json new_card = {
-                    {"questId",     questId.as_string()},
-                    {"title",       title.as_string()},
-                    {"description", description.as_string()},
-                    {"type",        type.as_string()},
-            };
+        auto status_code = web::http::status_codes::OK;
+        message
+                .extract_json()
+                .then([&response, &status_code](pplx::task<web::json::value> task) {
 
-            CardModelManager::CardModelManager manager;
-            std::string db_response = manager.create(new_card.dump());
-            auto data = nlohmann::json::parse(db_response);
-            auto status_code = web::http::status_codes::OK;
-            if (data.find("error") != data.end()) {
-                response["error"] = web::json::value::string(data["error"].get<std::string>());
-                status_code = web::http::status_codes::NotFound;
-            } else {
-                response["id"] = web::json::value::string(data["id"].get<std::string>());
-            }
-            message.reply(status_code, response);
+                    try {
+                        auto const &body = task.get();
+                        std::wcout << body.as_string().c_str() << std::endl;
+                        if (!body.is_null()) {
+                            web::json::value id = body.at(U("id"));
+                            web::json::value questId = body.at(U("questId"));
+                            web::json::value title = body.at(U("title"));
+                            web::json::value description = body.at(U("description"));
+                            web::json::value type = body.at(U("type"));
+                            nlohmann::json new_card = {
+                                    {"questId",     questId.as_string()},
+                                    {"title",       title.as_string()},
+                                    {"description", description.as_string()},
+                                    {"type",        type.as_string()},
+                            };
 
-        }
-        catch (web::json::json_exception &e) {
-            response["code"] = 400;
-            response["message"] = web::json::value::string("card add is wrong");
-            message.reply(web::http::status_codes::BadRequest, response);
-        }
+                            CardModelManager::CardModelManager manager;
+                            std::string db_response = manager.create(new_card.dump());
+                            auto data = nlohmann::json::parse(db_response);;
+                            if (data.find("error") != data.end()) {
+                                response["code"] = 404;
+                                response["message"] = web::json::value::string(data["error"].get<std::string>());
+                                status_code = web::http::status_codes::NotFound;
+                            } else {
+                                response["id"] = web::json::value::string(data["id"].get<std::string>());
+                            }
+                        } else {
+                            std::wcout << "Empty response received." << std::endl;
+                            response["code"] = 400;
+                            response["message"] = web::json::value::string("card add is wrong");
 
+                        }
+
+                    } catch (web::http::http_exception const &e) {
+                        std::wcout << e.what() << std::endl;
+                        response["code"] = 400;
+                        response["message"] = web::json::value::string("card add is wrong");
+                    } catch (std::exception const &e)
+                    {
+                        std::wcout << e.what() << std::endl;
+                    }
+                })
+                .wait();
+        message.reply(status_code, response);
     } else {
         response["code"] = 400;
         response["message"] = web::json::value::string("card add is wrong");
+        response["description"] = web::json::value::string("Empty path!");
         message.reply(web::http::status_codes::BadRequest, response);
     }
 }
