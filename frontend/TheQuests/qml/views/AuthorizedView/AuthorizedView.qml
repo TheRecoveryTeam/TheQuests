@@ -5,12 +5,27 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.3
 import 'components/UserInfoHeader'
 import 'components/SettingsPage'
+import 'components/QuestPage'
 import 'qrc:/components/CustomHeader'
 import 'qrc:/components/QuestShort'
 
 StackView {
     id: autorizedStackView
     anchors.fill: parent
+    property string currentQuestId
+
+    Component {
+        id: questPage
+        QuestPage {
+            questId: currentQuestId
+            curStackView: autorizedStackView
+        }
+    }
+
+    property var handleOpenQuest: function(questId) {
+        currentQuestId = questId;
+        autorizedStackView.push(questPage);
+    }
 
     initialItem: Page {
         header: UserInfoHeader {
@@ -43,14 +58,12 @@ StackView {
                 QuestShort {
                     title: 'Заголовок квеста'
                     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor facilisis leo et feugiat. Maecenas molestie pellentesque libero, ut egestas diam lacinia in. In ac neque rhoncus, interdum mi vitae.'
-                    questId: 'questId'
+                    questId: 'quest_one_id'
                     authorNickname: 'Imechko Familiya'
                     playerCount: 761
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    onClick: function(questId) {
-                        console.log(questId);
-                    }
+                    onClick: handleOpenQuest
                 }
 
                 QuestShort {

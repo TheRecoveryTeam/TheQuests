@@ -29,6 +29,7 @@ const QString& QuestShortModel::getId() const
 void QuestShortModel::setId(const QString &value)
 {
     id = value;
+    emit idChanged(id);
 }
 
 const QString& QuestShortModel::getTitle() const
@@ -39,6 +40,7 @@ const QString& QuestShortModel::getTitle() const
 void QuestShortModel::setTitle(const QString &value)
 {
     title = value;
+    emit titleChanged(title);
 }
 
 const QString& QuestShortModel::getDescription() const
@@ -49,6 +51,7 @@ const QString& QuestShortModel::getDescription() const
 void QuestShortModel::setDescription(const QString &value)
 {
     description = value;
+    emit descriptionChanged(description);
 }
 
 const QString& QuestShortModel::getAuthorNickName() const
@@ -59,6 +62,7 @@ const QString& QuestShortModel::getAuthorNickName() const
 void QuestShortModel::setAuthorNickName(const QString &value)
 {
     authorNickName = value;
+    emit authorNickNameChanged(authorNickName);
 }
 
 const QString& QuestShortModel::getPlayerCount() const
@@ -69,6 +73,7 @@ const QString& QuestShortModel::getPlayerCount() const
 void QuestShortModel::setPlayerCount(const QString &value)
 {
     playerCount = value;
+    emit playerCountChanged(playerCount);
 }
 
 const QString& QuestShortModel::getImagePath() const
@@ -79,4 +84,5 @@ const QString& QuestShortModel::getImagePath() const
 void QuestShortModel::setImagePath(const QString &value)
 {
     imagePath = value;
+    emit imagePathChanged(imagePath);
 }

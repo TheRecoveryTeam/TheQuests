@@ -17,6 +17,8 @@
 #include "src/controllers/UserController/SignUpForm/signupform.h"
 #include "src/controllers/UserController/SignUpFinishForm/signupfinishform.h"
 
+#include "src/controllers/QuestController/questcontroller.h"
+
 App::App(QObject *parent):
     QObject(parent)
 {
@@ -50,4 +52,7 @@ void App::registerTypes() const
     qmlRegisterType<LoginForm>("application", 1, 0, "LoginForm");
     qmlRegisterType<SignUpForm>("application", 1, 0, "SignUpForm");
     qmlRegisterType<SignUpFinishForm>("application", 1, 0, "SignUpFinishFrom");
+
+    qmlRegisterSingletonType<QuestController>("controllers", 1, 0, "QuestController",
+                                     reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(QuestController::instance));
 }

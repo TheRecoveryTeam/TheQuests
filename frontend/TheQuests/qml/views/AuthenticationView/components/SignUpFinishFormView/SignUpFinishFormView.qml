@@ -2,6 +2,7 @@ import QtQuick 2.0
 import 'qrc:/components/form/FormContainer'
 import 'qrc:/components/form/TextInput'
 import 'qrc:/components/CustomButton'
+import 'qrc:/components/SimpleText'
 import application 1.0
 
 Column {
@@ -19,16 +20,25 @@ Column {
             right: parent.right
         }
 
-        inputsBlock: TextInput {
-            id: nicknameInput
-            inputId {
-                onTextChanged: {
-                    signUpFinishView.form.nickname = inputId.text
+        inputsBlock: Column {
+            spacing: 10
+
+//            SimpleText {
+//                text: form.email
+//                spacing: 1
+//            }
+
+            TextInput {
+                id: nicknameInput
+                inputId {
+                    onTextChanged: {
+                        signUpFinishView.form.nickname = inputId.text
+                    }
+                    text: signUpFinishView.form.nickname
                 }
-                text: signUpFinishView.form.nickname
+                label: 'Никнейм'
+                errorText: signUpFinishView.form.nicknameError
             }
-            label: 'Никнейм'
-            errorText: signUpFinishView.form.nicknameError
         }
     }
 

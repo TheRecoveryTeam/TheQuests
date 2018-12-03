@@ -3,23 +3,48 @@ import QtQuick.Controls 2.4
 import 'qrc:/components/Card'
 import 'qrc:/components/ImageContainer'
 import 'qrc:/components/CustomButton'
+import 'qrc:/components/Title'
+import 'qrc:/components/SimpleText'
+import 'qrc:/components/TexturedRect'
+import 'qrc:/components/CustomButton'
+import 'qrc:/views/CardView'
+import models 1.0
+import controllers 1.0
 
 Item {
     id: questRoot
-    property StackView currStackView
+    property StackView curStackView
+    property string questId
 
-    property string questId: 'some quest'
-    property string title: 'Quest title'
-    property string description: 'Quest description'
-    property string imagePath: ''
-    property string currCardId: ''
-    property string authorNickname: 'Author'
-    property int playerCount
-    property string stage
+    property var getButtonLabel: function (){
+        if (QuestDetailModel.stage === '') {
+            return 'Начать квест!';
+        }
+        if (QuestDetailModel.stage === 'end') {
+            return 'Пройти квест снова!';
+        }
+        return 'Продолжить квест!';
+    }
+
+    Component {
+        id: cardView
+        CardView {}
+    }
+
+    property var handleOpenCard: function (){
+        CardController.get(QuestDetailModel.currCardId);
+        curStackView.push(cardView);
+    }
+
+    Component.onCompleted: function() {
+        console.log(questId);
+        QuestController.getQuestDetail(questId);
+    }
 
     Card {
-        title: questRoot.title
-        description: questRoot.description
+        anchors.fill: parent
+        title: QuestDetailModel.title
+        description: QuestDetailModel.description
         mediaBlock: SwipeView {
             id: cardSwipeView
             currentIndex: 0
@@ -29,21 +54,51 @@ Item {
                 id: firstPage
                 ImageContainer {
                     anchors.fill: parent
-                    source: CardModel.imagePath
+                    source: QuestDetailModel.imagePath
                     placeholderColor: '#1D1D1D'
                 }
             }
 
+            TexturedRect {
+                id: infoPage
+                Column {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+                    anchors.margins: 20
+                    spacing: 20
 
+                    SimpleText {
+                        text: 'Сейчас играют: ' + QuestDetailModel.playerCount
+                    }
+
+                    SimpleText {
+                        text: 'Автор: ' + QuestDetailModel.authorNickName
+                    }
+
+                    CustomButton {
+                        text: getButtonLabel()
+                        onClick: handleOpenCard
+                    }
+                }
+            }
         }
 
-        toolbarBlock: Row {
+        toolbarBlock: Item {
             anchors.fill: parent
             anchors.margins: 20
 
-            IconButton {
+            OutlinedIconButton {
                 symbolIcon: qsTr('')
-                onClick: currStackView.pop()
+                onClick: curStackView.pop
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+            }
+
+            Title {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                label: "by " + QuestDetailModel.authorNickName
             }
         }
     }

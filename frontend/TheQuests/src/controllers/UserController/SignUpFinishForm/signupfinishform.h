@@ -16,6 +16,9 @@ class SignUpFinishForm : public IForm
     Q_PROPERTY(const QString& nicknameError
                READ getNicknameError
                NOTIFY nicknameErrorChanged)
+    Q_PROPERTY(const QString& email
+               READ getEmail
+               NOTIFY emailChanged)
 public:
     SignUpFinishForm(const QString& email = "",
                      const QString& password = "",
@@ -26,6 +29,8 @@ public:
     Q_INVOKABLE void validate() override;
     Q_INVOKABLE void send() override;
 
+    QString getEmail() const;
+
     QString getNickname() const;
     void setNickname(const QString& value);
 
@@ -35,6 +40,7 @@ public:
 signals:
     void nicknameChanged(const QString&);
     void nicknameErrorChanged(const QString&);
+    void emailChanged(const QString&);
 
 private:
     void validateNickname();

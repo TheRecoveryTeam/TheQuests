@@ -34,6 +34,7 @@ void QuestController::getQuestDetail(const QString &questId) const
     [this](QJsonObject obj) {
         QuestMapper mapper;
         auto questDetail = mapper.convertQuestDetail(obj);
+        qDebug() << questDetail.imagePath;
         questDetailModel->setQuestDetail(questDetail);
     },
     [](QJsonObject obj){

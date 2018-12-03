@@ -26,6 +26,7 @@ const QString& QuestDetailModel::getCurrCardId() const
 void QuestDetailModel::setCurrCardId(const QString &value)
 {
     currCardId = value;
+    emit currCardIdChanged(currCardId);
 }
 
 const QString& QuestDetailModel::getStage() const
@@ -36,6 +37,7 @@ const QString& QuestDetailModel::getStage() const
 void QuestDetailModel::setStage(const QString &value)
 {
     stage = value;
+    emit stageChanged(stage);
 }
 
 void QuestDetailModel::setAll(const QString &id,

@@ -23,7 +23,7 @@ class CardModel : public CardShortModel
 public:
     ~CardModel() = default;
 
-    static CardModel* instance(QQmlEngine* qmle = nullptr, QJSEngine* qjse = nullptr);
+    static CardModel* instance();
 
     const QString& getQuestId() const;
     void setQuestId(const QString &value);

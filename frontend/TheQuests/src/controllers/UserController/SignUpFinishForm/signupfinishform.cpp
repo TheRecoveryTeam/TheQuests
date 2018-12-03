@@ -16,6 +16,7 @@ void SignUpFinishForm::initialize(const QString& email, const QString& password)
 {
     this->email = email;
     this->password = password;
+    emit emailChanged(email);
 }
 
 void SignUpFinishForm::validate()
@@ -28,6 +29,11 @@ void SignUpFinishForm::send()
     userController->create(nickname, email, password, [](QJsonObject obj){
         // TODO
     });
+}
+
+QString SignUpFinishForm::getEmail() const
+{
+    return email;
 }
 
 bool SignUpFinishForm::isValid() const

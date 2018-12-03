@@ -13,7 +13,7 @@ CardModel* CardModel::createInstance()
     return new CardModel();
 }
 
-CardModel* CardModel::instance(QQmlEngine* qqmle, QJSEngine* qjse)
+CardModel* CardModel::instance()
 {
     return Singleton<CardModel>::instance(CardModel::createInstance);
 }
