@@ -14,9 +14,6 @@ ApplicationWindow {
     height: 640
     title: qsTr('The Quests')
 
-    // If android android
-     visibility: Window.FullScreen
-
     Component {
         id: cardContainer
         AuthorizedView {
