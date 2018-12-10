@@ -7,6 +7,7 @@ class QJsonObject;
 namespace structures {
     struct ResourceItem;
 }
+
 class ResourcesMapper
 {
 public:

@@ -7,6 +7,7 @@
 #include "src/models/structures/cardlink.h"
 
 class QJsonObject;
+class QString;
 
 namespace structures {
     struct ResourceItem;
@@ -18,9 +19,7 @@ class CardMapper
 public:
     CardMapper() = default;
     structures::CardDetail convertCardDetail(const QJsonObject& obj) const;
-    QVector<structures::CardLink> convertCardLinkList(const QJsonObject& obj) const;
-private:
-    QVector<structures::ResourceItem> convertResourcesList(const QJsonArray& resourcesJsonArr) const;
+    QVector<QString> convertCardLinkList(const QJsonObject& obj) const;
 };
 
 #endif // CARDMAPPER_H

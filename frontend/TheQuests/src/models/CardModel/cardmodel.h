@@ -4,7 +4,6 @@
 #include <QObject>
 #include "../CardShortModel/cardshortmodel.h"
 #include "./controllers/abstractcardcontroller.h"
-#include "./controllers/ChooseCardModel/choosecardmodel.h"
 
 class QQmlEngine;
 class QJSEngine;

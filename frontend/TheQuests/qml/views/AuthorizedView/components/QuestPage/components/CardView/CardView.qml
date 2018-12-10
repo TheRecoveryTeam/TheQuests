@@ -8,8 +8,11 @@ import models 1.0
 
 
 Card {
+    id: card
+    property var onBackToQuest
     title: CardModel.title
     description: CardModel.description
+
     mediaBlock: SwipeView {
         id: cardSwipeView
         currentIndex: 0
@@ -23,8 +26,10 @@ Card {
                 placeholderColor: '#1D1D1D'
             }
         }
+
         CardControllerView {
             controller: CardModel.controller
+            onBackToQuest: card.onBackToQuest
         }
     }
 }

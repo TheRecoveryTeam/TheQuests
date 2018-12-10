@@ -1,9 +1,10 @@
 #include "cardlinklist.h"
+#include <QDebug>
 
 CardLinkList::CardLinkList(QObject* parent): QAbstractListModel(parent)
 { }
 
-CardLinkList::CardLinkList(const QVector<CardLink*>& links, QObject* parent):
+CardLinkList::CardLinkList(const QVector<QString>& links, QObject* parent):
     QAbstractListModel(parent),
     links(links)
 { }
@@ -21,24 +22,20 @@ QVariant CardLinkList::data(const QModelIndex& index, int role) const
     if(!index.isValid()) {
         return QVariant();
     }
-
     if(index.row() >= links.count()) {
         return QVariant();
     }
 
     if (role == linkRole || role == Qt::DisplayRole) {
-        return QVariant::fromValue(links[index.row()]);
+        return links[index.row()];
     }
     return QVariant();
 }
 
-bool CardLinkList::appendLink(CardLink* link)
+bool CardLinkList::appendLink(const QString& link)
 {
-    if (!link) {
-        return false;
-    }
     emit beginInsertRows(QModelIndex(), links.count(), links.count());
-    this->links << link;
+    links << link;
     emit endInsertRows();
     return true;
 }

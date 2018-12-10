@@ -22,9 +22,9 @@ Item {
             spacing: 20
             delegate: CustomButton {
                 id: button
-                text: model.link.answer
+                text: model.link
                 onClick: function () {
-                    CardController.doAnswer('123', model.link.answer)
+                    CardController.doAnswer('123', model.link)
                 }
             }
             onCountChanged: {

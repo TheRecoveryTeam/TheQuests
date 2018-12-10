@@ -12,7 +12,6 @@
 #include "src/models/CardModel/controllers/abstractcardcontroller.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h"
-#include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
 #include "src/models/UserModel/usermodel.h"
 #include "src/engine/HttpRequester/httprequester.h"
 #include "src/controllers/CardController/cardcontroller.h"
@@ -33,9 +32,7 @@ int main(int argc, char *argv[])
     cardChooseController->setLinksList(cardLinksList);
 
     for (int i = 0; i < 3; i++) {
-        auto newLink = new CardLink();
-        newLink->setAnswer(QString("Answer %1").arg(i + 1));
-        cardLinksList->appendLink(newLink);
+        cardLinksList->appendLink(QString("Answer %1").arg(i + 1));
     }
 
     CardModel::instance()->setAll("id_12345",

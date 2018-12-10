@@ -2,6 +2,8 @@
 #define QUESTDETAIL_H
 
 #include <QString>
+#include <QVector>
+#include "resourceitem.h"
 
 namespace structures {
 
@@ -14,6 +16,7 @@ struct QuestDetail {
     QString playerCount = "";
     QString imagePath = "";
     QString stage = "";
+    QVector<ResourceItem> resources;
 };
 }
 

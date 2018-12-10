@@ -1,6 +1,8 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
+#include <QString>
+#include <QDebug>
 #include "cardmapper.h"
 #include "src/config/questcardtypes.h"
 #include "src/models/structures/carddetail.h"
@@ -32,55 +34,22 @@ structures::CardDetail CardMapper::convertCardDetail(const QJsonObject& obj) con
     return cardDetail;
 }
 
-QVector<structures::CardLink> CardMapper::convertCardLinkList(const QJsonObject& obj) const
+QVector<QString> CardMapper::convertCardLinkList(const QJsonObject& obj) const
 {
     if (!obj["links"].isArray()) {
         // TODO: exception
     }
 
-    QVector<structures::CardLink> linkList;
+    QVector<QString> linkList;
 
     QJsonArray linkListJsonArr = obj["links"].toArray();
 
     for (auto item: linkListJsonArr) {
-        if (!item.isObject()) {
+        if (!item.isString()) {
             // TODO: exception
         }
-
-        auto itemObj = item.toObject();
-        if (!itemObj["answer"].isString() || !itemObj["links"].isArray()) {
-            // TODO: exception
-        }
-
-        structures::CardLink cardLink;
-        cardLink.answer = itemObj["answer"].toString();
-
-        QJsonArray resourcesJsonArr = itemObj["resources"].toArray();
-        cardLink.resources = convertResourcesList(resourcesJsonArr);
-
-        linkList << cardLink;
+        linkList << item.toString();
     }
 
     return linkList;
-}
-
-QVector<structures::ResourceItem> CardMapper::convertResourcesList(const QJsonArray& resourcesJsonArr) const
-{
-    QVector<structures::ResourceItem> resources;
-    for (auto resourceJsonItem: resourcesJsonArr) {
-        auto resourceJsonObj = resourceJsonItem.toObject();
-
-        if (!resourceJsonObj["type"].isString()
-                || !resourceJsonObj["value"].isDouble()) {
-
-            // TODO: exception
-        }
-
-        structures::ResourceItem resourceItem;
-        resourceItem.type = resourceJsonObj["type"].toString();
-        resourceItem.value = resourceJsonObj["value"].toInt();
-        resources << resourceItem;
-    }
-
-    return resources;
 }

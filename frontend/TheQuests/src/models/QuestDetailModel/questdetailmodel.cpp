@@ -1,12 +1,32 @@
+#include <QDebug>
 #include <QQmlEngine>
 #include <QJSEngine>
 #include "questdetailmodel.h"
 #include "src/utils/singleton.h"
 #include "src/models/structures/questdetail.h"
+#include "src/models/ResourceListModel/resourcelistmodel.h"
 
 QuestDetailModel::QuestDetailModel(QObject *parent):
-    QuestShortModel (parent)
+    QuestShortModel (parent),
+    resources(nullptr)
 {}
+
+ResourceListModel* QuestDetailModel::getResources() const
+{
+    return resources;
+}
+
+void QuestDetailModel::setResources(ResourceListModel* value)
+{
+    if (resources) {
+        resources->deleteLater();
+    }
+    if (value) {
+        value->setParent(this);
+    }
+    resources = value;
+    emit resourcesChanged(resources);
+}
 
 QuestDetailModel *QuestDetailModel::createInstance()
 {
@@ -69,4 +89,6 @@ void QuestDetailModel::setQuestDetail(structures::QuestDetail &questDetail)
     setImagePath(questDetail.imagePath);
     setCurrCardId(questDetail.currCardId);
     setStage(questDetail.stage);
+    qDebug() << "in setQuestDetail";
+    setResources(new ResourceListModel(questDetail.resources, this));
 }

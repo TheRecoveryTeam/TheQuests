@@ -1,4 +1,4 @@
-QT += quick
+QT += qml quick widgets gui core svg
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -44,7 +44,6 @@ SOURCES += \
     src/mappers/UserMapper/usermapper.cpp \
     src/models/CardModel/cardmodel.cpp \
     src/models/CardModel/controllers/abstractcardcontroller.cpp \
-    src/models/CardModel/controllers/ChooseCardModel/cardlink.cpp \
     src/models/CardModel/controllers/ChooseCardModel/cardlinklist.cpp \
     src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.cpp \
     src/models/CardShortModel/cardshortmodel.cpp \
@@ -53,7 +52,9 @@ SOURCES += \
     src/models/QuestListsContainerModel/questlistscontainermodel.cpp \
     src/models/QuestShortModel/questshortmodel.cpp \
     src/models/UserModel/usermodel.cpp \
-    src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.cpp
+    src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.cpp \
+    src/models/ResourceListModel/resourcelistmodel.cpp \
+    src/models/CardModel/controllers/FinishCardController/finishcardcontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -105,7 +106,6 @@ HEADERS += \
     src/mappers/UserMapper/usermapper.h \
     src/models/CardModel/cardmodel.h \
     src/models/CardModel/controllers/abstractcardcontroller.h \
-    src/models/CardModel/controllers/ChooseCardModel/cardlink.h \
     src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h \
     src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h \
     src/models/CardShortModel/cardshortmodel.h \
@@ -123,4 +123,6 @@ HEADERS += \
     src/utils/call_once.h \
     src/utils/iform.h \
     src/utils/singleton.h \
-    src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.h
+    src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.h \
+    src/models/ResourceListModel/resourcelistmodel.h \
+    src/models/CardModel/controllers/FinishCardController/finishcardcontroller.h

@@ -7,7 +7,9 @@ import 'qrc:/components/Title'
 import 'qrc:/components/SimpleText'
 import 'qrc:/components/TexturedRect'
 import 'qrc:/components/CustomButton'
-import 'qrc:/views/CardView'
+import 'qrc:/components/IconText'
+import 'components/CardView'
+import 'components/QuestToolbar'
 import models 1.0
 import controllers 1.0
 
@@ -28,7 +30,14 @@ Item {
 
     Component {
         id: cardView
-        CardView {}
+        CardView {
+            toolbarBlock: QuestToolbar {
+                curStackView: questRoot.curStackView
+            }
+            onBackToQuest: function() {
+                questRoot.curStackView.pop()
+            }
+        }
     }
 
     property var handleOpenCard: function (){
@@ -68,12 +77,58 @@ Item {
                     anchors.margins: 20
                     spacing: 20
 
-                    SimpleText {
-                        text: 'Сейчас играют: ' + QuestDetailModel.playerCount
-                    }
+                    Item {
+                        anchors {
+                            left: parent.left
+                            right: parent.right
+                            margins: 10
+                        }
+                        height: 40
 
-                    SimpleText {
-                        text: 'Автор: ' + QuestDetailModel.authorNickName
+                        Rectangle {
+                            radius: 20
+                            anchors.fill: parent
+                            opacity: 0.9
+                            border {
+                                width: 1
+                                color: '#E5E5E5'
+                            }
+                        }
+
+                        IconText {
+                            id: playerCountIcon
+                            anchors {
+                                left: parent.left
+                                top: parent.top
+                                bottom: parent.bottom
+                                leftMargin: 20
+                            }
+
+                            color: '#565656'
+                            text: qsTr('')
+                        }
+
+                        SimpleText {
+                            text: "" + QuestDetailModel.playerCount
+                            color: '#565656'
+                            anchors.left: playerCountIcon.right
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            anchors.leftMargin: 10
+                            size: 14
+                            spacing: 1
+                        }
+
+                        SimpleText {
+                            text: QuestDetailModel.authorNickName
+                            color: '#565656'
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+                            anchors.bottom: parent.bottom
+                            anchors.rightMargin: 20
+                            size: 14
+                            spacing: 1
+                        }
                     }
 
                     CustomButton {
@@ -84,22 +139,8 @@ Item {
             }
         }
 
-        toolbarBlock: Item {
-            anchors.fill: parent
-            anchors.margins: 20
-
-            OutlinedIconButton {
-                symbolIcon: qsTr('')
-                onClick: curStackView.pop
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-            }
-
-            Title {
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                label: "by " + QuestDetailModel.authorNickName
-            }
+        toolbarBlock: QuestToolbar {
+            curStackView: questRoot.curStackView
         }
     }
 }
