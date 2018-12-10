@@ -7,6 +7,7 @@ import application 1.0
 TexturedRect {
     id: cardContollerView
     property AbstractCardController controller
+    property var onBackToQuest
     Item {
         anchors {
             fill: parent
@@ -20,6 +21,13 @@ TexturedRect {
                 controller: cardContollerView.controller
             }
         }
+        Component {
+            id: finishContainer
+            FinishControllerView {
+                anchors.fill: parent
+                onBackToQuest: cardContollerView.onBackToQuest
+            }
+        }
 
         Loader {
             anchors.fill: parent
@@ -27,6 +35,10 @@ TexturedRect {
                 if (controller !== null && controller.type === 'choose') {
                     return chooseContainer;
                 }
+                if (controller !== null && controller.type === 'finish') {
+                    return finishContainer;
+                }
+
                 return Rectangle;
             }
         }

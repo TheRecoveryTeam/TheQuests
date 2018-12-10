@@ -15,7 +15,7 @@ ApplicationWindow {
     title: qsTr('The Quests')
 
     // If android android
-    // visibility: Window.FullScreen
+     visibility: Window.FullScreen
 
     Component {
         id: cardContainer

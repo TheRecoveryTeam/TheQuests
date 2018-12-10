@@ -39,6 +39,7 @@
         <file alias="AuthorizedView/components/QuestPage/components/CardView/CardView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/CardView.qml</file>
         <file alias="AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/CardControllerView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/CardContollerView.qml</file>
         <file alias="AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/ChooseControllerView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/ChooseControllerView.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/FinishControllerView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/FinishControllerView.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>

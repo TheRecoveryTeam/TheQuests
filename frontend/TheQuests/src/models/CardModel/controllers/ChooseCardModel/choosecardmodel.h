@@ -2,7 +2,6 @@
 #define CHOOSECARDMODEL_H
 
 #include <vector>
-#include <QSharedPointer>
 #include "../abstractcardcontroller.h"
 #include "./cardlinklist.h"
 

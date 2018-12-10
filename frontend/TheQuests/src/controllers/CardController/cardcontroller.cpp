@@ -8,6 +8,9 @@
 #include "src/models/CardModel/cardmodel.h"
 #include "src/models/QuestDetailModel/questdetailmodel.h"
 #include "src/models/ResourceListModel/resourcelistmodel.h"
+#include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
+#include "src/models/CardModel/controllers/FinishCardController/finishcardcontroller.h"
+
 #include "src/data_structures/network/CardGetRequest/cardgetrequest.h"
 #include "src/data_structures/network/CardDoAnswerRequest/carddoanswerrequest.h"
 #include "src/config/apiurls.h"
@@ -35,6 +38,9 @@ void CardController::get(const QString& cardId) const
             auto cardLinksList = new CardLinkList(cardLinkListStruct);
             cardChooseController->setLinksList(cardLinksList);
             cardModel->setController(cardChooseController);
+        }
+        if (cardDetail.type == config::QuestCardTypes::FINISH) {
+            cardModel->setController(new FinishCardController());
         }
     };
 

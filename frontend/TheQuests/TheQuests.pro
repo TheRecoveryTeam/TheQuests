@@ -52,7 +52,8 @@ SOURCES += \
     src/models/QuestListsContainerModel/questlistscontainermodel.cpp \
     src/models/QuestShortModel/questshortmodel.cpp \
     src/models/UserModel/usermodel.cpp \
-    src/models/ResourceListModel/resourcelistmodel.cpp
+    src/models/ResourceListModel/resourcelistmodel.cpp \
+    src/models/CardModel/controllers/FinishCardController/finishcardcontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -121,4 +122,5 @@ HEADERS += \
     src/utils/call_once.h \
     src/utils/iform.h \
     src/utils/singleton.h \
-    src/models/ResourceListModel/resourcelistmodel.h
+    src/models/ResourceListModel/resourcelistmodel.h \
+    src/models/CardModel/controllers/FinishCardController/finishcardcontroller.h
