@@ -102,7 +102,7 @@ QNetworkRequest HttpRequester::createRequest(const QString& url)
     request.setRawHeader("Content-Type", "application/json");
     request.setRawHeader("Accept", "*/*");
     if(!token.isEmpty()) {
-        request.setRawHeader("Authorization", QString("token %1").arg(token).toUtf8());
+        request.setRawHeader("Authorization", QString("Bearer %1").arg(token).toUtf8());
     }
 
     return request;

@@ -11,6 +11,7 @@
 #include "src/data_structures/network/UserCreateResponse/usercreateresponse.h"
 #include "src/data_structures/network/UserFindEmailReqeust/userfindemailrequest.h"
 #include "src/data_structures/network/UserFindNicknameReqeust/userfindnicknamerequest.h"
+#include "src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.h"
 #include "src/mappers/UserMapper/usermapper.h"
 
 
@@ -31,6 +32,8 @@ void UserController::authenticate(const QString& email, const QString& password,
                     response.token);
         qDebug() << obj << response.id << response.nickname << response.email << response.token;
         httpRequester->setToken(response.token);
+
+        emit this->authorized(response.id, response.nickname, response.email, "", response.token, 42, "");
     };
 
     auto hanldeError = [onErrorToFrom](QJsonObject obj){
@@ -48,6 +51,7 @@ void UserController::logout() const
     auto handleLogout = [this](QJsonObject){
         httpRequester->setToken("");
         userModel->setAll("", "", "", "");
+        emit this->loggedOut();
     };
 
     httpRequester->doPost(
@@ -79,6 +83,35 @@ void UserController::create(const QString& nickname, const QString& email, const
 void UserController::edit(const QString& nickname, const QString& email) const
 {
 
+}
+
+void UserController::checkAuth(const QString &userId,
+                               const QString &nickname,
+                               const QString &email,
+                               const QString &vkId,
+                               const QString &token,
+                               const QString &avatarPath) const
+{
+    auto handleSuccess = [this, userId, nickname, email, vkId, token, avatarPath](QJsonObject obj){
+        userModel->setAll(
+                    userId,
+                    nickname,
+                    email,
+                    token);
+        qDebug() << obj << userId << nickname << email << token;
+        emit this->authorized(userId, nickname, email, "", token, 42, "");
+    };
+
+    auto hanldeError = [this](QJsonObject obj){
+        httpRequester->setToken("");
+        userModel->setAll("", "", "", "");
+        emit this->loggedOut();
+    };
+
+    qDebug() << "old token" << token;
+    httpRequester->setToken(token);
+    httpRequester->doGet(config::apiUrls::user::CHEAK_AUTH,
+                handleSuccess, hanldeError);
 }
 
 void UserController::findEmail(const QString& email, const UserController::isFoundFunc& onResult) const

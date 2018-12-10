@@ -12,7 +12,7 @@ Rectangle {
         label: logoText.text
         pixelSize: 55
         spacing: 2
-        color: '#24A1CD'
+        color: '#1D1D1D'
         anchors.centerIn: parent
         anchors.verticalCenterOffset: 3
         anchors.horizontalCenterOffset: 3

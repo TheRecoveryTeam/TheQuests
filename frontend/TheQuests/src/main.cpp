@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
         return -1;
 
     CardController::instance()->get("card_one_id");
-    UserModel::instance()->setToken("authenticated");
+//    UserModel::instance()->setToken("authenticated");
 
     return app.exec();
 }

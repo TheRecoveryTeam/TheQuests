@@ -52,7 +52,8 @@ SOURCES += \
     src/models/QuestListModel/questlistmodel.cpp \
     src/models/QuestListsContainerModel/questlistscontainermodel.cpp \
     src/models/QuestShortModel/questshortmodel.cpp \
-    src/models/UserModel/usermodel.cpp
+    src/models/UserModel/usermodel.cpp \
+    src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.cpp
 
 RESOURCES += qml.qrc
 
@@ -121,4 +122,5 @@ HEADERS += \
     src/models/UserModel/usermodel.h \
     src/utils/call_once.h \
     src/utils/iform.h \
-    src/utils/singleton.h
+    src/utils/singleton.h \
+    src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.h

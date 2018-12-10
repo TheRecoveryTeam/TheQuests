@@ -18,6 +18,7 @@ namespace user {
     const QString EDIT = "/api/user.edit";
     const QString FIND_EMAIL = "/api/user.find_email";
     const QString FIND_NICKNAME = "/api/user.find_nickname";
+    const QString CHEAK_AUTH = "/api/user.check_auth";
 }
 
 namespace quest {

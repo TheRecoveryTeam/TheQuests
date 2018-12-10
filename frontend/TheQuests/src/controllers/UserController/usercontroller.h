@@ -31,8 +31,25 @@ public:
 
     Q_INVOKABLE void logout() const;
     Q_INVOKABLE void edit(const QString& nickname, const QString& email) const;
+    Q_INVOKABLE void checkAuth(const QString& userId,
+                               const QString& nickname,
+                               const QString& email,
+                               const QString& vkId,
+                               const QString& token,
+                               const QString& avatarPath) const;
     void findEmail(const QString& email, const isFoundFunc& onResult) const;
     void findNickname(const QString& email, const isFoundFunc& onResult) const;
+
+signals:
+    void authorized(const QString& userId,
+                    const QString& nickname,
+                    const QString& email,
+                    const QString& vkId,
+                    const QString& token,
+                    int expires,
+                    const QString& avatarPath) const;
+
+    void loggedOut() const;
 
 private:
     static UserController* createInstance();

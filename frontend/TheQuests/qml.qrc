@@ -3,6 +3,9 @@
         <file>qtquickcontrols2.conf</file>
         <file alias="main.qml">qml/main.qml</file>
     </qresource>
+    <qresource prefix="/js">
+        <file>db.js</file>
+    </qresource>
     <qresource prefix="/components">
         <file alias="Card/BackgroundCardGradient.qml">qml/components/Card/BackgroundCardGradient.qml</file>
         <file alias="Card/CardToolbar.qml">qml/components/Card/CardToolbar.qml</file>
