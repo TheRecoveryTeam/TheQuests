@@ -5,6 +5,7 @@ import 'components/LogoText'
 import 'components/LoginFormView'
 import 'components/SignUpFormView'
 import 'components/SignUpFinishFormView'
+import 'qrc:/components/SimpleText'
 import 'qrc:/components/CustomButton'
 import application 1.0
 
@@ -85,6 +86,8 @@ Page {
 
                 Column {
                     id: loginFormContainer
+                    spacing: 10
+
                     LoginFormView {
                         anchors {
                             left: parent.left
@@ -93,6 +96,25 @@ Page {
                         }
                         onOpenRegistrationForm: function() {
                             authenticationSwipeView.currentIndex = 1;
+                        }
+                    }
+
+                    Row {
+                        spacing: 10
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.margins: 10
+                        height: 60
+
+                        SimpleText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: 'Войти с помощью'
+                            spacing: 1
+                        }
+
+                        OutlinedIconButton {
+                            anchors.verticalCenter: parent.verticalCenter
+                            symbolIcon: 'qrc:/media/vk-logo.svg'
                         }
                     }
                 }

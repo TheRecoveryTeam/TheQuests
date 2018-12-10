@@ -46,6 +46,7 @@
         <file alias="Exo2-Regular.ttf">qml/media/Exo2-Regular.ttf</file>
         <file alias="MaterialIcons-Regular.ttf">qml/media/MaterialIcons-Regular.ttf</file>
         <file alias="king.jpg">qml/media/kingImage.jpg</file>
+        <file alias="vk-logo.svg">qml/media/vk-logo.svg</file>
         <file alias="pointStars.svg">qml/media/4-point-stars.svg</file>
     </qresource>
 </RCC>
