@@ -4,7 +4,6 @@ import QtQuick.Layouts 1.3
 import QtQuick.Window 2.11
 import QtQuick.LocalStorage 2.0
 import "../js/db.js" as JS
-import 'views/CardView'
 import 'views/AuthenticationView'
 import 'views/AuthorizedView'
 import 'components/CustomButton'

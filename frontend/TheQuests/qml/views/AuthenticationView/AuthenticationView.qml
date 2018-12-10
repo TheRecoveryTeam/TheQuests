@@ -25,8 +25,8 @@ Page {
 
     LinearGradient {
         id: grad
-        property string startColor: '#303434'
-        property string endColor: '#1D1D1D'
+        property string startColor: '#00B796'
+        property string endColor: '#2D9CDB'
 
         anchors.fill: parent
         start: Qt.point(0, 0)
