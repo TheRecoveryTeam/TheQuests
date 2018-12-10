@@ -44,7 +44,6 @@ SOURCES += \
     src/mappers/UserMapper/usermapper.cpp \
     src/models/CardModel/cardmodel.cpp \
     src/models/CardModel/controllers/abstractcardcontroller.cpp \
-    src/models/CardModel/controllers/ChooseCardModel/cardlink.cpp \
     src/models/CardModel/controllers/ChooseCardModel/cardlinklist.cpp \
     src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.cpp \
     src/models/CardShortModel/cardshortmodel.cpp \
@@ -52,7 +51,8 @@ SOURCES += \
     src/models/QuestListModel/questlistmodel.cpp \
     src/models/QuestListsContainerModel/questlistscontainermodel.cpp \
     src/models/QuestShortModel/questshortmodel.cpp \
-    src/models/UserModel/usermodel.cpp
+    src/models/UserModel/usermodel.cpp \
+    src/models/ResourceListModel/resourcelistmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -104,7 +104,6 @@ HEADERS += \
     src/mappers/UserMapper/usermapper.h \
     src/models/CardModel/cardmodel.h \
     src/models/CardModel/controllers/abstractcardcontroller.h \
-    src/models/CardModel/controllers/ChooseCardModel/cardlink.h \
     src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h \
     src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h \
     src/models/CardShortModel/cardshortmodel.h \
@@ -121,4 +120,5 @@ HEADERS += \
     src/models/UserModel/usermodel.h \
     src/utils/call_once.h \
     src/utils/iform.h \
-    src/utils/singleton.h
+    src/utils/singleton.h \
+    src/models/ResourceListModel/resourcelistmodel.h

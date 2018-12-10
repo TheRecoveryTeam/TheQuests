@@ -7,7 +7,8 @@ import 'qrc:/components/Title'
 import 'qrc:/components/SimpleText'
 import 'qrc:/components/TexturedRect'
 import 'qrc:/components/CustomButton'
-import 'qrc:/views/CardView'
+import 'components/CardView'
+import 'components/QuestToolbar'
 import models 1.0
 import controllers 1.0
 
@@ -28,7 +29,11 @@ Item {
 
     Component {
         id: cardView
-        CardView {}
+        CardView {
+            toolbarBlock: QuestToolbar {
+                curStackView: questRoot.curStackView
+            }
+        }
     }
 
     property var handleOpenCard: function (){
@@ -84,22 +89,8 @@ Item {
             }
         }
 
-        toolbarBlock: Item {
-            anchors.fill: parent
-            anchors.margins: 20
-
-            OutlinedIconButton {
-                symbolIcon: qsTr('')
-                onClick: curStackView.pop
-                anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-            }
-
-            Title {
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                label: "by " + QuestDetailModel.authorNickName
-            }
+        toolbarBlock: QuestToolbar {
+            curStackView: questRoot.curStackView
         }
     }
 }

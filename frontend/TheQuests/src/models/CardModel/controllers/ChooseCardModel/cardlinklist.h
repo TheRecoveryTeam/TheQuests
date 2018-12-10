@@ -2,7 +2,7 @@
 #define CARDLINKLIST_H
 
 #include <QAbstractListModel>
-#include "./cardlink.h"
+#include <QString>
 
 class CardLinkList: public QAbstractListModel
 {
@@ -13,19 +13,19 @@ public:
     };
 
     CardLinkList(QObject* parent = nullptr);
-    CardLinkList(const QVector<CardLink*>& links, QObject* parent = nullptr);
+    CardLinkList(const QVector<QString>& links, QObject* parent = nullptr);
     ~CardLinkList() = default;
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
-    bool appendLink(CardLink* link);
+    bool appendLink(const QString& link);
 
 protected:
     QHash <int, QByteArray> roleNames() const;
 
 private:
-    QVector<CardLink*> links;
+    QVector<QString> links;
 };
 
 #endif // CARDLINKLIST_H

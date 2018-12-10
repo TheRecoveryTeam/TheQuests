@@ -4,12 +4,12 @@
 #include "src/models/CardModel/cardmodel.h"
 #include "src/models/QuestShortModel/questshortmodel.h"
 #include "src/models/QuestDetailModel/questdetailmodel.h"
+#include "src/models/ResourceListModel/resourcelistmodel.h"
 #include "src/models/UserModel/usermodel.h"
 
 #include "src/models/CardModel/controllers/abstractcardcontroller.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/choosecardmodel.h"
 #include "src/models/CardModel/controllers/ChooseCardModel/cardlinklist.h"
-#include "src/models/CardModel/controllers/ChooseCardModel/cardlink.h"
 
 #include "src/controllers/CardController/cardcontroller.h"
 #include "src/controllers/UserController/usercontroller.h"
@@ -43,8 +43,9 @@ void App::registerTypes() const
 
     qmlRegisterType<ChooseCardModel>("application", 1, 0, "ChooseCardModel");
     qmlRegisterType<CardLinkList>("application", 1, 0, "CardLinkList");
-    qmlRegisterType<CardLink>("application", 1, 0, "CardLink");
     qmlRegisterType<AbstractCardController>("application", 1, 0, "AbstractCardController");
+    qmlRegisterType<ResourceListModel>("application", 1, 0, "ResourceListModel");
+
 
 
     qmlRegisterSingletonType<UserController>("controllers", 1, 0, "UserController",
@@ -55,4 +56,5 @@ void App::registerTypes() const
 
     qmlRegisterSingletonType<QuestController>("controllers", 1, 0, "QuestController",
                                      reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(QuestController::instance));
+
 }

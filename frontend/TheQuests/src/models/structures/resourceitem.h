@@ -7,7 +7,7 @@
 namespace structures {
 
 struct ResourceItem {
-    QString type = "";
+    QString name = "";
     int value = 0;
 };
 

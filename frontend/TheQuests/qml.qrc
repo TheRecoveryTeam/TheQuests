@@ -23,11 +23,9 @@
         <file alias="QuestShort/QuestShort.qml">qml/components/QuestShort/QuestShort.qml</file>
         <file alias="IconText/IconText.qml">qml/components/IconText/IconText.qml</file>
         <file alias="CustomButton/OutlinedIconButton.qml">qml/components/CustomButton/OutlinedIconButton.qml</file>
+        <file alias="ResourceView/ResourceView.qml">qml/components/ResourceView/ResourceView.qml</file>
     </qresource>
     <qresource prefix="/views">
-        <file alias="CardView/CardView.qml">qml/views/CardView/CardView.qml</file>
-        <file alias="CardView/components/CardControllerView/CardControllerView.qml">qml/views/CardView/components/CardControllerView/CardContollerView.qml</file>
-        <file alias="CardView/components/CardControllerView/components/ChooseControllerView.qml">qml/views/CardView/components/CardControllerView/components/ChooseControllerView.qml</file>
         <file alias="AuthenticationView/AuthenticationView.qml">qml/views/AuthenticationView/AuthenticationView.qml</file>
         <file alias="AuthenticationView/components/LogoText/LogoText.qml">qml/views/AuthenticationView/components/LogoText/LogoText.qml</file>
         <file alias="AuthenticationView/components/LoginFormView/LoginFormView.qml">qml/views/AuthenticationView/components/LoginView/LoginView.qml</file>
@@ -37,6 +35,10 @@
         <file alias="AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml">qml/views/AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml</file>
         <file alias="AuthorizedView/components/SettingsPage/SettingsPage.qml">qml/views/AuthorizedView/components/SettingsPage/SettingsPage.qml</file>
         <file alias="AuthorizedView/components/QuestPage/QuestPage.qml">qml/views/AuthorizedView/components/QuestPage/QuestPage.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/QuestToolbar/QuestToolbar.qml">qml/views/AuthorizedView/components/QuestPage/components/QuestToolbar/QuestToolbar.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/CardView/CardView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/CardView.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/CardControllerView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/CardContollerView.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/ChooseControllerView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/ChooseControllerView.qml</file>
     </qresource>
     <qresource prefix="/media">
         <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>

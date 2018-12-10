@@ -6,6 +6,7 @@
 class QQmlEngine;
 class QJSEngine;
 class CardModel;
+class QuestDetailModel;
 class HttpRequester;
 
 class CardController: public AbstractContoller
@@ -23,6 +24,7 @@ private:
     explicit CardController(QObject* parent = nullptr);
 
     CardModel* cardModel;
+    QuestDetailModel* questDetailModel;
 };
 
 #endif // CARDCONTROLLER_H

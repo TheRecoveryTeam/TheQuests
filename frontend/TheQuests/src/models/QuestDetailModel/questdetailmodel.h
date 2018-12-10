@@ -7,14 +7,18 @@
 class QQmlEngine;
 class QJSEngine;
 
+class ResourceListModel;
+
 namespace structures {
 struct QuestDetail;
 }
+
 class QuestDetailModel: public QuestShortModel
 {
     Q_OBJECT
     Q_PROPERTY(const QString& currCardId READ getCurrCardId NOTIFY currCardIdChanged)
     Q_PROPERTY(const QString& stage READ getStage NOTIFY stageChanged)
+    Q_PROPERTY(ResourceListModel* resources READ getResources NOTIFY resourcesChanged)
 
 public:
     ~QuestDetailModel() = default;
@@ -38,9 +42,13 @@ public:
 
     void setQuestDetail(structures::QuestDetail& questDetail);
 
+    ResourceListModel* getResources() const;
+    void setResources(ResourceListModel* value);
+
 signals:
     void currCardIdChanged (const QString&);
     void stageChanged (const QString&);
+    void resourcesChanged (ResourceListModel*);
 
 private:
     static QuestDetailModel* createInstance();
@@ -48,6 +56,7 @@ private:
 
     QString currCardId;
     QString stage;
+    ResourceListModel* resources;
 };
 
 #endif // QUESTDETAILMODEL_H

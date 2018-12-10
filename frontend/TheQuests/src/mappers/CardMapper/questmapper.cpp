@@ -1,8 +1,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include "questmapper.h"
+#include "resourcesmapper.h"
 #include "src/models/structures/questdetail.h"
-#include"src/models/structures/resourceitem.h"
+#include "src/models/structures/resourceitem.h"
 
 structures::QuestDetail QuestMapper::convertQuestDetail(const QJsonObject &obj) const
 {
@@ -16,7 +17,8 @@ structures::QuestDetail QuestMapper::convertQuestDetail(const QJsonObject &obj) 
             && obj["authorNickname"].isString()
             && obj["playerCount"].isString()
             && obj["stage"].isString()
-            && obj["imagePath"].isString()) {
+            && obj["imagePath"].isString()
+            && obj["resources"].isArray()) {
         questDetail.id = obj["id"].toString();
         questDetail.title = obj["title"].toString();
         questDetail.description = obj["description"].toString();
@@ -25,6 +27,7 @@ structures::QuestDetail QuestMapper::convertQuestDetail(const QJsonObject &obj) 
         questDetail.playerCount = obj["playerCount"].toString();
         questDetail.stage = obj["stage"].toString();
         questDetail.imagePath = obj["imagePath"].toString();
+        questDetail.resources = ResourcesMapper().convertResources(obj);
     }
     else {
         // TODO:
@@ -33,23 +36,3 @@ structures::QuestDetail QuestMapper::convertQuestDetail(const QJsonObject &obj) 
     return questDetail;
 }
 
-QVector<structures::ResourceItem> QuestMapper::convertResourcesList(const QJsonArray &resourcesjsonArr) const
-{
-    QVector<structures::ResourceItem> resources;
-    for (auto resourceJsonItem : resourcesjsonArr) {
-        auto resourceJsonObj = resourceJsonItem.toObject();
-
-        if(!resourceJsonObj["type"].isString()
-                || !resourceJsonObj["value"].isString()) {
-            // TODO :
-        }
-        else {
-            structures::ResourceItem resourceItem;
-            resourceItem.type = resourceJsonObj["type"].toString();
-            resourceItem.value = resourceJsonObj["value"].toInt();
-            resources << resourceItem;
-        }
-    }
-
-    return resources;
-}
