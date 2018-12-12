@@ -1,29 +1,27 @@
 //
 // Created by Арсений Зорин on 15/11/2018.
 //
-#include <iostream>
-#include <string>
-#include <map>
-#include <mongocxx/client.hpp>
-#include <quest/model_manager/QuestModelManager.h>
-#include <core/model_manager/ModelManager.h>
 
 #ifndef THEQUESTS_HISTORYMODELMANAGER_H
 #define THEQUESTS_HISTORYMODELMANAGER_H
 
-namespace HistoryModelManager {
-class HistoryModelManager : AbstractModelManager::AbstractModelManager{
- public:
-  explicit HistoryModelManager();
-  std::string create(const std::string &request);
-  std::string remove(const std::string &request);
-  std::string update(const std::string &request);
-  std::string get(const std::string &request, const std::vector<std::string> *projection = nullptr);
-  std::string get_user_history(const std::string &request);
-  ~HistoryModelManager();
+#include <iostream>
+#include <string>
+#include <map>
+#include <mongocxx/client.hpp>
+#include <core/model_manager/ModelManager.h>
 
- private:
-  QuestModelManager::QuestModelManager *quest_manager_;
+
+namespace HistoryModelManager {
+class HistoryModelManager : AbstractModelManager::AbstractModelManager {
+ public:
+  explicit HistoryModelManager() : AbstractModelManager::AbstractModelManager("History"){};
+  std::string Create(const std::string &request);
+  std::string Remove(const std::string &request);
+  std::string Update(const std::string &request);
+  std::string Get(const std::string &request, const std::vector<std::string> *projection = nullptr);
+  std::string GetUserHistory(const std::string &request);
+  ~HistoryModelManager() = default;
 };
 }
 
