@@ -20,7 +20,7 @@ namespace AbstractModelManager {
 class AbstractModelManager {
  public:
     explicit AbstractModelManager(const std::string &collection_name);
-    std::string get(const std::string &request, const std::vector<std::string> *projection = nullptr);
+    std::string Get(const std::string &request, const std::vector<std::string> *projection = nullptr);
     ~AbstractModelManager() = default;
 
  protected:
