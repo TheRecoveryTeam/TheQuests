@@ -55,7 +55,7 @@ TEST_F(SessionModelManagerTests, getSessionWithExistingId) {
   nlohmann::json query = {
       {"id", (*id_list)[0]}
   };
-  nlohmann::json received_session = nlohmann::json::parse(session_manager->get(query.dump()));
+  nlohmann::json received_session = nlohmann::json::parse(session_manager->Get(query.dump()));
   ASSERT_EQ((*id_list)[0], received_session["id"]) << "Wrong session received";
 }
 
@@ -63,17 +63,17 @@ TEST_F(SessionModelManagerTests, getSessionWithIncorrectId) {
   nlohmann::json query = {
       {"id", ""}
   };
-  nlohmann::json received_session = nlohmann::json::parse(session_manager->get(query.dump()));
+  nlohmann::json received_session = nlohmann::json::parse(session_manager->Get(query.dump()));
   ASSERT_TRUE(received_session.find("error") != received_session.end())
                 << "Doesn't return error on incorrect quest id";
 }
 
 TEST_F(SessionModelManagerTests, getSessionByToken) {
-  std::string token = nlohmann::json::parse(session_manager->get(nlohmann::json{{"id", (*id_list)[0]}}.dump()))["token"];
+  std::string token = nlohmann::json::parse(session_manager->Get(nlohmann::json{{"id", (*id_list)[0]}}.dump()))["token"];
   nlohmann::json query = {
       {"token", token}
   };
-  nlohmann::json result = nlohmann::json::parse(session_manager->get_by_token(query.dump()));
+  nlohmann::json result = nlohmann::json::parse(session_manager->GetByToken(query.dump()));
   ASSERT_EQ(token, result["token"]) << "Wrong session received";
 }
 
@@ -87,14 +87,15 @@ TEST_F(SessionModelManagerTests, getSessionByExpiredToken) {
   auto collection = (*client)["testdb"]["Session"];
   bsoncxx::stdx::optional<mongocxx::result::insert_one>
       result = collection.insert_one((bsoncxx::from_json(session.dump()).view()));
-  auto received_session = nlohmann::json::parse(session_manager->get_by_token(nlohmann::json({{"token", session["token"]}}).dump()));
+  auto received_session = nlohmann::json::parse(session_manager->GetByToken(nlohmann::json({{"token",
+                                                                                             session["token"]}}).dump()));
   ASSERT_TRUE(received_session.find("error") != received_session.end() && received_session["error"] == "TokenHasExpired")
     << "Doesn't return error on expired token";
 }
 
 TEST_F(SessionModelManagerTests, getSessionWithoutId) {
   nlohmann::json query = {};
-  auto received_session = nlohmann::json::parse(session_manager->get(query.dump()));
+  auto received_session = nlohmann::json::parse(session_manager->Get(query.dump()));
   ASSERT_TRUE(received_session.find("error") != received_session.end()) << "Doesn't return error on incorrect data";
 }
 
@@ -104,7 +105,7 @@ TEST_F(SessionModelManagerTests, addCorrectSession) {
       {"email", "test@mail.ru"},
       {"password", "123456"}
   };
-  auto result = nlohmann::json::parse(session_manager->create(data.dump()));
+  auto result = nlohmann::json::parse(session_manager->Create(data.dump()));
   ASSERT_TRUE(result.find("error") == result.end()) << "The session has't been correctly added to the database";
   ASSERT_TRUE(result["userId"] == data["userId"]) << "The session added with incorrect user id";
 }
@@ -122,10 +123,10 @@ TEST_F(SessionModelManagerTests, removeExistingSession) {
   nlohmann::json query = {
       {"token", session["token"]}
   };
-  auto remove_result = nlohmann::json::parse(session_manager->remove(query.dump()));
+  auto remove_result = nlohmann::json::parse(session_manager->Remove(query.dump()));
   ASSERT_TRUE(remove_result.find("error") == remove_result.end())
     << "Doesn't correctly remove session";
-  auto received_session = nlohmann::json::parse(session_manager->get_by_token(query.dump()));
+  auto received_session = nlohmann::json::parse(session_manager->GetByToken(query.dump()));
   ASSERT_TRUE(received_session.find("error") != received_session.end() && received_session["error"] == "ObjectDoesNotExist")
     << "Doesn't remove session";
 }
@@ -134,7 +135,7 @@ TEST_F(SessionModelManagerTests, removeNotExistingSession) {
   nlohmann::json query = {
       {"token", "NotExistingToken"}
   };
-  auto remove_result = nlohmann::json::parse(session_manager->remove(query.dump()));
+  auto remove_result = nlohmann::json::parse(session_manager->Remove(query.dump()));
   ASSERT_TRUE(remove_result.find("error") == remove_result.end())
                 << "Doesn't correctly working with not existing token";
 }

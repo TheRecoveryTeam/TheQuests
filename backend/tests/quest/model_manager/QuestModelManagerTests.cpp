@@ -60,14 +60,14 @@ TEST_F(QuestModelManagerTests, addCorrectQuest) {
       {"image", "image4"},
       {"resources", {"health", "wisdom"}}
   };
-  nlohmann::json inserted_quest = nlohmann::json::parse(quest_manager->create(data.dump()));
+  nlohmann::json inserted_quest = nlohmann::json::parse(quest_manager->Create(data.dump()));
   ASSERT_TRUE(inserted_quest.find("error") == inserted_quest.end()) << "Get error on correct data";
   nlohmann::json query = {
       {"id", inserted_quest["id"]}
   };
   data["id"] = inserted_quest["id"];
   data["playerCount"] = 0;
-  nlohmann::json received_quest = nlohmann::json::parse(quest_manager->get(query.dump()));
+  nlohmann::json received_quest = nlohmann::json::parse(quest_manager->Get(query.dump()));
   ASSERT_TRUE(data == received_quest) << "The quest_manager has't been correctly added to the database";
 }
 
@@ -77,7 +77,7 @@ TEST_F(QuestModelManagerTests, addIncorrectQuest) {
       {"image", "image4"},
       {"resources", {"health", "wisdom"}}
   };
-  nlohmann::json result = nlohmann::json::parse(quest_manager->create(data.dump()));
+  nlohmann::json result = nlohmann::json::parse(quest_manager->Create(data.dump()));
   ASSERT_TRUE(result.find("error") != result.end()) << "Doesn't return error on incorrect data";
 }
 
@@ -85,7 +85,7 @@ TEST_F(QuestModelManagerTests, getQuestWithExistingId) {
   nlohmann::json query = {
       {"id", (*id_list)[0]}
   };
-  nlohmann::json received_quest = nlohmann::json::parse(quest_manager->get(query.dump()));
+  nlohmann::json received_quest = nlohmann::json::parse(quest_manager->Get(query.dump()));
   ASSERT_EQ((*id_list)[0], received_quest["id"]) << "Wrong quest_manager received";
 }
 
@@ -93,13 +93,13 @@ TEST_F(QuestModelManagerTests, getQuestWithIncorrectId) {
   nlohmann::json query = {
       {"id", ""}
   };
-  nlohmann::json received_quest = nlohmann::json::parse(quest_manager->get(query.dump()));
+  nlohmann::json received_quest = nlohmann::json::parse(quest_manager->Get(query.dump()));
   ASSERT_TRUE(received_quest.find("error") != received_quest.end())
                 << "Doesn't return error on incorrect quest_manager id";
 }
 
 TEST_F(QuestModelManagerTests, getQuestWithoutId) {
   nlohmann::json query = {};
-  nlohmann::json received_quest = nlohmann::json::parse(quest_manager->get(query.dump()));
+  nlohmann::json received_quest = nlohmann::json::parse(quest_manager->Get(query.dump()));
   ASSERT_TRUE(received_quest.find("error") != received_quest.end()) << "Doesn't return error on incorrect data";
 }

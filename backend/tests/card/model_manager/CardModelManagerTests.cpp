@@ -153,12 +153,12 @@ TEST_F(CardModelManagerTests, addCorrectCard) {
       },
       {"type", "choose"}
   };
-  nlohmann::json inserted_card = nlohmann::json::parse(card_manager->create(data.dump()));
+  nlohmann::json inserted_card = nlohmann::json::parse(card_manager->Create(data.dump()));
   ASSERT_TRUE(inserted_card.find("error") == inserted_card.end()) << "Get error on correct data";
   nlohmann::json query = {
       {"id", inserted_card["id"]}
   };
-  nlohmann::json received_card = nlohmann::json::parse(card_manager->get(query.dump()));
+  nlohmann::json received_card = nlohmann::json::parse(card_manager->Get(query.dump()));
   ASSERT_EQ(inserted_card["id"], received_card["id"]) << "The card_manager has't been added to the database";
 }
 
@@ -174,7 +174,7 @@ TEST_F(CardModelManagerTests, addIncorrectCard) {
       },
       {"type", "choose"}
   };
-  nlohmann::json result = nlohmann::json::parse(card_manager->create(data.dump()));
+  nlohmann::json result = nlohmann::json::parse(card_manager->Create(data.dump()));
   ASSERT_TRUE(result.find("error") != result.end()) << "Doesn't return error on incorrect data";
 }
 
@@ -190,7 +190,7 @@ TEST_F(CardModelManagerTests, addCardWithNotExistingQuestId) {
       },
       {"type", "choose"}
   };
-  nlohmann::json result = nlohmann::json::parse(card_manager->create(data.dump()));
+  nlohmann::json result = nlohmann::json::parse(card_manager->Create(data.dump()));
   ASSERT_TRUE(result.find("error") != result.end()) << "Doesn't return error on not existing quest id";
 }
 
@@ -198,7 +198,7 @@ TEST_F(CardModelManagerTests, getCardWithExistingId) {
   nlohmann::json query = {
       {"id", (*card_id_list)[0]}
   };
-  nlohmann::json received_card = nlohmann::json::parse(card_manager->get(query.dump()));
+  nlohmann::json received_card = nlohmann::json::parse(card_manager->Get(query.dump()));
   ASSERT_EQ((*card_id_list)[0], received_card["id"]) << "Wrong card received";
 }
 
@@ -206,7 +206,7 @@ TEST_F(CardModelManagerTests, getCardWithIncorrectId) {
   nlohmann::json query = {
       {"id", ""}
   };
-  nlohmann::json received_card = nlohmann::json::parse(card_manager->get(query.dump()));
+  nlohmann::json received_card = nlohmann::json::parse(card_manager->Get(query.dump()));
   ASSERT_TRUE(received_card.find("error") != received_card.end()) << "Doesn't return error on incorrect caed id";
 }
 
@@ -214,7 +214,7 @@ TEST_F(CardModelManagerTests, getCardWithoutId) {
   nlohmann::json query = {
       {"questId", "1"}
   };
-  nlohmann::json received_card = nlohmann::json::parse(card_manager->get(query.dump()));
+  nlohmann::json received_card = nlohmann::json::parse(card_manager->Get(query.dump()));
   ASSERT_TRUE(received_card.find("error") != received_card.end()) << "Doesn't return error on incorrect data";
 }
 
@@ -224,7 +224,7 @@ TEST_F(CardModelManagerTests, getNextEndCard) {
       {"userId", bsoncxx::oid().to_string()},
       {"answer", "left card"}
   };
-  nlohmann::json result = nlohmann::json::parse(card_manager->get_next_card(query.dump()));
+  nlohmann::json result = nlohmann::json::parse(card_manager->GetNextCard(query.dump()));
   nlohmann::json expected_result = {
       {"nextCardId", (*card_id_list)[0]},
       {"resources", {
@@ -242,7 +242,7 @@ TEST_F(CardModelManagerTests, getNextCard) {
       {"userId", bsoncxx::oid().to_string()},
       {"answer", "right card"}
   };
-  nlohmann::json result = nlohmann::json::parse(card_manager->get_next_card(query.dump()));
+  nlohmann::json result = nlohmann::json::parse(card_manager->GetNextCard(query.dump()));
   nlohmann::json expected_result = {
       {"nextCardId", (*card_id_list)[1]},
       {"resources", {
@@ -260,7 +260,7 @@ TEST_F(CardModelManagerTests, getNextLoseCard) {
       {"userId", bsoncxx::oid().to_string()},
       {"answer", "lose"}
   };
-  nlohmann::json result = nlohmann::json::parse(card_manager->get_next_card(query.dump()));
+  nlohmann::json result = nlohmann::json::parse(card_manager->GetNextCard(query.dump()));
   nlohmann::json expected_result = {
       {"nextCardId", (*card_id_list)[3]},
       {"resources", {
@@ -269,8 +269,6 @@ TEST_F(CardModelManagerTests, getNextLoseCard) {
           {{"name", "wisdom"}, {"value", 50}}
       }}
   };
-  std::cout << expected_result << std::endl;
-  std::cout << result << std::endl;
   ASSERT_TRUE(expected_result == result) << "Incorrect get lose next card";
 }
 

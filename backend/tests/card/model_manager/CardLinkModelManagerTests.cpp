@@ -72,7 +72,7 @@ TEST_F(CardLinkModelManagerTests, getCardLinkWithExistingId) {
   nlohmann::json query = {
       {"id", (*id_list)[0]}
   };
-  nlohmann::json received_card_link = nlohmann::json::parse(card_link_manager->get(query.dump()));
+  nlohmann::json received_card_link = nlohmann::json::parse(card_link_manager->Get(query.dump()));
   ASSERT_EQ((*id_list)[0], received_card_link["id"]) << "Wrong card link received";
   ASSERT_EQ((*card_id_list)[0], received_card_link["toId"]) << "Wrong toId received";
 }
@@ -81,13 +81,13 @@ TEST_F(CardLinkModelManagerTests, getCardLinkWithIncorrectId) {
   nlohmann::json query = {
       {"id", ""}
   };
-  nlohmann::json received_card_link = nlohmann::json::parse(card_link_manager->get(query.dump()));
+  nlohmann::json received_card_link = nlohmann::json::parse(card_link_manager->Get(query.dump()));
   ASSERT_TRUE(received_card_link.find("error") != received_card_link.end())
                 << "Doesn't return error on incorrect card link id";
 }
 
 TEST_F(CardLinkModelManagerTests, getCardLinkWithoutId) {
   nlohmann::json query = {};
-  nlohmann::json received_card_link = nlohmann::json::parse(card_link_manager->get(query.dump()));
+  nlohmann::json received_card_link = nlohmann::json::parse(card_link_manager->Get(query.dump()));
   ASSERT_TRUE(received_card_link.find("error") != received_card_link.end()) << "Doesn't return error on incorrect data";
 }

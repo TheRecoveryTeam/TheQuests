@@ -18,12 +18,12 @@ namespace CardModelManager {
 class CardModelManager : AbstractModelManager::AbstractModelManager{
  public:
   explicit CardModelManager();
-  std::string create(const std::string &request);
-  std::string remove(const std::string &request);
-  std::string update(const std::string &request);
-  std::string get(const std::string &request, const std::vector<std::string> *projection = nullptr);
-  std::string get_by_quest(const std::string &request);
-  std::string get_next_card(const std::string &request);
+  std::string Create(const std::string &request);
+  std::string Remove(const std::string &request);
+  std::string Update(const std::string &request);
+  std::string Get(const std::string &request, const std::vector<std::string> *projection = nullptr);
+  std::string GetByQuest(const std::string &request);
+  std::string GetNextCard(const std::string &request);
   ~CardModelManager();
 
  private:

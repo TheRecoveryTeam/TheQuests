@@ -22,8 +22,9 @@ CardModelManager::CardModelManager::~CardModelManager() {
   delete history_manager_;
 }
 
-std::string CardModelManager::CardModelManager::get(const std::string &request, const std::vector<std::string> *projection) {
-  auto result = nlohmann::json::parse(AbstractModelManager::get(request, projection));
+std::string CardModelManager::CardModelManager::Get(const std::string &request,
+                                                    const std::vector<std::string> *projection) {
+  auto result = nlohmann::json::parse(AbstractModelManager::Get(request, projection));
   if (result.find("error") == result.end()) {
     std::vector<std::string> id_data = {"questId"};
     if (result.find("links") != result.end()) {
@@ -36,7 +37,7 @@ std::string CardModelManager::CardModelManager::get(const std::string &request, 
   return result.dump();
 }
 
-std::string CardModelManager::CardModelManager::create(const std::string &request) {
+std::string CardModelManager::CardModelManager::Create(const std::string &request) {
   std::vector<std::string> required_data = {"questId", "title", "type"};
   std::vector<std::string> not_required_data = {"imagePath", "description", "links"};
   std::vector<std::string> id_data = {"questId"};
@@ -47,7 +48,7 @@ std::string CardModelManager::CardModelManager::create(const std::string &reques
   if (!DataManager::CheckIdCorrectness(data, id_data)) {
     return nlohmann::json({{"error", "IncorrectId"}}).dump();
   }
-  auto quest = nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", data["questId"]}}).dump()));
+  auto quest = nlohmann::json::parse(quest_manager_->Get(nlohmann::json({{"id", data["questId"]}}).dump()));
   if (quest.find("error") != quest.end()) {
     return nlohmann::json({{"error", "QuestDoesNotExist"}}).dump();
   }
@@ -66,13 +67,13 @@ std::string CardModelManager::CardModelManager::create(const std::string &reques
   bsoncxx::stdx::optional<mongocxx::result::insert_one>
       result = collection_.insert_one((bsoncxx::from_json(new_card.dump()).view()));
   if (result) {
-    return get(nlohmann::json({{"id", (*result).inserted_id().get_oid().value.to_string()}}).dump());
+    return Get(nlohmann::json({{"id", (*result).inserted_id().get_oid().value.to_string()}}).dump());
   } else {
     return nlohmann::json({{"error", "CreationError"}}).dump();
   }
 }
 
-std::string CardModelManager::CardModelManager::get_next_card(const std::string &request) {
+std::string CardModelManager::CardModelManager::GetNextCard(const std::string &request) {
   // Проверка корректности входных параметров
   std::vector<std::string> required_data = {"id", "userId", "answer"};
   std::vector<std::string> id_data = {"id", "userId"};
@@ -88,7 +89,7 @@ std::string CardModelManager::CardModelManager::get_next_card(const std::string 
       {"id", data["id"]}
   };
   std::vector<std::string> options = {"links", "questId"};
-  auto card = nlohmann::json::parse(get(query.dump(), &options));
+  auto card = nlohmann::json::parse(Get(query.dump(), &options));
   // Проверка отсутствия ошибок поиска карточки и наличия Links
   if (!(card.find("error") == card.end() && card.find("links") != card.end())) {
     return nlohmann::json({{"error", "CardDoesNotExist"}}).dump();
@@ -100,17 +101,37 @@ std::string CardModelManager::CardModelManager::get_next_card(const std::string 
     return nlohmann::json({{"error", "LinkDoesNotExist"}}).dump();
   }
   // Получение CardLink и History
+  nlohmann::json quest = nlohmann::json::parse(quest_manager_
+      ->Get(nlohmann::json({{"id", card["questId"]}}).dump()));
   nlohmann::json card_link = nlohmann::json::parse(cardlink_manager_
-                                                       ->get(nlohmann::json({{"id", links[answer]}}).dump()));
+                                                       ->Get(nlohmann::json({{"id", links[answer]}}).dump()));
   nlohmann::json history = nlohmann::json::parse(history_manager_
-                                                     ->get_user_history(nlohmann::json({{"userId", data["userId"]},
-                                                                           {"questId", card["questId"]}}).dump()));
-  // Если History для данного пользователя еще не создана, то добавляем ее
-  if (history.find("warning") != history.end()) {
-    history = nlohmann::json::parse(history_manager_
-                                        ->create(nlohmann::json({{"userId", data["userId"]},
-                                                                 {"questId", card["questId"]}}).dump()));
+                                                     ->GetUserHistory(nlohmann::json({{"userId", data["userId"]},
+                                                                                      {"questId", card["questId"]}}).dump()));
+  if (history.find("error") !=  history.end()) {
+    return history;
   }
+  if (history.find("warning") != history.end()) {
+    nlohmann::json new_history = {
+        {"questId", data["id"]},
+        {"userId", data["userId"]},
+        {"firstCardId", quest["firstCardId"]},
+        {"resources", quest["resources"]}
+    };
+    history = nlohmann::json::parse(history_manager_->Create(new_history.dump()));
+    if (history.find("error") != history.end()) {
+      return history.dump();
+    }
+  }
+
+  // Если History для данного пользователя еще не создана, то добавляем ее
+
+//  if (history.find("warning") != history.end()) {
+//    history = nlohmann::json::parse(history_manager_
+//                                        ->create(nlohmann::json({{"userId", data["userId"]},
+//                                                                 {"questId", card["questId"]}}).dump()));
+//  }
+
   bool lose_game = false; // Флаг проигрыша игры
   // Обновление списка ресурсов
   for (auto &resource : card_link["weight"].get<std::map<std::string, int>>()) {
@@ -127,7 +148,7 @@ std::string CardModelManager::CardModelManager::get_next_card(const std::string 
   // Получаем следующую карточку
   nlohmann::json query_history_update;
   // Проверка окончания игры (либо ресурсы вышли за допустимые границы, либо следующая карточка финишная
-  if (lose_game || nlohmann::json::parse(get(nlohmann::json({{"id", card_link["toId"]}}).dump()))["type"] == "finish") {
+  if (lose_game || nlohmann::json::parse(Get(nlohmann::json({{"id", card_link["toId"]}}).dump()))["type"] == "finish") {
     // Собираем обновленную History
     query_history_update = {
         {"id", history["id"]},
@@ -140,7 +161,7 @@ std::string CardModelManager::CardModelManager::get_next_card(const std::string 
     } else {
       // Будьте добры пройти на карточку проигрыша
       auto loss_card_id =
-          nlohmann::json::parse(quest_manager_->get(nlohmann::json({{"id", card["questId"]}}).dump()));
+          nlohmann::json::parse(quest_manager_->Get(nlohmann::json({{"id", card["questId"]}}).dump()));
       query_history_update["cardId"] = loss_card_id["lossCardId"];
     }
   } else { // Продолжаем играть, если с ресурсами все хорошо и еще не конец
@@ -151,7 +172,7 @@ std::string CardModelManager::CardModelManager::get_next_card(const std::string 
     };
   }
   // Обновляем History
-  nlohmann::json update_result = history_manager_->update(query_history_update.dump());
+  nlohmann::json update_result = history_manager_->Update(query_history_update.dump());
   if (update_result.find("error") != update_result.end()) {
     return update_result;
   }
