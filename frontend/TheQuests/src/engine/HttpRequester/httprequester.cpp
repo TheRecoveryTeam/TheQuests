@@ -38,7 +38,6 @@ void HttpRequester::doPost(
 
     auto request = createRequest(url);
     auto byteBody = QJsonDocument(body.toJSON()).toJson(QJsonDocument::Compact);
-    qDebug() << byteBody;
     auto reply = manager->post(request, byteBody);
     processRequest(reply, onSuccess, onError);
 }
@@ -67,9 +66,7 @@ void HttpRequester::doGet(
             .arg(path)
             .arg(queryParams.toQueryString());
 
-    auto request = createRequest(url);
-    auto reply = manager->get(request);
-    processRequest(reply, onSuccess, onError);
+    doGetRaw(url, onSuccess, onError);
 }
 
 void HttpRequester::doGet(const QString& path,
@@ -80,6 +77,11 @@ void HttpRequester::doGet(const QString& path,
             .arg(baseUrl)
             .arg(path);
 
+    doGetRaw(url, onSuccess, onError);
+}
+
+void HttpRequester::doGetRaw(const QString& url, const HttpRequester::handleFunc& onSuccess, const HttpRequester::handleFunc& onError)
+{
     auto request = createRequest(url);
     auto reply = manager->get(request);
     processRequest(reply, onSuccess, onError);
@@ -114,7 +116,6 @@ void HttpRequester::processRequest(QNetworkReply* reply, const HttpRequester::ha
         QJsonObject obj = parseReply(reply);
         if (onFinishRequest(reply)) {
             if (onSuccess != nullptr) {
-                qDebug() << "success";
                 onSuccess(obj);
             }
         }

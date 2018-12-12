@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QQmlEngine>
 #include <QJSEngine>
 #include "questdetailmodel.h"
@@ -89,6 +88,5 @@ void QuestDetailModel::setQuestDetail(structures::QuestDetail &questDetail)
     setImagePath(questDetail.imagePath);
     setCurrCardId(questDetail.currCardId);
     setStage(questDetail.stage);
-    qDebug() << "in setQuestDetail";
     setResources(new ResourceListModel(questDetail.resources, this));
 }

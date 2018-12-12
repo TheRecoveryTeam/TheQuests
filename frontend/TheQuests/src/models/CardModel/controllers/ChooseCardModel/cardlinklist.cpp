@@ -1,5 +1,4 @@
 #include "cardlinklist.h"
-#include <QDebug>
 
 CardLinkList::CardLinkList(QObject* parent): QAbstractListModel(parent)
 { }

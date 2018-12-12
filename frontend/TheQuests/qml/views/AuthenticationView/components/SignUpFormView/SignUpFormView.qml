@@ -2,14 +2,20 @@ import QtQuick 2.0
 import 'qrc:/components/form/FormContainer'
 import 'qrc:/components/form/TextInput'
 import 'qrc:/components/CustomButton'
-import application 1.0
+import controllers 1.0
 
 Column {
     id: signUpView
     property var onOpenLoginForm: Function
     property var onContinueSignUp: Function
     property SignUpForm form: SignUpForm {}
+
     spacing: 10
+    anchors {
+        left: parent.left
+        right: parent.right
+        margins: 10
+    }
 
     FormContainer {
         id: signUpFormContainer

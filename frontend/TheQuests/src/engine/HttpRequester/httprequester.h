@@ -48,10 +48,15 @@ public:
                const handleFunc& onSuccess,
                const handleFunc& onError);
 
-
     void doGet(const QString& path,
                const handleFunc& onSuccess,
                const handleFunc& onError);
+
+
+    void doGetRaw(const QString& url,
+                  const handleFunc& onSuccess,
+                  const handleFunc& onError);
+
     // reset token if value == ""
     void setToken(const QString& value = "");
     const QString& getToken() const;

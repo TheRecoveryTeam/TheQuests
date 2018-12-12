@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
@@ -29,6 +28,5 @@ QVector<structures::ResourceItem> ResourcesMapper::convertResources(const QJsonO
     else {
         // TODO :
     }
-    qDebug() << obj["resources"].toArray();
     return resources;
 }

@@ -29,8 +29,4 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
         }
     }
-
-    Component.onCompleted: {
-        console.log(root.height, col.height, title.height, text.height);
-    }
 }

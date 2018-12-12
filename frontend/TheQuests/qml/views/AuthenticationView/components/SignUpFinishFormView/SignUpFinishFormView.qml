@@ -3,12 +3,15 @@ import 'qrc:/components/form/FormContainer'
 import 'qrc:/components/form/TextInput'
 import 'qrc:/components/CustomButton'
 import 'qrc:/components/SimpleText'
-import application 1.0
+import controllers 1.0
 
 Column {
     id: signUpFinishView
     property var onOpenSignUpForm: Function
     property SignUpFinishFrom form
+    anchors.fill: parent
+    anchors.leftMargin: 10
+    anchors.rightMargin: 10
     spacing: 10
 
     FormContainer {
@@ -23,11 +26,6 @@ Column {
         inputsBlock: Column {
             spacing: 10
 
-//            SimpleText {
-//                text: form.email
-//                spacing: 1
-//            }
-
             TextInput {
                 id: nicknameInput
                 inputId {
@@ -38,6 +36,7 @@ Column {
                 }
                 label: 'Никнейм'
                 errorText: signUpFinishView.form.nicknameError
+                nextInput: nicknameInput.inputId
             }
         }
     }

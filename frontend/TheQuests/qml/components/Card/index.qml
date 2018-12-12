@@ -3,6 +3,8 @@ import QtQuick.Controls 2.4
 import QtQuick.Controls.Material 2.3
 import models 1.0
 import 'qrc:/components/Title'
+import 'qrc:/components/BackgroundGradient'
+
 
 Rectangle {
     id: cardRoot
@@ -11,7 +13,7 @@ Rectangle {
     property alias mediaBlock: mediaLoader.sourceComponent
     property alias toolbarBlock: toolbarLoader.sourceComponent
 
-    BackgroundCardGradient {
+    BackgroundGradient {
         anchors.fill: parent
     }
 

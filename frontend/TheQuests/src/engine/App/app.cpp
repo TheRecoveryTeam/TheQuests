@@ -1,4 +1,5 @@
 #include <QtQml>
+#include <QtWebView/QtWebView>
 #include "app.h"
 
 #include "src/models/CardModel/cardmodel.h"
@@ -19,10 +20,19 @@
 
 #include "src/controllers/QuestController/questcontroller.h"
 
-App::App(QObject *parent):
-    QObject(parent)
-{
+#include "src/config/network.h"
+
+App::App() {
+    QtWebView::initialize();
     registerTypes();
+    addConstantsToContext();
+}
+
+bool App::init()
+{
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+    return !engine.rootObjects().isEmpty();
 }
 
 void App::registerTypes() const
@@ -41,20 +51,30 @@ void App::registerTypes() const
                                         reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(CardController::instance));
 
 
-    qmlRegisterType<ChooseCardModel>("application", 1, 0, "ChooseCardModel");
-    qmlRegisterType<CardLinkList>("application", 1, 0, "CardLinkList");
-    qmlRegisterType<AbstractCardController>("application", 1, 0, "AbstractCardController");
-    qmlRegisterType<ResourceListModel>("application", 1, 0, "ResourceListModel");
+    qmlRegisterType<ChooseCardModel>("models", 1, 0, "ChooseCardModel");
+    qmlRegisterType<CardLinkList>("models", 1, 0, "CardLinkList");
+    qmlRegisterType<AbstractCardController>("models", 1, 0, "AbstractCardController");
+    qmlRegisterType<ResourceListModel>("models", 1, 0, "ResourceListModel");
 
 
 
     qmlRegisterSingletonType<UserController>("controllers", 1, 0, "UserController",
                                         reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(UserController::instance));
-    qmlRegisterType<LoginForm>("application", 1, 0, "LoginForm");
-    qmlRegisterType<SignUpForm>("application", 1, 0, "SignUpForm");
-    qmlRegisterType<SignUpFinishForm>("application", 1, 0, "SignUpFinishFrom");
+    qmlRegisterType<LoginForm>("controllers", 1, 0, "LoginForm");
+    qmlRegisterType<SignUpForm>("controllers", 1, 0, "SignUpForm");
+    qmlRegisterType<SignUpFinishForm>("controllers", 1, 0, "SignUpFinishFrom");
 
     qmlRegisterSingletonType<QuestController>("controllers", 1, 0, "QuestController",
                                      reinterpret_cast<QObject*(*)(QQmlEngine*, QJSEngine*)>(QuestController::instance));
 
+}
+
+void App::addConstantsToContext() const
+{
+    engine.rootContext()->setContextProperty("oauthPath", config::network::oauth::getOauthUrl(
+        config::network::oauth::VK_BASE,
+        config::network::oauth::VK_CLIENT_ID,
+        config::network::oauth::VK_REDIRECT_PATH,
+        config::network::oauth::VK_API_V
+    ));
 }

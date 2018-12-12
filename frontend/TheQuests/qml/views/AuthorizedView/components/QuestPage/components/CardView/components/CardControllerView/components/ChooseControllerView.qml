@@ -1,7 +1,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.2
 import 'qrc:/components/CustomButton'
-import application 1.0
+import models 1.0
 import controllers 1.0
 
 Item {

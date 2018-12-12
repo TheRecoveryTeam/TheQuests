@@ -1,4 +1,3 @@
-#include <QDebug>
 #include "choosecardmodel.h"
 #include "src/config/questcardtypes.h"
 

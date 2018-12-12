@@ -2,7 +2,6 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QString>
-#include <QDebug>
 #include "cardmapper.h"
 #include "src/config/questcardtypes.h"
 #include "src/models/structures/carddetail.h"

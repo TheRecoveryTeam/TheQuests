@@ -1,16 +1,19 @@
 #ifndef APP_H
 #define APP_H
 
-#include <QObject>
+#include <QQmlApplicationEngine>
 
-class App : public QObject
+class App
 {
-    Q_OBJECT
 public:
-    explicit App(QObject *parent = nullptr);
+    explicit App();
+    bool init();
 
 private:
     void registerTypes() const;
+    void addConstantsToContext() const;
+
+    QQmlApplicationEngine engine;
 };
 
 #endif // APP_H

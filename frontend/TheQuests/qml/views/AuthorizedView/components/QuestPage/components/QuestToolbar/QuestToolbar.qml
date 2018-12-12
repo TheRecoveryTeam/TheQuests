@@ -38,7 +38,9 @@ Item {
             }
 
             onCountChanged: {
-                resourceListView.width = resourceListView.visibleChildren[0].width
+                if (resourceListView.visibleChildren[0]) {
+                    resourceListView.width = resourceListView.visibleChildren[0].width
+                }
             }
         }
     }

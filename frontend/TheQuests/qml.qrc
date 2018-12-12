@@ -7,7 +7,7 @@
         <file>db.js</file>
     </qresource>
     <qresource prefix="/components">
-        <file alias="Card/BackgroundCardGradient.qml">qml/components/Card/BackgroundCardGradient.qml</file>
+        <file alias="BackgroundGradient/BackgroundGradient.qml">qml/components/BackgroundGradient/BackgroundGradient.qml</file>
         <file alias="Card/CardToolbar.qml">qml/components/Card/CardToolbar.qml</file>
         <file alias="Card/Card.qml">qml/components/Card/index.qml</file>
         <file alias="Card/CardDescription.qml">qml/components/Card/CardDescription.qml</file>
@@ -34,9 +34,12 @@
         <file alias="AuthenticationView/components/LoginFormView/LoginFormView.qml">qml/views/AuthenticationView/components/LoginView/LoginView.qml</file>
         <file alias="AuthenticationView/components/SignUpFormView/SignUpFormView.qml">qml/views/AuthenticationView/components/SignUpFormView/SignUpFormView.qml</file>
         <file alias="AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml">qml/views/AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml</file>
+        <file alias="AuthenticationView/components/VKAuthPage/VKAuthPage.qml">qml/views/AuthenticationView/components/VKAuthPage/VKAuthPage.qml</file>
+
         <file alias="AuthorizedView/AuthorizedView.qml">qml/views/AuthorizedView/AuthorizedView.qml</file>
         <file alias="AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml">qml/views/AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml</file>
         <file alias="AuthorizedView/components/SettingsPage/SettingsPage.qml">qml/views/AuthorizedView/components/SettingsPage/SettingsPage.qml</file>
+
         <file alias="AuthorizedView/components/QuestPage/QuestPage.qml">qml/views/AuthorizedView/components/QuestPage/QuestPage.qml</file>
         <file alias="AuthorizedView/components/QuestPage/components/QuestToolbar/QuestToolbar.qml">qml/views/AuthorizedView/components/QuestPage/components/QuestToolbar/QuestToolbar.qml</file>
         <file alias="AuthorizedView/components/QuestPage/components/CardView/CardView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/CardView.qml</file>

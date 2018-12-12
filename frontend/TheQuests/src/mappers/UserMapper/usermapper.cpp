@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QJsonObject>
 #include "usermapper.h"
 #include "src/data_structures/network/UserCreateResponse/usercreateresponse.h"

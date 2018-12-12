@@ -1,4 +1,3 @@
-#include <QDebug>
 #include "cardmodel.h"
 #include "src/utils/singleton.h"
 #include "src/models/structures/carddetail.h"
@@ -55,7 +54,6 @@ void CardModel::setController(AbstractCardController* value)
         value->setParent(this);
     }
     controller = value;
-    qDebug() << "set controller" << controller;
     emit controllerChanged(controller);
 }
 

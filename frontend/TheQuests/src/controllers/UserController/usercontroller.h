@@ -7,6 +7,7 @@
 #include "../AbstractController/abstractcontoller.h"
 
 class UserModel;
+class QJsonObject;
 
 class UserController: public AbstractContoller
 {
@@ -40,6 +41,8 @@ public:
     void findEmail(const QString& email, const isFoundFunc& onResult) const;
     void findNickname(const QString& email, const isFoundFunc& onResult) const;
 
+    Q_INVOKABLE void processOauth(const QString& oauthRedirectPath) const;
+
 signals:
     void authorized(const QString& userId,
                     const QString& nickname,
@@ -55,6 +58,7 @@ private:
     static UserController* createInstance();
     explicit UserController(QObject* parent = nullptr);
 
+    std::function<void(QJsonObject)> handleSuccessAuthorized;
     UserModel* userModel;
 };
 

@@ -2,7 +2,7 @@ import QtQuick 2.11
 import 'qrc:/components/CustomButton'
 import 'qrc:/components/TexturedRect'
 import 'components'
-import application 1.0
+import models 1.0
 
 TexturedRect {
     id: cardContollerView

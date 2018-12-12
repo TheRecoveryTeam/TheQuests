@@ -1,4 +1,4 @@
-QT += qml quick widgets gui core svg
+QT += qml quick widgets gui core svg webview webenginewidgets
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
@@ -54,7 +54,8 @@ SOURCES += \
     src/models/UserModel/usermodel.cpp \
     src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.cpp \
     src/models/ResourceListModel/resourcelistmodel.cpp \
-    src/models/CardModel/controllers/FinishCardController/finishcardcontroller.cpp
+    src/models/CardModel/controllers/FinishCardController/finishcardcontroller.cpp \
+    src/config/network.cpp
 
 RESOURCES += qml.qrc
 

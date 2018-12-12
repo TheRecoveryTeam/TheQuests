@@ -1,5 +1,6 @@
-#include <QDebug>
 #include <QJsonObject>
+#include <QJsonDocument>
+#include <QDebug>
 #include "usercontroller.h"
 #include "src/config/apiurls.h"
 #include "src/models/UserModel/usermodel.h"
@@ -30,20 +31,18 @@ void UserController::authenticate(const QString& email, const QString& password,
                     response.nickname,
                     response.email,
                     response.token);
-        qDebug() << obj << response.id << response.nickname << response.email << response.token;
         httpRequester->setToken(response.token);
 
         emit this->authorized(response.id, response.nickname, response.email, "", response.token, 42, "");
     };
 
     auto hanldeError = [onErrorToFrom](QJsonObject obj){
-        qDebug() << obj;
         onErrorToFrom(obj);
     };
 
     httpRequester->doPost(config::apiUrls::user::LOGIN,
                 data_structures::UserLoginRequest(email, password),
-                handleSuccess, hanldeError);
+                handleSuccessAuthorized, hanldeError);
 }
 
 void UserController::logout() const
@@ -70,7 +69,6 @@ void UserController::create(const QString& nickname, const QString& email, const
     };
 
     auto handleError = [onErrorToFrom](QJsonObject obj) {
-        qDebug() << obj;
         onErrorToFrom(obj);
     };
 
@@ -98,7 +96,6 @@ void UserController::checkAuth(const QString &userId,
                     nickname,
                     email,
                     token);
-        qDebug() << obj << userId << nickname << email << token;
         emit this->authorized(userId, nickname, email, "", token, 42, "");
     };
 
@@ -108,7 +105,6 @@ void UserController::checkAuth(const QString &userId,
         emit this->loggedOut();
     };
 
-    qDebug() << "old token" << token;
     httpRequester->setToken(token);
     httpRequester->doGet(config::apiUrls::user::CHEAK_AUTH,
                 handleSuccess, hanldeError);
@@ -118,12 +114,10 @@ void UserController::findEmail(const QString& email, const UserController::isFou
 {
     httpRequester->doGet(config::apiUrls::user::FIND_EMAIL,
                          data_structures::UserFindEmailRequest(email),
-    [onResult](QJsonObject obj){
-        qDebug() << "email found";
+    [onResult](QJsonObject){
         onResult(true);
     },
-    [onResult](QJsonObject obj){
-        qDebug() << "email not found";
+    [onResult](QJsonObject){
         onResult(false);
     });
 }
@@ -132,12 +126,26 @@ void UserController::findNickname(const QString& nickname, const UserController:
 {
     httpRequester->doGet(config::apiUrls::user::FIND_NICKNAME,
                          data_structures::UserFindNicknameRequest(nickname),
-    [onResult](QJsonObject obj){
+    [onResult](QJsonObject){
         onResult(true);
     },
-    [onResult](QJsonObject obj){
+    [onResult](QJsonObject){
         onResult(false);
     });
+}
+
+void UserController::processOauth(const QString& json) const
+{
+    auto doc = QJsonDocument::fromJson(json.toUtf8());
+    if (!doc.isNull() && doc.isObject()) {
+        handleSuccessAuthorized(doc.object());
+    }
+
+//    httpRequester->doGetRaw(oauthRedirectPath,
+//        handleSuccessAuthorized,
+//    [](QJsonObject obj) {
+//        qDebug() << "can not authorize by oauth" << obj;
+//    });
 }
 
 UserController*UserController::createInstance()
@@ -148,5 +156,19 @@ UserController*UserController::createInstance()
 UserController::UserController(QObject* parent):
     AbstractContoller (parent, HttpRequester::instance()),
     userModel(UserModel::instance())
-{}
+{
+    handleSuccessAuthorized = [this](QJsonObject obj){
+        UserMapper mapper;
+        auto response = mapper.convertUserLogin(obj);
+        qDebug() << "auth: " << obj << response.token;
+        userModel->setAll(
+                    response.id,
+                    response.nickname,
+                    response.email,
+                    response.token);
+        httpRequester->setToken(response.token);
+
+        emit this->authorized(response.id, response.nickname, response.email, "", response.token, 42, "");
+    };
+}
 

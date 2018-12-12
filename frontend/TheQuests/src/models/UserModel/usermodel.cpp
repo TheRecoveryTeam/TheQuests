@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "usermodel.h"
 #include "src/utils/singleton.h"
 
@@ -58,12 +59,14 @@ const QString& UserModel::getToken() const
 
 void UserModel::setToken(const QString &value)
 {
+    qDebug() << "set token" << value;
     token = value;
     emit tokenChanged(token);
 }
 
 bool UserModel::isAuthenticated() const
 {
+    qDebug() << "is authenticated " << !token.isEmpty() << token;
     return !token.isEmpty();
 }
 

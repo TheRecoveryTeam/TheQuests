@@ -1,7 +1,3 @@
-function func() {
-    var aaa="aaaaaaa";
-    return aaa;
-}
 var IDENTIFIER = "Quest_DB";
 var VERSION = "";
 var DESCRIPTION = "Local DB for Quest data";
@@ -17,7 +13,7 @@ function dbInit()
                                                                 ' email text,' +
                                                                 ' vk_id text,' +
                                                                 ' token text,' +
-                                                                ' avatar_path text)');
+                                                                ' avatar_path text);');
             });
     } catch (err) {
         console.log("Error creating table in database: " + err);
@@ -38,7 +34,7 @@ function dbDeleteRows()
 {
     var db = dbGetHandle();
     db.transaction(function (tx) {
-        tx.executeSql('delete from quest_db');
+        tx.executeSql('DELETE FROM quest_db;');
     });
 }
 
@@ -47,7 +43,7 @@ function dbInsert(user_id, nickname, email, vk_id, token, avatar_path)
     dbDeleteRows();
     var db = dbGetHandle();
     db.transaction(function (tx) {
-        tx.executeSql('INSERT INTO quest_db VALUES(?, ?, ?, ?, ?, ?)',
+        tx.executeSql('INSERT INTO quest_db VALUES(?, ?, ?, ?, ?, ?);',
                       [user_id, nickname, email, vk_id, token, avatar_path]);
     });
 }
@@ -58,9 +54,10 @@ function dbRead(onSelect)
     var result = {};
     db.transaction(function (tx) {
         var rawResult = tx.executeSql(
-                    'SELECT user_id, nickname, email, vk_id, token, avatar_path FROM quest_db');
+                    'SELECT user_id, nickname, email, vk_id, token, avatar_path FROM quest_db;');
         if (rawResult.rows.length !== 1) {
             onSelect(null);
+            return;
         }
         var cur = rawResult.rows[0];
         result.userId = cur.user_id;

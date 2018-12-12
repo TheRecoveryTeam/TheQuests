@@ -5,6 +5,10 @@ Rectangle {
     id: logoText
     property string text: 'The Quests'
     height: 60
+    anchors {
+        left: parent.left
+        right: parent.right
+    }
 
     color: 'transparent'
 
@@ -12,7 +16,7 @@ Rectangle {
         label: logoText.text
         pixelSize: 55
         spacing: 2
-        color: '#1D1D1D'
+        color: '#2D9CDB'
         anchors.centerIn: parent
         anchors.verticalCenterOffset: 3
         anchors.horizontalCenterOffset: 3

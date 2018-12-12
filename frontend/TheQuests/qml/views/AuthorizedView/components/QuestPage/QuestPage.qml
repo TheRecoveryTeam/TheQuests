@@ -46,7 +46,6 @@ Item {
     }
 
     Component.onCompleted: function() {
-        console.log(questId);
         QuestController.getQuestDetail(questId);
     }
 

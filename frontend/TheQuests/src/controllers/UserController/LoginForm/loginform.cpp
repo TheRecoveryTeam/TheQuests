@@ -47,7 +47,6 @@ void LoginForm::send()
         });
     }
     else {
-        qDebug() << "form not valid";
     }
 }
 
