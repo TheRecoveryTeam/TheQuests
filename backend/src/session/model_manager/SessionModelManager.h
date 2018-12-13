@@ -1,7 +1,3 @@
-//
-// Created by Арсений Зорин on 30/11/2018.
-//
-
 #ifndef THEQUESTS_SESSIONMODELMANAGER_H
 #define THEQUESTS_SESSIONMODELMANAGER_H
 
@@ -28,7 +24,6 @@ namespace SessionModelManager {
     std::string Create(const std::string &request);
     std::string CreateByOauth2(const std::string &request);
     std::string Remove(const std::string &request);
-    std::string Update(const std::string &request);
     ~SessionModelManager() = default;
   };
 }

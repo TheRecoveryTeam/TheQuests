@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 10/11/2018.
-//
 #ifndef THEQUESTS_CARDMODELMANAGER_H
 #define THEQUESTS_CARDMODELMANAGER_H
 
@@ -19,10 +16,7 @@ class CardModelManager : AbstractModelManager::AbstractModelManager{
  public:
   explicit CardModelManager();
   std::string Create(const std::string &request);
-  std::string Remove(const std::string &request);
-  std::string Update(const std::string &request);
   std::string Get(const std::string &request, const std::vector<std::string> *projection = nullptr);
-  std::string GetByQuest(const std::string &request);
   std::string GetNextCard(const std::string &request);
   ~CardModelManager();
 

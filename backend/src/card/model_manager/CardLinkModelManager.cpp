@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 15/11/2018.
-//
 #include <bsoncxx/builder/stream/document.hpp>
 #include "CardLinkModelManager.h"
 #include <mongocxx/client.hpp>

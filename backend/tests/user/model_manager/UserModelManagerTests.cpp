@@ -21,15 +21,15 @@ class UserModelManagerTests : public ::testing::Test {
     id_list = new std::vector<std::string>;
     std::vector<nlohmann::json> users;
     users.push_back(nlohmann::json({
-                                          {"email", "test@bk.ru"},
-                                          {"password", "123456"},
-                                          {"nickname", "testuser"}
-                                      }));
+      {"email", "test@bk.ru"},
+      {"password", "123456"},
+      {"nickname", "testuser"}
+    }));
     users.push_back(nlohmann::json({
-                                       {"email", "test@bk.ru"},
-                                       {"password", "12345555"},
-                                       {"nickname", "testuser"}
-                                   }));
+      {"email", "test@bk.ru"},
+      {"password", "12345555"},
+      {"nickname", "testuser"}
+    }));
     for (const auto &user : users) {
       bsoncxx::stdx::optional<mongocxx::result::insert_one>
           result = collection.insert_one((bsoncxx::from_json(user.dump()).view()));
@@ -47,7 +47,7 @@ class UserModelManagerTests : public ::testing::Test {
 
 TEST_F(UserModelManagerTests, getUserWithExistingId) {
   nlohmann::json query = {
-      {"id", (*id_list)[0]}
+    {"id", (*id_list)[0]}
   };
   nlohmann::json received_user = nlohmann::json::parse(user_manager->Get(query.dump()));
   ASSERT_EQ((*id_list)[0], received_user["id"]) << "Wrong user received";
@@ -55,7 +55,7 @@ TEST_F(UserModelManagerTests, getUserWithExistingId) {
 
 TEST_F(UserModelManagerTests, getUserWithIncorrectId) {
   nlohmann::json query = {
-      {"id", ""}
+    {"id", ""}
   };
   nlohmann::json received_user = nlohmann::json::parse(user_manager->Get(query.dump()));
   ASSERT_TRUE(received_user.find("error") != received_user.end())
@@ -70,9 +70,9 @@ TEST_F(UserModelManagerTests, getUserWithoutId) {
 
 TEST_F(UserModelManagerTests, addCorrectUser) {
   nlohmann::json data = {
-      {"email", "test1@bk.ru"},
-      {"password", "123456"},
-      {"nickname", "testuser1"}
+    {"email", "test1@bk.ru"},
+    {"password", "123456"},
+    {"nickname", "testuser1"}
   };
   nlohmann::json result = nlohmann::json::parse(user_manager->Create(data.dump()));
   ASSERT_TRUE(result.find("error") == result.end()) << "The user has't been correctly added to the database";
@@ -80,9 +80,9 @@ TEST_F(UserModelManagerTests, addCorrectUser) {
 
 TEST_F(UserModelManagerTests, addUserWithExistingEmail) {
   nlohmann::json data = {
-      {"email", "test@bk.ru"},
-      {"password", "123456"},
-      {"nickname", "testuser2"}
+    {"email", "test@bk.ru"},
+    {"password", "123456"},
+    {"nickname", "testuser2"}
   };
   nlohmann::json result = nlohmann::json::parse(user_manager->Create(data.dump()));
   ASSERT_TRUE(result.find("error") != result.end()) << "Added user with already existing email";
@@ -90,9 +90,9 @@ TEST_F(UserModelManagerTests, addUserWithExistingEmail) {
 
 TEST_F(UserModelManagerTests, addUserWithExistingNickname) {
   nlohmann::json data = {
-       {"email", "test2@bk.ru"},
-      {"password", "123456"},
-      {"nickname", "testuser"}
+    {"email", "test2@bk.ru"},
+    {"password", "123456"},
+    {"nickname", "testuser"}
   };
   nlohmann::json result = nlohmann::json::parse(user_manager->Create(data.dump()));
   ASSERT_TRUE(result.find("error") != result.end()) << "Added user with already existing nickname";
@@ -100,42 +100,41 @@ TEST_F(UserModelManagerTests, addUserWithExistingNickname) {
 
 TEST_F(UserModelManagerTests, checkExistingEmail) {
   nlohmann::json query = {
-      {"email", "test@bk.ru"}
+    {"email", "test@bk.ru"}
   };
   ASSERT_TRUE(user_manager->Contains(query.dump())) << "Doesn't find existing email";
 }
 
 TEST_F(UserModelManagerTests, checkNotExistingEmail) {
   nlohmann::json query = {
-      {"email", "123"}
+    {"email", "123"}
   };
   ASSERT_FALSE(user_manager->Contains(query.dump())) << "Find not existing email";
 }
 
 TEST_F(UserModelManagerTests, checkExistingNickname) {
   nlohmann::json query = {
-      {"nickname", "testuser"}
+    {"nickname", "testuser"}
   };
   ASSERT_TRUE(user_manager->Contains(query.dump())) << "Doesn't find existing nickname";
 }
 
 TEST_F(UserModelManagerTests, checkNotExistingNickname) {
   nlohmann::json query = {
-      {"nickname", "123"}
+    {"nickname", "123"}
   };
   ASSERT_FALSE(user_manager->Contains(query.dump())) << "Find not existing nickname";
 }
 
 TEST_F(UserModelManagerTests, loginUserByOauth2) {
   nlohmann::json query = {
-      {"nickname", "usertest1"},
-      {"oauthService", "VK"},
-      {"oauthId", "sdhoiwqflqkhjfiqlfgqjfioqli"},
-      {"oauthToken", "diasjdwideqjeqoprqwokrqworqwrjwsda"},
-      {"avatarPath", "/uploads/1.png"}
+    {"nickname", "usertest1"},
+    {"oauthService", "VK"},
+    {"oauthId", "sdhoiwqflqkhjfiqlfgqjfioqli"},
+    {"oauthToken", "diasjdwideqjeqoprqwokrqworqwrjwsda"},
+    {"avatarPath", "/uploads/1.png"}
   };
   auto result = nlohmann::json::parse(user_manager->LoginByOauth2(query.dump()));
-  std::cout << result << std::endl;
   ASSERT_TRUE(result.find("error") == result.end()) << "Return error on correct login by oauth2";
 }
 

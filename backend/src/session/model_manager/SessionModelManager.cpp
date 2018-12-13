@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 30/11/2018.
-//
 #include <session/model_manager/SessionModelManager.h>
 
 

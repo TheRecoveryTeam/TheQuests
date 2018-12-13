@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 15/11/2018.
-//
 #ifndef THEQUESTS_QUESTMODELMANAGER_H
 #define THEQUESTS_QUESTMODELMANAGER_H
 
@@ -16,6 +13,7 @@
 #include <bsoncxx/json.hpp>
 #include <bsoncxx/builder/stream/document.hpp>
 
+
 namespace QuestModelManager {
 class QuestModelManager : public AbstractModelManager::AbstractModelManager {
  public:
@@ -23,8 +21,6 @@ class QuestModelManager : public AbstractModelManager::AbstractModelManager {
   std::string Get(const std::string &request, const std::vector<std::string> *projection = nullptr);
   std::string GetWithHistory(const std::string &request);
   std::string Create(const std::string &request);
-  std::string Remove(const std::string &request);
-  std::string Update(const std::string &request);
   ~QuestModelManager();
  private:
   HistoryModelManager::HistoryModelManager *history_manager_;

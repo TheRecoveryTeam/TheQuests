@@ -1,7 +1,3 @@
-//
-// Created by Арсений Зорин on 15/11/2018.
-//
-
 #ifndef THEQUESTS_HISTORYMODELMANAGER_H
 #define THEQUESTS_HISTORYMODELMANAGER_H
 
@@ -17,7 +13,6 @@ class HistoryModelManager : AbstractModelManager::AbstractModelManager {
  public:
   explicit HistoryModelManager() : AbstractModelManager::AbstractModelManager("History"){};
   std::string Create(const std::string &request);
-  std::string Remove(const std::string &request);
   std::string Update(const std::string &request);
   std::string Get(const std::string &request, const std::vector<std::string> *projection = nullptr);
   std::string GetUserHistory(const std::string &request);

@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 27/11/2018.
-//
 #include <core/model_manager/ModelManager.h>
 
 

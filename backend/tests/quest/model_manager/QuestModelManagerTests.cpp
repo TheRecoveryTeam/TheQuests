@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 15/11/2018.
-//
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <quest/model_manager/QuestModelManager.h>
@@ -12,6 +9,7 @@
 #include <mongocxx/instance.hpp>
 #include <vector>
 
+
 class QuestModelManagerTests : public ::testing::Test {
  protected:
   void SetUp() {
@@ -21,23 +19,23 @@ class QuestModelManagerTests : public ::testing::Test {
     id_list = new std::vector<std::string>;
     std::vector<nlohmann::json> quests;
     quests.push_back(nlohmann::json({
-                                        {"title", "quest1"},
-                                        {"description", "about quest1"},
-                                        {"image", "image1"},
-                                        {"resources", {"strength", "health", "wisdom"}}
-                                    }));
+      {"title", "quest1"},
+      {"description", "about quest1"},
+      {"image", "image1"},
+      {"resources", {"strength", "health", "wisdom"}}
+    }));
     quests.push_back(nlohmann::json({
-                                        {"title", "quest2"},
-                                        {"description", "about quest2"},
-                                        {"image", "image2"},
-                                        {"resources", {"strength", "wisdom"}}
-                                    }));
+      {"title", "quest2"},
+      {"description", "about quest2"},
+      {"image", "image2"},
+      {"resources", {"strength", "wisdom"}}
+    }));
     quests.push_back(nlohmann::json({
-                                        {"title", "quest3"},
-                                        {"description", "about quest3"},
-                                        {"image", "image3"},
-                                        {"resources", {"strength", "health", "wisdom", "respect"}}
-                                    }));
+      {"title", "quest3"},
+      {"description", "about quest3"},
+      {"image", "image3"},
+      {"resources", {"strength", "health", "wisdom", "respect"}}
+    }));
     for (const auto &quest : quests) {
       bsoncxx::stdx::optional<mongocxx::result::insert_one>
           result = collection.insert_one((bsoncxx::from_json(quest.dump()).view()));
@@ -54,11 +52,11 @@ class QuestModelManagerTests : public ::testing::Test {
 
 TEST_F(QuestModelManagerTests, addCorrectQuest) {
   nlohmann::json data = {
-      {"title", "quest4"},
-      {"description", "about quest4"},
-      {"authorId", bsoncxx::oid().to_string()},
-      {"image", "image4"},
-      {"resources", {"health", "wisdom"}}
+    {"title", "quest4"},
+    {"description", "about quest4"},
+    {"authorId", bsoncxx::oid().to_string()},
+    {"image", "image4"},
+    {"resources", {"health", "wisdom"}}
   };
   nlohmann::json inserted_quest = nlohmann::json::parse(quest_manager->Create(data.dump()));
   ASSERT_TRUE(inserted_quest.find("error") == inserted_quest.end()) << "Get error on correct data";
@@ -73,9 +71,9 @@ TEST_F(QuestModelManagerTests, addCorrectQuest) {
 
 TEST_F(QuestModelManagerTests, addIncorrectQuest) {
   nlohmann::json data = {
-      {"description", "about quest4"},
-      {"image", "image4"},
-      {"resources", {"health", "wisdom"}}
+    {"description", "about quest4"},
+    {"image", "image4"},
+    {"resources", {"health", "wisdom"}}
   };
   nlohmann::json result = nlohmann::json::parse(quest_manager->Create(data.dump()));
   ASSERT_TRUE(result.find("error") != result.end()) << "Doesn't return error on incorrect data";

@@ -1,7 +1,3 @@
-//
-// Created by Арсений Зорин on 30/11/2018.
-//
-
 #ifndef THEQUESTS_USERMODELMANAGER_H
 #define THEQUESTS_USERMODELMANAGER_H
 
@@ -26,8 +22,6 @@ namespace UserModelManager {
     explicit UserModelManager();
     std::string Create(const std::string &request);
     std::string CreateByOauth2(const std::string &request);
-    std::string Remove(const std::string &request);
-    std::string Update(const std::string &request);
     std::string Login(const std::string &request);
     std::string LoginByOauth2(const std::string &request);
     std::string Logout(const std::string &request);

@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 15/11/2018.
-//
 #include <gtest/gtest.h>
 #include <nlohmann/json.hpp>
 #include <card/model_manager/CardLinkModelManager.h>
@@ -25,33 +22,33 @@ class CardLinkModelManagerTests : public ::testing::Test {
     }
     std::vector<nlohmann::json> card_links;
     card_links.push_back(nlohmann::json({
-                                            {"toId", {{"$oid", (*card_id_list)[0]}}},
-                                            {"weight", {
-                                                {"strength", -100},
-                                                {"health", 200}
-                                            }}
-                                        }));
+      {"toId", {{"$oid", (*card_id_list)[0]}}},
+      {"weight", {
+        {"strength", -100},
+        {"health", 200}
+      }}
+    }));
     card_links.push_back(nlohmann::json({
-                                            {"toId", {{"$oid", (*card_id_list)[1]}}},
-                                            {"weight", {
-                                                {"strength", 10},
-                                                {"health", 20}
-                                            }}
-                                        }));
+      {"toId", {{"$oid", (*card_id_list)[1]}}},
+      {"weight", {
+        {"strength", 10},
+        {"health", 20}
+      }}
+    }));
     card_links.push_back(nlohmann::json({
-                                            {"toId", {{"$oid", (*card_id_list)[2]}}},
-                                            {"weight", {
-                                                {"strength", 0},
-                                                {"health", 1}
-                                            }}
-                                        }));
+      {"toId", {{"$oid", (*card_id_list)[2]}}},
+      {"weight", {
+        {"strength", 0},
+        {"health", 1}
+      }}
+    }));
     card_links.push_back(nlohmann::json({
-                                            {"toId", {{"$oid", (*card_id_list)[3]}}},
-                                            {"weight", {
-                                                {"strength", 10},
-                                                {"health", -5}
-                                            }}
-                                        }));
+      {"toId", {{"$oid", (*card_id_list)[3]}}},
+      {"weight", {
+        {"strength", 10},
+        {"health", -5}
+      }}
+    }));
     for (const auto &card_link : card_links) {
       bsoncxx::stdx::optional<mongocxx::result::insert_one>
           result = collection.insert_one((bsoncxx::from_json(card_link.dump()).view()));

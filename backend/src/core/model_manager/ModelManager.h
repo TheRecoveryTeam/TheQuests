@@ -1,7 +1,3 @@
-//
-// Created by Арсений Зорин on 27/11/2018.
-//
-
 #ifndef THEQUESTS_MODELMANAGER_H
 #define THEQUESTS_MODELMANAGER_H
 

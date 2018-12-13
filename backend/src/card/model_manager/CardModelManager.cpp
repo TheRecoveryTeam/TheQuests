@@ -1,7 +1,3 @@
-//
-// Created by Арсений Зорин on 10/11/2018.
-//
-
 #include <bsoncxx/builder/stream/document.hpp>
 #include "CardModelManager.h"
 #include <mongocxx/client.hpp>
@@ -10,7 +6,7 @@
 #include <bsoncxx/exception/exception.hpp>
 #include <bsoncxx/json.hpp>
 
-CardModelManager::CardModelManager::CardModelManager() : AbstractModelManager::AbstractModelManager("Card"){
+CardModelManager::CardModelManager::CardModelManager() : AbstractModelManager::AbstractModelManager("Card") {
   quest_manager_ = new QuestModelManager::QuestModelManager();
   cardlink_manager_ = new CardLinkModelManager::CardLinkModelManager();
   history_manager_ = new HistoryModelManager::HistoryModelManager();
@@ -28,7 +24,7 @@ std::string CardModelManager::CardModelManager::Get(const std::string &request,
   if (result.find("error") == result.end()) {
     std::vector<std::string> id_data = {"questId"};
     if (result.find("links") != result.end()) {
-      for (auto& link : result["links"]) {
+      for (auto &link : result["links"]) {
         link = link["$oid"];
       }
     }
@@ -53,9 +49,9 @@ std::string CardModelManager::CardModelManager::Create(const std::string &reques
     return nlohmann::json({{"error", "QuestDoesNotExist"}}).dump();
   }
   nlohmann::json new_card = {
-      {"questId", {{"$oid", data["questId"]}}},
-      {"title", data["title"]},
-      {"type", data["type"]}
+    {"questId", {{"$oid", data["questId"]}}},
+    {"title", data["title"]},
+    {"type", data["type"]}
   };
   if (data.find("links") != data.end()) {
     for (auto &link : data["links"].get<std::map<std::string, std::string>>()) {
@@ -102,36 +98,29 @@ std::string CardModelManager::CardModelManager::GetNextCard(const std::string &r
   }
   // Получение CardLink и History
   nlohmann::json quest = nlohmann::json::parse(quest_manager_
-      ->Get(nlohmann::json({{"id", card["questId"]}}).dump()));
+                                                   ->Get(nlohmann::json({{"id", card["questId"]}}).dump()));
   nlohmann::json card_link = nlohmann::json::parse(cardlink_manager_
                                                        ->Get(nlohmann::json({{"id", links[answer]}}).dump()));
   nlohmann::json history = nlohmann::json::parse(history_manager_
                                                      ->GetUserHistory(nlohmann::json({{"userId", data["userId"]},
-                                                                                      {"questId", card["questId"]}}).dump()));
-  if (history.find("error") !=  history.end()) {
+                                                                                      {"questId",
+                                                                                       card["questId"]}}).dump()));
+  if (history.find("error") != history.end()) {
     return history;
   }
+  // Если History для данного пользователя еще не создана, то добавляем ее
   if (history.find("warning") != history.end()) {
     nlohmann::json new_history = {
-        {"questId", data["id"]},
-        {"userId", data["userId"]},
-        {"firstCardId", quest["firstCardId"]},
-        {"resources", quest["resources"]}
+      {"questId", data["id"]},
+      {"userId", data["userId"]},
+      {"firstCardId", quest["firstCardId"]},
+      {"resources", quest["resources"]}
     };
     history = nlohmann::json::parse(history_manager_->Create(new_history.dump()));
     if (history.find("error") != history.end()) {
       return history.dump();
     }
   }
-
-  // Если History для данного пользователя еще не создана, то добавляем ее
-
-//  if (history.find("warning") != history.end()) {
-//    history = nlohmann::json::parse(history_manager_
-//                                        ->create(nlohmann::json({{"userId", data["userId"]},
-//                                                                 {"questId", card["questId"]}}).dump()));
-//  }
-
   bool lose_game = false; // Флаг проигрыша игры
   // Обновление списка ресурсов
   for (auto &resource : card_link["weight"].get<std::map<std::string, int>>()) {
@@ -151,9 +140,9 @@ std::string CardModelManager::CardModelManager::GetNextCard(const std::string &r
   if (lose_game || nlohmann::json::parse(Get(nlohmann::json({{"id", card_link["toId"]}}).dump()))["type"] == "finish") {
     // Собираем обновленную History
     query_history_update = {
-        {"id", history["id"]},
-        {"resources", history["resources"]},
-        {"stage", "end"}
+      {"id", history["id"]},
+      {"resources", history["resources"]},
+      {"stage", "end"}
     };
     // Если выиграли
     if (!lose_game) {
@@ -166,9 +155,9 @@ std::string CardModelManager::CardModelManager::GetNextCard(const std::string &r
     }
   } else { // Продолжаем играть, если с ресурсами все хорошо и еще не конец
     query_history_update = {
-        {"id", history["id"]},
-        {"cardId", card_link["toId"]},
-        {"resources", history["resources"]}
+      {"id", history["id"]},
+      {"cardId", card_link["toId"]},
+      {"resources", history["resources"]}
     };
   }
   // Обновляем History
@@ -178,16 +167,16 @@ std::string CardModelManager::CardModelManager::GetNextCard(const std::string &r
   }
   std::string next_card_id = query_history_update["cardId"];
   // Переводим resources из map в array
-  auto resources_array =nlohmann::json();
+  auto resources_array = nlohmann::json();
   for (auto &resource: history["resources"].get<std::map<std::string, int>>()) {
     resources_array.push_back({
-                                  {"name", resource.first},
-                                  {"value", resource.second}
-                              });
+      {"name", resource.first},
+      {"value", resource.second}
+    });
   }
   history["resources"] = resources_array;
   return nlohmann::json({
-                            {"nextCardId", next_card_id},
-                            {"resources", history["resources"]}
-                        }).dump();
+    {"nextCardId", next_card_id},
+    {"resources", history["resources"]}
+  }).dump();
 }
