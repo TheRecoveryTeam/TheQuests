@@ -6,15 +6,8 @@
 #include "../NetworkUtils.h"
 #include "../../../src/card/model_manager/CardModelManager.h"
 
-web::json::value from_string(std::string const &input) {
-    utility::stringstream_t s;
 
-    s << input;
-    web::json::value ret = web::json::value::parse(s);
-    return ret;
-}
-
-void CardController::initRestOpHandlers() {
+void CardController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
         std::wcout << "CARD CONTROLLER" << std::endl;
         std::wcout << message.relative_uri().path().c_str() << std::endl;
@@ -41,20 +34,12 @@ void CardController::initRestOpHandlers() {
     }
 }
 
-web::json::value CardController::responseNotImpl(const web::http::method &method) {
-    auto response = web::json::value::object();
-    response["controller"] = web::json::value::string("CardController");
-    response["http_method"] = web::json::value::string(method);
-    return response;
-}
-
-void CardController::add(const web::http::http_request message) {
+void CardController::AddNewCard(web::http::http_request message) {
     auto path = requestPath(message);
     auto response = web::json::value::object();
 
     auto status_code = web::http::status_codes::OK;
     auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
-
         try {
             auto const &body = task.get();
             if (path.empty()) {
@@ -63,7 +48,7 @@ void CardController::add(const web::http::http_request message) {
             std::wcout << body.as_string().c_str() << std::endl;
             if (!body.is_null()) {
                 CardModelManager::CardModelManager manager;
-                std::string db_response = manager.create(body.as_string());
+                std::string db_response = manager.Create(body.as_string());
                 auto data = nlohmann::json::parse(db_response);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
@@ -72,15 +57,12 @@ void CardController::add(const web::http::http_request message) {
                     response["id"] = web::json::value::string(data["id"].get<std::string>());
                 }
             } else {
-
                 throw std::exception();
             }
-
         }
-        catch (std::exception const &e)
-        {
+        catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("card add is wrong!");
+            response["message"] = web::json::value::string("card Add is wrong!");
             status_code = web::http::status_codes::BadRequest;
         }
     };
@@ -92,36 +74,54 @@ void CardController::add(const web::http::http_request message) {
     message.reply(status_code, response);
 }
 
-void CardController::links_upsert(web::http::http_request message) {
+void CardController::LinksUpsert(web::http::http_request message) {
     auto path = requestPath(message);
     auto response = web::json::value::object();
-    if (!path.empty()) {
-        auto body = message.extract_json().get();
+    auto status_code = web::http::status_codes::OK;
+
+    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
+
         try {
-            web::json::value id = body.at(U("id"));
-            web::json::value questId = body.at(U("links"));
+            auto const &body = task.get();
+            if (path.empty()) {
+                throw std::exception();
+            }
+            std::wcout << body.as_string().c_str() << std::endl;
+            if (!body.is_null()) {
+                CardModelManager::CardModelManager manager;
+                //TODO: call links_upsert from DB
+                std::string db_response = manager.Create(body.as_string());
+                auto data = nlohmann::json::parse(db_response);;
+                if (data.find("error") != data.end()) {
+                    response["message"] = web::json::value::string(data["error"].get<std::string>());
+                    status_code = web::http::status_codes::NotFound;
+                } else {
+                    response["id"] = web::json::value::string(data["id"].get<std::string>());
+                }
+            } else {
+                throw std::exception();
+            }
 
-            //TODO: Links upsert from DB
-            message.reply(web::http::status_codes::OK, response);
         }
-        catch (web::json::json_exception &e) {
-            response["code"] = 400;
-            response["message"] = web::json::value::string("card links upsert is wrong");
-            message.reply(web::http::status_codes::BadRequest, response);
+        catch (std::exception const &e) {
+            std::wcout << e.what() << std::endl;
+            response["message"] = web::json::value::string("card LinksUpsertCard is wrong");
+            status_code = web::http::status_codes::BadRequest;
         }
+    };
 
-    } else {
-        response["code"] = 400;
-        response["message"] = web::json::value::string("card links upsert is wrong");
-        message.reply(web::http::status_codes::BadRequest, response);
-    }
+    message
+            .extract_json()
+            .then(processRequest)
+            .wait();
+    message.reply(status_code, response);
 }
 
-void CardController::edit(web::http::http_request message) {
+void CardController::EditCard(web::http::http_request message) {
     auto path = requestPath(message);
     auto response = web::json::value::object();
-
     auto status_code = web::http::status_codes::OK;
+
     auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
 
         try {
@@ -133,7 +133,7 @@ void CardController::edit(web::http::http_request message) {
             if (!body.is_null()) {
                 CardModelManager::CardModelManager manager;
                 //TODO: call edit from DB
-                std::string db_response = manager.create(body.as_string());
+                std::string db_response = manager.Create(body.as_string());
                 auto data = nlohmann::json::parse(db_response);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
@@ -146,10 +146,9 @@ void CardController::edit(web::http::http_request message) {
             }
 
         }
-        catch (std::exception const &e)
-        {
+        catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("card edit is wrong");
+            response["message"] = web::json::value::string("card EditCard is wrong");
             status_code = web::http::status_codes::BadRequest;
         }
     };
@@ -161,7 +160,7 @@ void CardController::edit(web::http::http_request message) {
     message.reply(status_code, response);
 }
 
-void CardController::remove(web::http::http_request message) {
+void CardController::RemoveCard(web::http::http_request message) {
     auto path = requestPath(message);
     auto response = web::json::value::object();
 
@@ -176,7 +175,9 @@ void CardController::remove(web::http::http_request message) {
             std::wcout << body.as_string().c_str() << std::endl;
             if (!body.is_null()) {
                 CardModelManager::CardModelManager manager;
-                std::string db_response = manager.remove(body.as_string());
+                // TODO: REMOVE IN DB NOT IMPLEMENTED
+//                std::string db_response = manager.remove(body.as_string());
+                std::string db_response = "{}";
                 auto data = nlohmann::json::parse(db_response);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
@@ -188,10 +189,9 @@ void CardController::remove(web::http::http_request message) {
             }
 
         }
-        catch (std::exception const &e)
-        {
+        catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("card remove is wrong!");
+            response["message"] = web::json::value::string("card RemoveCard is wrong!");
             status_code = web::http::status_codes::BadRequest;
         }
     };
@@ -203,7 +203,7 @@ void CardController::remove(web::http::http_request message) {
     message.reply(status_code, response);
 }
 
-void CardController::do_answer(web::http::http_request message) {
+void CardController::DoAnswer(web::http::http_request message) {
     auto path = requestPath(message);
     auto response = web::json::value::object();
 
@@ -219,7 +219,7 @@ void CardController::do_answer(web::http::http_request message) {
             if (!body.is_null()) {
                 CardModelManager::CardModelManager manager;
                 //TODO: call do_answer from DB
-                std::string db_response = manager.get(body.as_string());
+                std::string db_response = manager.Get(body.as_string());
                 auto data = nlohmann::json::parse(db_response);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
@@ -233,10 +233,9 @@ void CardController::do_answer(web::http::http_request message) {
             }
 
         }
-        catch (std::exception const &e)
-        {
+        catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("card do_answer is wrong");
+            response["message"] = web::json::value::string("card DoAnswer is wrong");
             status_code = web::http::status_codes::BadRequest;
         }
     };
@@ -248,7 +247,7 @@ void CardController::do_answer(web::http::http_request message) {
     message.reply(status_code, response);
 }
 
-void CardController::get(web::http::http_request message) {
+void CardController::GetCard(web::http::http_request message) {
     auto path = requestPath(message);
     for (auto &p : path) {
         std::wcout << p.c_str() << std::endl;
@@ -267,26 +266,25 @@ void CardController::get(web::http::http_request message) {
         request["id"] = id;
 
         auto model = CardModelManager::CardModelManager();
-        auto item = from_string(model.get(request.as_string()));
-
-        int questId = std::stoi(item["questId"].as_string());
-        response["id"] = id;
-        response["questId"] = questId;
-        response["title"] = item["title"];
-        response["imagePath"] = item["imagePath"];
-        response["description"] = item["description"];
-        response["type"] = item["type"];
-        response["links"] = item["links"];
+//        auto item = networkhelper::from_string(model.Get(request.as_string()));
+//
+//        int questId = std::stoi(item["questId"].as_string());
+//        response["id"] = id;
+//        response["questId"] = questId;
+//        response["title"] = item["title"];
+//        response["imagePath"] = item["imagePath"];
+//        response["description"] = item["description"];
+//        response["type"] = item["type"];
+//        response["links"] = item["links"];
 
         message.reply(web::http::status_codes::OK, response);
     } else {
-        response["code"] = 400;
-        response["message"] = web::json::value::string("card get is wrong");
+        response["message"] = web::json::value::string("card GetCard is wrong");
         message.reply(web::http::status_codes::BadRequest, response);
     }
 }
 
-void CardController::list(web::http::http_request message) {
+void CardController::List(web::http::http_request message) {
     auto path = requestPath(message);
     for (auto &p : path) {
         std::wcout << p.c_str() << std::endl;
@@ -305,18 +303,17 @@ void CardController::list(web::http::http_request message) {
         request["questId"] = id;
 
         auto model = CardModelManager::CardModelManager();
-        auto item = from_string(model.get(request.as_string()));
-
-        int questId = std::stoi(item["questId"].as_string());
-        response["id"] = questId;
-        response["title"] = item["title"];
-        response["imagePath"] = item["imagePath"];
-        response["description"] = item["description"];
+//        auto item = networkhelper::from_string(model.Get(request.as_string()));
+//
+//        int questId = std::stoi(item["questId"].as_string());
+//        response["id"] = questId;
+//        response["title"] = item["title"];
+//        response["imagePath"] = item["imagePath"];
+//        response["description"] = item["description"];
 
         message.reply(web::http::status_codes::OK, response);
     } else {
-        response["code"] = 400;
-        response["message"] = web::json::value::string("card list is wrong");
+        response["message"] = web::json::value::string("card List is wrong");
         message.reply(web::http::status_codes::BadRequest, response);
     }
 }
@@ -325,30 +322,42 @@ void CardController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("do_answer"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(CardController, do_answer)
+            ASSIGN_HANDLER(CardController, DoAnswer)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("remove"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(CardController, remove)
+            ASSIGN_HANDLER(CardController, RemoveCard)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("edit"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(CardController, edit)
+            ASSIGN_HANDLER(CardController, EditCard)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("links_upsert"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(CardController, links_upsert)
+            ASSIGN_HANDLER(CardController, LinksUpsert)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("add"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(CardController, add)
+            ASSIGN_HANDLER(CardController, AddNewCard)
+    });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("get"),
+            web::http::methods::GET,
+            ASSIGN_HANDLER(CardController, GetCard)
+    });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("list"),
+            web::http::methods::GET,
+            ASSIGN_HANDLER(CardController, List)
     });
 }

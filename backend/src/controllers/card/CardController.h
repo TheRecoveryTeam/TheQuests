@@ -17,25 +17,22 @@ public:
 
     void ConfigureRouting() override;
 
-    void initRestOpHandlers() override;
-
-    void add(web::http::http_request message);
-
-    void edit(web::http::http_request message);
-
-    void remove(web::http::http_request message);
-
-    void do_answer(web::http::http_request message);
-
-    void links_upsert(web::http::http_request message);
-
-    void get(web::http::http_request message);
-
-    void list(web::http::http_request message);
+    void InitHandlers() override;
 
 private:
-    static web::json::value responseNotImpl(const web::http::method &method);
+    void AddNewCard(web::http::http_request message);
 
+    void EditCard(web::http::http_request message);
+
+    void RemoveCard(web::http::http_request message);
+
+    void DoAnswer(web::http::http_request message);
+
+    void LinksUpsert(web::http::http_request message);
+
+    void GetCard(web::http::http_request message);
+
+    void List(web::http::http_request message);
 };
 
 

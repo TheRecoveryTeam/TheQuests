@@ -36,7 +36,7 @@ namespace networkhelper {
     }
 
     pplx::task<void> AbstractController::accept() {
-        initRestOpHandlers();
+        InitHandlers();
         return _listener.open();
     }
 

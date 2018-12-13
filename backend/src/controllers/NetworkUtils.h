@@ -35,7 +35,7 @@ namespace networkhelper {
         }
     };
 
-#define CPPRESTHELPER_HANDLER(controller, action) [](const web::http::http_request & request) {\
+#define ASSIGN_HANDLER(controller, action) [](const web::http::http_request & request) {\
     static_assert(std::is_base_of<networkhelper::AbstractController, controller>::value, "controller class must derive from 'AbstractController'");\
     auto c = controller();\
     try {\

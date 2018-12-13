@@ -21,8 +21,10 @@ namespace networkhelper {
     };
 
     class AbstractController {
+
     protected:
         web::http::experimental::listener::http_listener _listener; // main micro service network endpoint
+        std::vector<RoutingEntry> _routingEntries;
 
     public:
         AbstractController();
@@ -37,14 +39,11 @@ namespace networkhelper {
 
         pplx::task<void> shutdown();
 
-        virtual void initRestOpHandlers() = 0;
+        virtual void InitHandlers() = 0;
 
         static std::vector<utility::string_t> requestPath(const web::http::http_request &message);
 
         virtual void ConfigureRouting() = 0;
-
-    protected:
-        std::vector<RoutingEntry> _routingEntries;
     };
 
 }
