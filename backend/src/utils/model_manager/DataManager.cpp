@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 27/11/2018.
-//
 #include <utils/model_manager/DataManager.h>
 
 

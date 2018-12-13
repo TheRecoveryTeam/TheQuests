@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 27/11/2018.
-//
 #include <core/model_manager/ModelManager.h>
 
 
@@ -10,7 +7,8 @@ AbstractModelManager::AbstractModelManager::AbstractModelManager(const std::stri
   collection_ = (*client)["testdb"][collection_name_];
 }
 
-std::string AbstractModelManager::AbstractModelManager::get(const std::string &request, const std::vector<std::string> *projection) {
+std::string AbstractModelManager::AbstractModelManager::Get(const std::string &request,
+                                                            const std::vector<std::string> *projection) {
   auto data = nlohmann::json::parse(request);
   if (!DataManager::CheckRequiredParameters(data, std::vector<std::string>{"id"})) {
     return nlohmann::json({{"error", "NotEnoughData"}}).dump();
@@ -21,17 +19,18 @@ std::string AbstractModelManager::AbstractModelManager::get(const std::string &r
   auto query = bsoncxx::builder::stream::document{}
       << "_id" << bsoncxx::oid(data["id"])
       << bsoncxx::builder::stream::finalize;
+  bsoncxx::stdx::optional<bsoncxx::document::value> result;
   if (projection && !projection->empty()) {
     mongocxx::options::find opts{};
     auto options = bsoncxx::builder::stream::document{};
-    for (auto& key : *projection) {
+    for (const auto& key : *projection) {
       options << key << 1;
     }
-    options << bsoncxx::builder::stream::finalize;
     opts.projection(options.view());
-    bsoncxx::stdx::optional<bsoncxx::document::value> result = collection_.find_one(query.view(), opts);
+    result = collection_.find_one(query.view(), opts);
+  } else {
+    result = collection_.find_one(query.view());
   }
-  bsoncxx::stdx::optional<bsoncxx::document::value> result = collection_.find_one(query.view());
   if (result) {
     auto result_json = nlohmann::json::parse(bsoncxx::to_json(*result));
     result_json["id"] = result_json["_id"]["$oid"];

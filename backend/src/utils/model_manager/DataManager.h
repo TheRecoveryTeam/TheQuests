@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 27/11/2018.
-//
 #ifndef THEQUESTS_DATAMANAGER_H
 #define THEQUESTS_DATAMANAGER_H
 

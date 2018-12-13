@@ -1,6 +1,3 @@
-//
-// Created by Арсений Зорин on 11/11/2018.
-//
 #include <iostream>
 #include "DatabaseConnectionSingleton.h"
 #include <mongocxx/client.hpp>
