@@ -14,7 +14,7 @@ public:
         std::wcout << U("UserController initiated\n");
     }
 
-    void initRestOpHandlers() override;
+    void InitHandlers() override;
 
     void ConfigureRouting() override;
 

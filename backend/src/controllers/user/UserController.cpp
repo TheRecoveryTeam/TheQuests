@@ -6,7 +6,7 @@
 #include "../NetworkUtils.h"
 #include "../../../src/user/model_manager/UserModelManager.h"
 
-void UserController::initRestOpHandlers() {
+void UserController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
         std::wcout << "USER CONTROLLER" << std::endl;
         std::wcout << message.relative_uri().path().c_str() << std::endl;
@@ -110,7 +110,7 @@ void UserController::create(web::http::http_request message) {
         }
         catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("user create is wrong!");
+            response["message"] = web::json::value::string("user CreateQuest is wrong!");
             status_code = web::http::status_codes::BadRequest;
         }
     };
@@ -264,42 +264,42 @@ void UserController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("create"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(UserController, create)
+            ASSIGN_HANDLER(UserController, create)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("login"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(UserController, login)
+            ASSIGN_HANDLER(UserController, login)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("logout"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(UserController, logout)
+            ASSIGN_HANDLER(UserController, logout)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("edit"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(UserController, edit)
+            ASSIGN_HANDLER(UserController, edit)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("password_edit"),
             web::http::methods::POST,
-            CPPRESTHELPER_HANDLER(UserController, password_edit)
+            ASSIGN_HANDLER(UserController, password_edit)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("find_email"),
             web::http::methods::GET,
-            CPPRESTHELPER_HANDLER(UserController, find_email)
+            ASSIGN_HANDLER(UserController, find_email)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("find_nickname"),
             web::http::methods::GET,
-            CPPRESTHELPER_HANDLER(UserController, find_nickname)
+            ASSIGN_HANDLER(UserController, find_nickname)
     });
 }

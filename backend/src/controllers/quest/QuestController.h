@@ -14,27 +14,24 @@ public:
         std::wcout << U("QuestController initiated\n");
     }
 
-    void initRestOpHandlers() override;
+    void InitHandlers() override;
 
     void ConfigureRouting() override;
 
-    void create(web::http::http_request message);
-
-    void destroy(web::http::http_request message);
-
-    void edit(web::http::http_request message);
-
-    void edit_image(web::http::http_request message);
-
-    void get(web::http::http_request message);
-
-    void resources(web::http::http_request message);
-
-    void list(web::http::http_request message);
-
 private:
-    static web::json::value responseNotImpl(const web::http::method &method);
+    void CreateQuest(web::http::http_request message);
 
+    void DestroyQuest(web::http::http_request message);
+
+    void EditQuest(web::http::http_request message);
+
+    void EditQuestImage(web::http::http_request message);
+
+    void GetQuest(web::http::http_request message);
+
+    void Resources(web::http::http_request message);
+
+    void List(web::http::http_request message);
 };
 
 
