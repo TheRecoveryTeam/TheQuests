@@ -188,6 +188,12 @@ void UserController::ConfigureRouting() {
             ASSIGN_HANDLER(UserController, PasswordEdit)
     });
 
+    _routingEntries.push_back(networkhelper::RoutingEntry){
+            U("login_oauth2"),
+            web::http::methods::POST,
+            ASSIGN_HANDLER(UserController, L)
+    }
+
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("login_oauth2"),
             web::http::methods::POST,
