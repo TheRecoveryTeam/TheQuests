@@ -34,6 +34,8 @@ public:
 
     void CreateUser(const web::http::http_request& message);
 
+    void FindEmail(const web::http::http_request& message);
+
 private:
     static web::json::value responseNotImpl(const web::http::method &method);
 };
