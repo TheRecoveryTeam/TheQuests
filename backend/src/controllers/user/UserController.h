@@ -23,6 +23,8 @@ private:
 
     void Login(web::http::http_request message);
 
+    void LoginOauth(web::http::http_request message);
+
     void Logout(web::http::http_request message);
 
     void EditUser(web::http::http_request message);
