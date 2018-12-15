@@ -294,7 +294,7 @@ void UserController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("find_nickname"),
             web::http::methods::GET,
-            ASSIGN_HANDLER(UserController, find_nickname)
+            ASSIGN_HANDLER(UserController, FindNickname)
     });
 }
 
@@ -322,6 +322,23 @@ void UserController::FindEmail(const web::http::http_request& message) {
         auto status = contains
                 ? web::http::status_codes::OK
                 : web::http::status_codes::NotFound;
+        nlohmann::json resp = {};
+
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+    };
+
+    ProcessGet(message, processLogic);
+}
+
+void UserController::FindNickname(const web::http::http_request& message) {
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+
+        UserModelManager::UserModelManager manager;
+        bool contains = manager.Contains(requestArgs.dump());
+
+        auto status = contains
+                      ? web::http::status_codes::OK
+                      : web::http::status_codes::NotFound;
         nlohmann::json resp = {};
 
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
