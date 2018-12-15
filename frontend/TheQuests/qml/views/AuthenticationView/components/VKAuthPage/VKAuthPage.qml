@@ -1,6 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
-import QtWebEngine 1.7
+import QtWebView 1.1
 import 'qrc:/components/SimpleText'
 import 'qrc:/components/CustomButton'
 import application 1.0
@@ -42,49 +42,50 @@ Item {
     Component{
         id: webViewPage
         Page {
-        property StackView curStackView: root.curStackView
+            property StackView curStackView: root.curStackView
 
-        Rectangle {
-            id: toolBar
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: parent.top
-            }
-            height: 60
-            color: '#4378a4'
+            Rectangle {
+                id: toolBar
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                }
+                height: 60
+                color: '#4378a4'
 
-            OutlinedIconButton {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                symbolIcon: ''
-                onClick: root.popFromStackView
-            }
-        }
-
-        WebEngineView {
-            id: oauthWebView
-            signal loadStarted(url address)
-            property bool isRedirect: false
-
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: toolBar.bottom
-                bottom: parent.bottom
+                OutlinedIconButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    symbolIcon: ''
+                    onClick: root.popFromStackView
+                }
             }
 
-            url: oauthPath
+            WebView {
+                id: oauthWebView
+                signal loadStarted(url address)
+                property bool isRedirect: false
 
-            onLoadingChanged: {
-                if (loadRequest.status === 2) {
-                    var js = "document.getElementsByTagName('pre')[0].innerHTML";
-                    runJavaScript(js, function(result){
-                        UserController.processOauth(result);
-                    });
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: toolBar.bottom
+                    bottom: parent.bottom
+                }
+
+                url: oauthPath
+
+                onLoadingChanged: {
+                    if (loadRequest.status === 2) {
+                        var js = "document.getElementsByTagName('pre')[0].innerHTML";
+                        runJavaScript(js, function(result){
+                            UserController.processOauth(result);
+                        });
+                    }
                 }
             }
         }
-    }}
+    }
 }

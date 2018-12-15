@@ -1,4 +1,4 @@
-QT += qml quick widgets gui core svg webview webenginewidgets
+QT += qml quick widgets gui core svg webview
 CONFIG += c++11
 
 # The following define makes your compiler emit warnings if you use
