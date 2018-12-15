@@ -52,7 +52,7 @@ void UserController::password_edit(web::http::http_request message) {
             }
             std::wcout << body.as_string().c_str() << std::endl;
             UserModelManager::UserModelManager manager;
-            std::string db_response = manager.create(body.as_string());
+            std::string db_response = manager.Create(body.as_string());
             auto data = nlohmann::json::parse(db_response);;
             if (data.find("error") != data.end()) {
                 response["message"] = web::json::value::string(data["error"].get<std::string>());
@@ -93,7 +93,7 @@ void UserController::create(web::http::http_request message) {
             std::wcout << body.as_string().c_str() << std::endl;
             if (!body.is_null()) {
                 UserModelManager::UserModelManager manager;
-                std::string db_response = manager.create(body.as_string());
+                std::string db_response = manager.Create(body.as_string());
                 auto data = nlohmann::json::parse(db_response);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
@@ -137,7 +137,7 @@ void UserController::login(web::http::http_request message) {
             std::wcout << body.as_string().c_str() << std::endl;
             if (!body.is_null()) {
                 UserModelManager::UserModelManager manager;
-                std::string db_response = manager.create(body.as_string());
+                std::string db_response = manager.Create(body.as_string());
                 auto data = nlohmann::json::parse(db_response);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
@@ -184,7 +184,7 @@ void UserController::logout(web::http::http_request message) {
             std::wcout << body.as_string().c_str() << std::endl;
             if (!body.is_null()) {
                 UserModelManager::UserModelManager manager;
-                std::string db_response = manager.create(body.as_string());
+                std::string db_response = manager.Create(body.as_string());
                 auto data = nlohmann::json::parse(db_response);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
@@ -225,7 +225,7 @@ void UserController::edit(web::http::http_request message) {
             std::wcout << body.as_string().c_str() << std::endl;
             if (!body.is_null()) {
                 UserModelManager::UserModelManager manager;
-                std::string db_response = manager.create(body.as_string());
+                std::string db_response = manager.Create(body.as_string());
                 auto data = nlohmann::json::parse(db_response);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());

@@ -112,4 +112,5 @@ target_link_libraries(usermodel
         nlohmann_json::nlohmann_json
         model_manager_utils
         OpenSSL::Crypto
+        sessionmodel
         )
