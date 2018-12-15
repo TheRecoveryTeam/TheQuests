@@ -5,6 +5,7 @@
 #include "QuestController.h"
 #include "../NetworkUtils.h"
 #include "../../../src/quest/model_manager/QuestModelManager.h"
+#include "../../utils/converters/ConvertNlohmannToWebJSON.h"
 
 void QuestController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -32,282 +33,107 @@ void QuestController::InitHandlers() {
 }
 
 void QuestController::CreateQuest(web::http::http_request message) {
-    auto path = RequestPath(message);
-    auto response = web::json::value::object();
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto statusCode = web::http::status_codes::OK;
-    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
+        QuestModelManager::QuestModelManager manager;
+        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
 
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                QuestModelManager::QuestModelManager manager;
-                //TODO: call create from DB
-                std::string dbResponse = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(dbResponse);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    statusCode = web::http::status_codes::NotFound;
-                } else {
-                    //TODO: response logic
-                }
-            } else {
-                throw std::exception();
-            }
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("quest Create is wrong");
-            statusCode = web::http::status_codes::BadRequest;
-        }
+        web::http::status_code status = ValidateManagerResponse(resp);
+
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(statusCode, response);
+    ProcessPost(message, processLogic);
 }
 
 void QuestController::DestroyQuest(web::http::http_request message) {
-    auto path = RequestPath(message);
-    auto response = web::json::value::object();
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto statusCode = web::http::status_codes::OK;
-    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
+        QuestModelManager::QuestModelManager manager;
+        // TODO: Call db
+        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
 
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                QuestModelManager::QuestModelManager manager;
-                //TODO: call destroy from DB
-                std::string dbResponse = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(dbResponse);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    statusCode = web::http::status_codes::NotFound;
-                } else {
-                    //TODO: response logic
-                }
-            } else {
-                throw std::exception();
-            }
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("quest Destroy is wrong");
-            statusCode = web::http::status_codes::BadRequest;
-        }
+        web::http::status_code status = ValidateManagerResponse(resp);
+
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(statusCode, response);
+    ProcessPost(message, processLogic);
 }
 
 void QuestController::EditQuest(web::http::http_request message) {
-    auto path = RequestPath(message);
-    auto response = web::json::value::object();
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto statusCode = web::http::status_codes::OK;
-    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
+        QuestModelManager::QuestModelManager manager;
+        // TODO: Call db
+        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
 
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                QuestModelManager::QuestModelManager manager;
-                //TODO: call edit from DB
-                std::string dbResponse = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(dbResponse);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    statusCode = web::http::status_codes::NotFound;
-                } else {
-                    //TODO: response logic
-                }
-            } else {
-                throw std::exception();
-            }
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("quest Edit is wrong");
-            statusCode = web::http::status_codes::BadRequest;
-        }
+        web::http::status_code status = ValidateManagerResponse(resp);
+
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(statusCode, response);
+    ProcessPost(message, processLogic);
 }
 
 void QuestController::EditQuestImage(web::http::http_request message) {
-    auto path = RequestPath(message);
-    auto response = web::json::value::object();
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto statusCode = web::http::status_codes::OK;
-    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
+        QuestModelManager::QuestModelManager manager;
+        // TODO: Call db
+        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
 
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                QuestModelManager::QuestModelManager manager;
-                //TODO: call edit_image from DB
-                std::string dbResponse = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(dbResponse);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    statusCode = web::http::status_codes::NotFound;
-                } else {
-                    //TODO: response logic
-                }
-            } else {
-                throw std::exception();
-            }
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("quest EditImage is wrong");
-            statusCode = web::http::status_codes::BadRequest;
-        }
+        web::http::status_code status = ValidateManagerResponse(resp);
+
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(statusCode, response);
+    ProcessPost(message, processLogic);
 }
 
 void QuestController::GetQuest(web::http::http_request message) {
-    auto path = RequestPath(message);
-    for (auto &p : path) {
-        std::wcout << p.c_str() << std::endl;
-    }
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto uri = message.relative_uri().to_string();
-    std::regex ex(R"(detail?id=(\d))");
-    std::cmatch what;
-    auto response = web::json::value::object();
+        QuestModelManager::QuestModelManager manager;
 
-    if (regex_match(uri.c_str(), what, ex)) {
-        std::string id_str = std::string(what[1].first, what[1].second);
-        int id = std::stoi(id_str);
+        auto resp = nlohmann::json::parse(manager.GetWithHistory(requestArgs.dump()));
 
-        auto request = web::json::value::object();
-        request["id"] = id;
+        web::http::status_code status = ValidateManagerResponse(resp);
 
-        auto model = QuestModelManager::QuestModelManager();
-//        auto item = networkhelper::from_string(model.Get(request.as_string()));
-//
-//        int questId = std::stoi(item["questId"].as_string());
-//        response["id"] = id;
-//        response["questId"] = questId;
-//        response["title"] = item["title"];
-//        response["imagePath"] = item["imagePath"];
-//        response["description"] = item["description"];
-//        response["type"] = item["type"];
-//        response["links"] = item["links"];
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+    };
 
-        message.reply(web::http::status_codes::OK, response);
-    } else {
-        response["message"] = web::json::value::string("quest Detail is wrong");
-        message.reply(web::http::status_codes::BadRequest, response);
-    }
+    ProcessGet(message, processLogic);
 }
 
 void QuestController::Resources(web::http::http_request message) {
-    auto path = RequestPath(message);
-    for (auto &p : path) {
-        std::wcout << p.c_str() << std::endl;
-    }
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto uri = message.relative_uri().to_string();
-    std::regex ex("resources?id=(\\d)");
-    std::cmatch what;
-    auto response = web::json::value::object();
+        QuestModelManager::QuestModelManager manager;
+        // TODO: Call db
+        auto resp = nlohmann::json::parse(manager.Get(requestArgs.dump()));
 
-    if (regex_match(uri.c_str(), what, ex)) {
-        std::string id_str = std::string(what[1].first, what[1].second);
-        int id = std::stoi(id_str);
+        web::http::status_code status = ValidateManagerResponse(resp);
 
-        auto request = web::json::value::object();
-        request["id"] = id;
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+    };
 
-        auto model = QuestModelManager::QuestModelManager();
-//        auto item = networkhelper::from_string(model.Get(request.as_string()));
-//
-//        int questId = std::stoi(item["questId"].as_string());
-//        response["id"] = id;
-//        response["questId"] = questId;
-//        response["title"] = item["title"];
-//        response["imagePath"] = item["imagePath"];
-//        response["description"] = item["description"];
-//        response["type"] = item["type"];
-//        response["links"] = item["links"];
-
-        message.reply(web::http::status_codes::OK, response);
-    } else {
-        response["message"] = web::json::value::string("quest Resources is wrong");
-        message.reply(web::http::status_codes::BadRequest, response);
-    }
+    ProcessGet(message, processLogic);
 }
 
 void QuestController::List(web::http::http_request message) {
-    auto path = RequestPath(message);
-    for (auto &p : path) {
-        std::wcout << p.c_str() << std::endl;
-    }
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto uri = message.relative_uri().to_string();
-    std::regex ex(R"(get?page=(\d)&limit=(\d)&authorId=(\d))");
-    std::cmatch what;
-    auto response = web::json::value::object();
+        QuestModelManager::QuestModelManager manager;
+        // TODO: Call db
+        auto resp = nlohmann::json::parse(manager.Get(requestArgs.dump()));
 
-    if (regex_match(uri.c_str(), what, ex)) {
-//        std::string id_str = std::string(what[1].first, what[1].second);
-//        int id = std::stoi(id_str);
-//
-//        auto request = web::json::value::object();
-//        request["id"] = id;
+        web::http::status_code status = ValidateManagerResponse(resp);
 
-        auto model = QuestModelManager::QuestModelManager();
-//        auto item = networkhelper::from_string(model.Get(request.as_string()));
-//
-//        int questId = std::stoi(item["questId"].as_string());
-//        response["id"] = id;
-//        response["questId"] = questId;
-//        response["title"] = item["title"];
-//        response["imagePath"] = item["imagePath"];
-//        response["description"] = item["description"];
-//        response["type"] = item["type"];
-//        response["links"] = item["links"];
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+    };
 
-        message.reply(web::http::status_codes::OK, response);
-    } else {
-        response["message"] = web::json::value::string("quest List is wrong");
-        message.reply(web::http::status_codes::BadRequest, response);
-    }
+    ProcessGet(message, processLogic);
 }
 
 void QuestController::ConfigureRouting() {

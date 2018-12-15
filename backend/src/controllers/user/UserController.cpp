@@ -22,7 +22,6 @@ void UserController::InitHandlers() {
         }
         if (!found) {
             auto response = web::json::value::object();
-            response["code"] = 400;
             response["message"] = web::json::value::string("Request to UserController is not valid!");
             message.reply(web::http::status_codes::BadRequest, response);
         }
@@ -32,12 +31,6 @@ void UserController::InitHandlers() {
     }
 }
 
-web::json::value UserController::responseNotImpl(const web::http::method &method) {
-    auto response = web::json::value::object();
-    response["controller"] = web::json::value::string("UserController");
-    response["http_method"] = web::json::value::string(method);
-    return response;
-}
 
 void UserController::password_edit(web::http::http_request message) {
     auto path = requestPath(message);
