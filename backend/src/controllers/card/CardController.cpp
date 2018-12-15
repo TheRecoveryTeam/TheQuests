@@ -45,7 +45,7 @@ void CardController::AddNewCard(web::http::http_request message) {
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    CardController::ProcessPost(message, processLogic);
+    ProcessPost(message, processLogic);
 }
 
 void CardController::LinksUpsert(web::http::http_request message) {
@@ -222,37 +222,20 @@ void CardController::DoAnswer(web::http::http_request message) {
 }
 
 void CardController::GetCard(web::http::http_request message) {
-    auto path = RequestPath(message);
-    for (auto &p : path) {
-        std::wcout << p.c_str() << std::endl;
-    }
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto uri = message.relative_uri().to_string();
-    std::regex ex(R"(get?id=(\d))");
-    std::cmatch what;
-    auto response = web::json::value::object();
+        CardModelManager::CardModelManager manager;
+        auto items = nlohmann::json::parse(manager.Get(requestArgs.dump()));
+        auto resp = nlohmann::json::array();
+        for (const auto &it : items.items()) {
+            resp.push_back(it.key());
+        }
+        web::http::status_code status = ValidateManagerResponse(resp);
 
-    if (regex_match(uri.c_str(), what, ex)) {
-        std::string id = std::string(what[1].first, what[1].second);
-        auto request = web::json::value::object();
-        request["id"] = web::json::value::string(id);
-        auto model = CardModelManager::CardModelManager();
-//        auto item = networkhelper::from_string(model.Get(request.as_string()));
-//
-//        int questId = std::stoi(item["questId"].as_string());
-//        response["id"] = id;
-//        response["questId"] = questId;
-//        response["title"] = item["title"];
-//        response["imagePath"] = item["imagePath"];
-//        response["description"] = item["description"];
-//        response["type"] = item["type"];
-//        response["links"] = item["links"];
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+    };
 
-        message.reply(web::http::status_codes::OK, response);
-    } else {
-        response["message"] = web::json::value::string("card GetCard is wrong");
-        message.reply(web::http::status_codes::BadRequest, response);
-    }
+    ProcessGet(message, processLogic);
 }
 
 void CardController::List(web::http::http_request message) {
