@@ -7,6 +7,8 @@ file(GLOB SOURCES
         )
 
 set(SOURCE_FILES main.cpp)
+message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug)
 set(THIRD_PARTY_DIR ${CMAKE_BINARY_DIR}/thirdparty)
 
 
@@ -27,7 +29,7 @@ endif ()
 
 ExternalProject_Add(libmongoc
         GIT_REPOSITORY "https://github.com/TheRecoveryTeam/mongo-c-driver.git"
-        GIT_TAG "1.12.0"
+        GIT_TAG "1.13.0"
         GIT_PROGRESS 1
         GIT_SHALLOW 1
         SOURCE_DIR "${THIRD_PARTY_DIR}/libmongoc"
@@ -44,9 +46,10 @@ ExternalProject_Add(libmongoc
 set(libmongoc-1.0_DIR "${THIRD_PARTY_DIR}/libmongoc-install/lib/cmake/libmongoc-1.0/")
 set(libbson-1.0_DIR "${THIRD_PARTY_DIR}/libmongoc-install/lib/cmake/libbson-1.0/")
 
+
 ExternalProject_Add(libmongocxx
-        GIT_REPOSITORY "https://github.com/TheRecoveryTeam/mongo-c-driver.git"
-        #        GIT_TAG         "r3.4.0"
+        GIT_REPOSITORY "https://github.com/TheRecoveryTeam/mongo-cxx-driver.git"
+        GIT_TAG         "r3.3.1"
         GIT_PROGRESS 1
         GIT_SHALLOW 1
         SOURCE_DIR "${THIRD_PARTY_DIR}/libmongocxx"
@@ -125,8 +128,10 @@ set(nlohmann_json_DIR "${THIRD_PARTY_DIR}/nlohmann_json-install/lib/cmake/nlohma
 # Когда все библиотеки скачаются, раскоментить.
 # TODO: убрать этот костыль
 
+message(STATUS ${libmongoc_DIR} ${libmongoc-1.0_DIR} )
+
 find_package(libmongoc REQUIRED NAMES libmongoc libmongoc-1.0)
-find_package(libmongocxx REQUIRED NAMES libmongocxx libmongocxx-1.0)
+find_package(libmongocxx REQUIRED NAMES libmongocxx libmongocxx-3.3.1)
 
 find_package(Boost REQUIRED)
 find_package(Boost REQUIRED system)
@@ -142,15 +147,34 @@ target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::c
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 
-add_executable(test tests/card/model_manager/CardModelManagerTests.cpp tests/quest/model_manager/QuestModelManagerTests.cpp
-        tests/history/model_manager/HistoryModelManagerTests.cpp tests/card/model_manager/CardLinkModelManagerTests.cpp
-        tests/session/model_manager/SessionModelManagerTests.cpp tests/user/model_manager/UserModelManagerTests.cpp)
+
+set(TEST_BUILD_NAME tests_target)
+
+add_executable(${TEST_BUILD_NAME}
+        tests/card/model_manager/CardModelManagerTests.cpp
+        tests/quest/model_manager/QuestModelManagerTests.cpp
+        tests/history/model_manager/HistoryModelManagerTests.cpp
+        tests/card/model_manager/CardLinkModelManagerTests.cpp
+        tests/session/model_manager/SessionModelManagerTests.cpp
+        tests/user/model_manager/UserModelManagerTests.cpp)
+
 add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest
         ${CMAKE_CURRENT_BINARY_DIR}/thirdparty/googletest-build
         EXCLUDE_FROM_ALL)
-target_include_directories(test PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
-target_compile_definitions(test PUBLIC ${LIBMONGOCXX_DEFINITIONS})
-target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} OpenSSL::Crypto cardmodel questmodel historymodel abstractmodel sessionmodel usermodel databaseconnection)
-#target_link_libraries(test gtest_main nlohmann_json::nlohmann_json ${LIBMONGOCXX_LIBRARIES} questmodel historymodel abstractmodel databaseconnection cardmodel)
+
+target_include_directories(${TEST_BUILD_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
+target_compile_definitions(${TEST_BUILD_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
+target_link_libraries(${TEST_BUILD_NAME}
+        gtest_main
+        nlohmann_json::nlohmann_json
+        ${LIBMONGOCXX_LIBRARIES}
+        OpenSSL::Crypto
+        cardmodel
+        questmodel
+        historymodel
+        abstractmodel
+        sessionmodel
+        usermodel
+        databaseconnection)
+
 add_test(NAME CardModelManagerTest COMMAND test)
-#add_test(NAME CardLinkModelManagerTest COMMAND test)
