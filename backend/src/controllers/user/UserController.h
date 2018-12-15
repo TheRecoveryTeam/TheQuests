@@ -18,19 +18,9 @@ public:
 
     void ConfigureRouting() override;
 
-    void create(web::http::http_request message);
-
-    void login(web::http::http_request message);
-
-    void logout(web::http::http_request message);
-
     void edit(web::http::http_request message);
 
     void password_edit(web::http::http_request message);
-
-    void find_nickname(web::http::http_request message);
-
-    void find_email(web::http::http_request message);
 
     void CreateUser(const web::http::http_request& message);
 
@@ -38,6 +28,9 @@ public:
 
     void FindNickname(const web::http::http_request& message);
 
+    void LoginUser(const web::http::http_request& message);
+
+    void LogoutUser(const web::http::http_request& message);
 private:
     static web::json::value responseNotImpl(const web::http::method &method);
 };

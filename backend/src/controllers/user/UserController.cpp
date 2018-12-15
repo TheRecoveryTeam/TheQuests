@@ -2,6 +2,8 @@
 // Created by dpudov on 12.11.18.
 //
 
+#include <utils/decorators/required_args/RequiredArgsDecorator.h>
+#include <utils/decorators/login_required/LoginRequiredDecorator.h>
 #include "UserController.h"
 #include "../NetworkUtils.h"
 #include "../../user/model_manager/UserModelManager.h"
@@ -79,138 +81,6 @@ void UserController::password_edit(web::http::http_request message) {
     message.reply(status_code, response);
 }
 
-void UserController::create(web::http::http_request message) {
-    auto path = requestPath(message);
-    auto response = web::json::value::object();
-
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
-
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                UserModelManager::UserModelManager manager;
-                std::string db_response = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(db_response);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    status_code = web::http::status_codes::NotFound;
-                } else {
-                    response["id"] = web::json::value::string(data["id"].get<std::string>());
-                    response["token"] = web::json::value::string(data["token"].get<std::string>());
-                }
-            } else {
-
-                throw std::exception();
-            }
-
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("user CreateQuest is wrong!");
-            status_code = web::http::status_codes::BadRequest;
-        }
-    };
-
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(status_code, response);
-}
-
-void UserController::login(web::http::http_request message) {
-    auto path = requestPath(message);
-    auto response = web::json::value::object();
-
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
-
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                UserModelManager::UserModelManager manager;
-                std::string db_response = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(db_response);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    response["passwordError"] = web::json::value::string(data["passwordError"].get<std::string>());
-                    status_code = web::http::status_codes::NotFound;
-                } else {
-                    response["id"] = web::json::value::string(data["id"].get<std::string>());
-                    response["email"] = web::json::value::string(data["email"].get<std::string>());
-                    response["nickname"] = web::json::value::string(data["nickname"].get<std::string>());
-                    response["token"] = web::json::value::string(data["token"].get<std::string>());
-                }
-            } else {
-
-                throw std::exception();
-            }
-
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("user login is wrong!");
-            status_code = web::http::status_codes::BadRequest;
-        }
-    };
-
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(status_code, response);
-}
-
-void UserController::logout(web::http::http_request message) {
-    auto path = requestPath(message);
-    auto response = web::json::value::object();
-
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
-
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                UserModelManager::UserModelManager manager;
-                std::string db_response = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(db_response);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    status_code = web::http::status_codes::NotFound;
-                }
-            } else {
-
-                throw std::exception();
-            }
-
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("user logout is wrong!");
-            status_code = web::http::status_codes::BadRequest;
-        }
-    };
-
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(status_code, response);
-}
-
 void UserController::edit(web::http::http_request message) {
     auto path = requestPath(message);
     auto response = web::json::value::object();
@@ -253,14 +123,6 @@ void UserController::edit(web::http::http_request message) {
     message.reply(status_code, response);
 }
 
-void UserController::find_nickname(web::http::http_request message) {
-
-}
-
-void UserController::find_email(web::http::http_request message) {
-
-}
-
 void UserController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("create"),
@@ -271,13 +133,13 @@ void UserController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("login"),
             web::http::methods::POST,
-            ASSIGN_HANDLER(UserController, login)
+            ASSIGN_HANDLER(UserController, LoginUser)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("logout"),
             web::http::methods::POST,
-            ASSIGN_HANDLER(UserController, logout)
+            ASSIGN_HANDLER(UserController, LogoutUser)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
@@ -307,50 +169,89 @@ void UserController::ConfigureRouting() {
 
 void UserController::CreateUser(const web::http::http_request& message) {
 
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this, message](const nlohmann::json& request_args) {
 
         UserModelManager::UserModelManager manager;
-        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
+        auto resp = nlohmann::json::parse(manager.Create(request_args.dump()));
 
-        web::http::status_code status = ValidateManagerResponse(resp);
+        auto status = ValidateManagerResponse(resp);
 
-        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+        message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    ProcessPost(message, processLogic);
+    auto required_args_decorator
+        = decorators::RequiredArgsDecorator({ "email", "nickname", "password" },
+                message, process_logic);
+
+    ProcessPost(message, process_logic);
 }
 
 void UserController::FindEmail(const web::http::http_request& message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
 
         UserModelManager::UserModelManager manager;
-        bool contains = manager.Contains(requestArgs.dump());
+        bool contains = manager.Contains(request_args.dump());
 
         auto status = contains
                 ? web::http::status_codes::OK
                 : web::http::status_codes::NotFound;
-        nlohmann::json resp = {};
 
-        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+        message.reply(status);
     };
 
-    ProcessGet(message, processLogic);
+    auto required_args_decorator
+        = decorators::RequiredArgsDecorator({ "email" }, message, process_logic);
+
+    ProcessGet(message, required_args_decorator);
 }
 
 void UserController::FindNickname(const web::http::http_request& message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
-
+    RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
         UserModelManager::UserModelManager manager;
-        bool contains = manager.Contains(requestArgs.dump());
+        bool contains = manager.Contains(request_args.dump());
 
         auto status = contains
                       ? web::http::status_codes::OK
                       : web::http::status_codes::NotFound;
-        nlohmann::json resp = {};
 
-        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+        message.reply(status);
     };
 
-    ProcessGet(message, processLogic);
+    auto required_args_decorator
+        = decorators::RequiredArgsDecorator({ "nickname" }, message, process_logic);
+
+    ProcessGet(message, required_args_decorator);
+}
+
+void UserController::LoginUser(const web::http::http_request& message) {
+
+    RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
+        UserModelManager::UserModelManager manager;
+        auto resp = nlohmann::json::parse(manager.Login(request_args.dump()));
+
+        auto status = ValidateManagerResponse(resp);
+        message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
+    };
+
+    auto required_args_decorator
+        = decorators::RequiredArgsDecorator({ "email", "password" }, message, process_logic);
+
+    ProcessPost(message, required_args_decorator);
+}
+
+void UserController::LogoutUser(const web::http::http_request& message) {
+
+    RequestLogicProcessor process_login = [this, message](nlohmann::json& request_args) {
+        UserModelManager::UserModelManager manager;
+
+        manager.Logout(request_args.dump());
+
+        message.reply(web::http::status_codes::OK);
+    };
+
+    auto login_required_decorator
+        = decorators::LoginRequiredDecorator(message, process_login);
+
+    ProcessPost(message, login_required_decorator);
 }
 

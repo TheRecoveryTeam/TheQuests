@@ -26,7 +26,7 @@ namespace networkhelper {
     class AbstractController {
 
     public:
-        typedef std::function<std::pair<web::http::status_code, web::json::value>(const nlohmann::json& requestArgs)> requestLogicProcessor;
+        typedef std::function<void(nlohmann::json& request_args)> RequestLogicProcessor;
 
         AbstractController();
 
@@ -53,8 +53,8 @@ namespace networkhelper {
         // returns empty string in the case of failure
         std::string GetCurrentUserId(const web::http::http_request& http_request, const std::string& token_type) const;
 
-        void ProcessPost(const web::http::http_request& request, const requestLogicProcessor& logicProcessor);
-        void ProcessGet(const web::http::http_request& request, const requestLogicProcessor& logicProcessor);
+        void ProcessPost(const web::http::http_request& request, const RequestLogicProcessor& logic_processor);
+        void ProcessGet(const web::http::http_request& request, const RequestLogicProcessor& logic_processor);
         web::http::status_code ValidateManagerResponse(const nlohmann::json& manager_response) const;
 
     private:
