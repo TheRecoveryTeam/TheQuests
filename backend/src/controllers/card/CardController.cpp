@@ -178,58 +178,34 @@ void CardController::RemoveCard(web::http::http_request message) {
 }
 
 void CardController::DoAnswer(web::http::http_request message) {
-    auto path = RequestPath(message);
-    auto response = web::json::value::object();
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
-    auto statusCode = web::http::status_codes::OK;
-    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
+        CardModelManager::CardModelManager manager;
+        auto resp = nlohmann::json::parse(manager.GetNextCard(requestArgs.dump()));
 
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                CardModelManager::CardModelManager manager;
-                //TODO: call do_answer from DB
-                std::string dbResponse = manager.Get(body.as_string());
-                auto data = nlohmann::json::parse(dbResponse);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    statusCode = web::http::status_codes::NotFound;
-                } else {
-                    response["nextCardId"] = web::json::value::string(data["nextCardId"].get<std::string>());
-                    response["resources"] = web::json::value::string(data["resources"].get<std::string>());
-                }
-            } else {
-                throw std::exception();
-            }
+        web::http::status_code status = ValidateManagerResponse(resp);
 
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("card DoAnswer is wrong");
-            statusCode = web::http::status_codes::BadRequest;
-        }
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(statusCode, response);
+    ProcessGet(message, processLogic);
 }
 
 void CardController::GetCard(web::http::http_request message) {
     requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
-
         CardModelManager::CardModelManager manager;
         auto items = nlohmann::json::parse(manager.Get(requestArgs.dump()));
-        auto resp = nlohmann::json::array();
-        for (const auto &it : items.items()) {
-            resp.push_back(it.key());
+
+        auto resp_items = nlohmann::json::array();
+        if (!items["links"].empty()) {
+            for (auto &link : items["links"]) {
+                resp_items.push_back(link);
+            }
         }
+
+        auto resp = items;
+        resp["links"] = resp_items;
+
         web::http::status_code status = ValidateManagerResponse(resp);
 
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));

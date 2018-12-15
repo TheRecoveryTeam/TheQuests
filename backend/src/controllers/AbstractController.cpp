@@ -56,7 +56,7 @@ namespace networkhelper {
     std::string AbstractController::GetCurrentUserId(const web::http::http_request& http_request, const std::string& token_type) const {
 
         auto token_key = GetTokenKey(http_request, token_type);
-        if (token_key == "") {
+        if (token_key.empty()) {
             return "";
         }
 
