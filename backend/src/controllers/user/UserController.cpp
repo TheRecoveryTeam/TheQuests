@@ -62,11 +62,27 @@ void UserController::Login(web::http::http_request message) {
     ProcessPost(message, processLogic);
 }
 
+
+void UserController::LoginOauth(web::http::http_request message) {
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+
+        UserModelManager::UserModelManager manager;
+
+        auto resp = nlohmann::json::parse(manager.LoginByOauth2(requestArgs.dump()));
+
+        web::http::status_code status = ValidateManagerResponse(resp);
+
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+    };
+
+    ProcessPost(message, processLogic);
+}
+
 void UserController::Logout(web::http::http_request message) {
     requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
         UserModelManager::UserModelManager manager;
-        // TODO: Call db
+
         auto resp = nlohmann::json::parse(manager.Logout(requestArgs.dump()));
 
         web::http::status_code status = ValidateManagerResponse(resp);
@@ -171,6 +187,12 @@ void UserController::ConfigureRouting() {
             web::http::methods::POST,
             ASSIGN_HANDLER(UserController, PasswordEdit)
     });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry){
+            U("login_oauth2"),
+            web::http::methods::POST,
+            ASSIGN_HANDLER(UserController, L)
+    }
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("find_email"),
