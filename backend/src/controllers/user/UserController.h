@@ -18,28 +18,22 @@ public:
 
     void ConfigureRouting() override;
 
-    void create(web::http::http_request message);
 
-    void login(web::http::http_request message);
+private:
 
-    void logout(web::http::http_request message);
+    void Login(web::http::http_request message);
 
-    void edit(web::http::http_request message);
+    void Logout(web::http::http_request message);
 
-    void password_edit(web::http::http_request message);
+    void EditUser(web::http::http_request message);
 
-    void find_nickname(web::http::http_request message);
-
-    void find_email(web::http::http_request message);
+    void PasswordEdit(web::http::http_request message);
 
     void CreateUser(const web::http::http_request& message);
 
     void FindEmail(const web::http::http_request& message);
 
     void FindNickname(const web::http::http_request& message);
-
-private:
-    static web::json::value responseNotImpl(const web::http::method &method);
 };
 
 #endif //THEQUESTS_USERCONTROLLER_H
