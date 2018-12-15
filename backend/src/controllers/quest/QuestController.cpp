@@ -32,11 +32,11 @@ void QuestController::InitHandlers() {
 }
 
 void QuestController::CreateQuest(web::http::http_request message) {
-    auto path = requestPath(message);
+    auto path = RequestPath(message);
     auto response = web::json::value::object();
 
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
+    auto statusCode = web::http::status_codes::OK;
+    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
 
         try {
             auto const &body = task.get();
@@ -47,11 +47,11 @@ void QuestController::CreateQuest(web::http::http_request message) {
             if (!body.is_null()) {
                 QuestModelManager::QuestModelManager manager;
                 //TODO: call create from DB
-                std::string db_response = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(db_response);;
+                std::string dbResponse = manager.Create(body.as_string());
+                auto data = nlohmann::json::parse(dbResponse);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    status_code = web::http::status_codes::NotFound;
+                    statusCode = web::http::status_codes::NotFound;
                 } else {
                     //TODO: response logic
                 }
@@ -62,7 +62,7 @@ void QuestController::CreateQuest(web::http::http_request message) {
         catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
             response["message"] = web::json::value::string("quest Create is wrong");
-            status_code = web::http::status_codes::BadRequest;
+            statusCode = web::http::status_codes::BadRequest;
         }
     };
 
@@ -70,15 +70,15 @@ void QuestController::CreateQuest(web::http::http_request message) {
             .extract_json()
             .then(processRequest)
             .wait();
-    message.reply(status_code, response);
+    message.reply(statusCode, response);
 }
 
 void QuestController::DestroyQuest(web::http::http_request message) {
-    auto path = requestPath(message);
+    auto path = RequestPath(message);
     auto response = web::json::value::object();
 
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
+    auto statusCode = web::http::status_codes::OK;
+    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
 
         try {
             auto const &body = task.get();
@@ -89,11 +89,11 @@ void QuestController::DestroyQuest(web::http::http_request message) {
             if (!body.is_null()) {
                 QuestModelManager::QuestModelManager manager;
                 //TODO: call destroy from DB
-                std::string db_response = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(db_response);;
+                std::string dbResponse = manager.Create(body.as_string());
+                auto data = nlohmann::json::parse(dbResponse);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    status_code = web::http::status_codes::NotFound;
+                    statusCode = web::http::status_codes::NotFound;
                 } else {
                     //TODO: response logic
                 }
@@ -104,7 +104,7 @@ void QuestController::DestroyQuest(web::http::http_request message) {
         catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
             response["message"] = web::json::value::string("quest Destroy is wrong");
-            status_code = web::http::status_codes::BadRequest;
+            statusCode = web::http::status_codes::BadRequest;
         }
     };
 
@@ -112,15 +112,15 @@ void QuestController::DestroyQuest(web::http::http_request message) {
             .extract_json()
             .then(processRequest)
             .wait();
-    message.reply(status_code, response);
+    message.reply(statusCode, response);
 }
 
 void QuestController::EditQuest(web::http::http_request message) {
-    auto path = requestPath(message);
+    auto path = RequestPath(message);
     auto response = web::json::value::object();
 
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
+    auto statusCode = web::http::status_codes::OK;
+    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
 
         try {
             auto const &body = task.get();
@@ -131,11 +131,11 @@ void QuestController::EditQuest(web::http::http_request message) {
             if (!body.is_null()) {
                 QuestModelManager::QuestModelManager manager;
                 //TODO: call edit from DB
-                std::string db_response = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(db_response);;
+                std::string dbResponse = manager.Create(body.as_string());
+                auto data = nlohmann::json::parse(dbResponse);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    status_code = web::http::status_codes::NotFound;
+                    statusCode = web::http::status_codes::NotFound;
                 } else {
                     //TODO: response logic
                 }
@@ -146,7 +146,7 @@ void QuestController::EditQuest(web::http::http_request message) {
         catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
             response["message"] = web::json::value::string("quest Edit is wrong");
-            status_code = web::http::status_codes::BadRequest;
+            statusCode = web::http::status_codes::BadRequest;
         }
     };
 
@@ -154,15 +154,15 @@ void QuestController::EditQuest(web::http::http_request message) {
             .extract_json()
             .then(processRequest)
             .wait();
-    message.reply(status_code, response);
+    message.reply(statusCode, response);
 }
 
 void QuestController::EditQuestImage(web::http::http_request message) {
-    auto path = requestPath(message);
+    auto path = RequestPath(message);
     auto response = web::json::value::object();
 
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
+    auto statusCode = web::http::status_codes::OK;
+    auto processRequest = [&response, &statusCode, path](pplx::task<web::json::value> task) {
 
         try {
             auto const &body = task.get();
@@ -173,11 +173,11 @@ void QuestController::EditQuestImage(web::http::http_request message) {
             if (!body.is_null()) {
                 QuestModelManager::QuestModelManager manager;
                 //TODO: call edit_image from DB
-                std::string db_response = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(db_response);;
+                std::string dbResponse = manager.Create(body.as_string());
+                auto data = nlohmann::json::parse(dbResponse);;
                 if (data.find("error") != data.end()) {
                     response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    status_code = web::http::status_codes::NotFound;
+                    statusCode = web::http::status_codes::NotFound;
                 } else {
                     //TODO: response logic
                 }
@@ -188,7 +188,7 @@ void QuestController::EditQuestImage(web::http::http_request message) {
         catch (std::exception const &e) {
             std::wcout << e.what() << std::endl;
             response["message"] = web::json::value::string("quest EditImage is wrong");
-            status_code = web::http::status_codes::BadRequest;
+            statusCode = web::http::status_codes::BadRequest;
         }
     };
 
@@ -196,17 +196,17 @@ void QuestController::EditQuestImage(web::http::http_request message) {
             .extract_json()
             .then(processRequest)
             .wait();
-    message.reply(status_code, response);
+    message.reply(statusCode, response);
 }
 
 void QuestController::GetQuest(web::http::http_request message) {
-    auto path = requestPath(message);
+    auto path = RequestPath(message);
     for (auto &p : path) {
         std::wcout << p.c_str() << std::endl;
     }
 
     auto uri = message.relative_uri().to_string();
-    std::regex ex("detail?id=(\\d)");
+    std::regex ex(R"(detail?id=(\d))");
     std::cmatch what;
     auto response = web::json::value::object();
 
@@ -237,7 +237,7 @@ void QuestController::GetQuest(web::http::http_request message) {
 }
 
 void QuestController::Resources(web::http::http_request message) {
-    auto path = requestPath(message);
+    auto path = RequestPath(message);
     for (auto &p : path) {
         std::wcout << p.c_str() << std::endl;
     }
@@ -274,13 +274,13 @@ void QuestController::Resources(web::http::http_request message) {
 }
 
 void QuestController::List(web::http::http_request message) {
-    auto path = requestPath(message);
+    auto path = RequestPath(message);
     for (auto &p : path) {
         std::wcout << p.c_str() << std::endl;
     }
 
     auto uri = message.relative_uri().to_string();
-    std::regex ex("get?page=(\\d)&limit=(\\d)&authorId=(\\d)");
+    std::regex ex(R"(get?page=(\d)&limit=(\d)&authorId=(\d))");
     std::cmatch what;
     auto response = web::json::value::object();
 

@@ -32,17 +32,17 @@ namespace networkhelper {
 
         virtual ~AbstractController();
 
-        void setEndpoint(const std::string &value);
+        void SetEndpoint(const std::string &value);
 
-        std::string endpoint() const;
+        std::string Endpoint() const;
 
-        pplx::task<void> accept();
+        pplx::task<void> Accept();
 
-        pplx::task<void> shutdown();
+        pplx::task<void> Shutdown();
 
         virtual void InitHandlers() = 0;
 
-        static std::vector<utility::string_t> requestPath(const web::http::http_request &message);
+        static std::vector<utility::string_t> RequestPath(const web::http::http_request &message);
 
         virtual void ConfigureRouting() = 0;
 

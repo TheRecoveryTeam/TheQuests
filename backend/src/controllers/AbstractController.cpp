@@ -6,6 +6,7 @@
 #include "AbstractController.h"
 #include "NetworkUtils.h"
 #include "../../src/session/model_manager/SessionModelManager.h"
+#include "../../utils/converters/ConvertNlohmannToWebJSON.h"
 
 namespace networkhelper {
 
@@ -13,7 +14,7 @@ namespace networkhelper {
 
     AbstractController::~AbstractController() = default;
 
-    void AbstractController::setEndpoint(const std::string &value) {
+    void AbstractController::SetEndpoint(const std::string &value) {
         web::uri endpointURI(value);
         web::uri_builder endpointBuilder;
 
@@ -32,21 +33,21 @@ namespace networkhelper {
 
     }
 
-    std::string AbstractController::endpoint() const {
+    std::string AbstractController::Endpoint() const {
         std::wcout << U("ADDRESS ") << AbstractController::_listener.uri().to_string().c_str() << std::endl;
         return AbstractController::_listener.uri().path();
     }
 
-    pplx::task<void> AbstractController::accept() {
+    pplx::task<void> AbstractController::Accept() {
         InitHandlers();
         return _listener.open();
     }
 
-    pplx::task<void> AbstractController::shutdown() {
+    pplx::task<void> AbstractController::Shutdown() {
         return _listener.close();
     }
 
-    std::vector<utility::string_t> AbstractController::requestPath(const web::http::http_request &message) {
+    std::vector<utility::string_t> AbstractController::RequestPath(const web::http::http_request &message) {
         utility::string_t relativePath;
         relativePath = web::uri::decode(message.relative_uri().path());
         return web::uri::split_path(relativePath);

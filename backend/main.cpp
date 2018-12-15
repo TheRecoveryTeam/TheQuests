@@ -20,13 +20,13 @@ int main(int argc, char **argv) {
     InterruptHandler::hookSIGINT();
 
     CardController cardController;
-    cardController.setEndpoint("http://host_auto_ip4:8800/api/card/");
+    cardController.SetEndpoint("http://host_auto_ip4:8800/api/card/");
 
     UserController userController;
-    userController.setEndpoint("http://host_auto_ip4:8800/api/user/");
+    userController.SetEndpoint("http://host_auto_ip4:8800/api/user/");
 
     QuestController questController;
-    questController.setEndpoint("http://host_auto_ip4:8800/api/quest/");
+    questController.SetEndpoint("http://host_auto_ip4:8800/api/quest/");
 
     auto instance = bsoncxx::stdx::make_unique<mongocxx::instance>();
     auto uri = mongocxx::uri{"mongodb://localhost:27018"};
@@ -35,23 +35,23 @@ int main(int argc, char **argv) {
 
     try {
         // wait for server initialization...
-        cardController.accept().wait();
+        cardController.Accept().wait();
         std::wcout << U("CardController is listening: ") << std::endl;
-        cardController.endpoint();
+        cardController.Endpoint();
 
-        userController.accept().wait();
+        userController.Accept().wait();
         std::wcout << "UserController is listening: " << std::endl;
-        userController.endpoint();
+        userController.Endpoint();
 
-        questController.accept().wait();
+        questController.Accept().wait();
         std::wcout << "QuestController is listening: " << std::endl;
-        questController.endpoint();
+        questController.Endpoint();
 
         InterruptHandler::waitForUserInterrupt();
 
-        cardController.shutdown().wait();
-        userController.shutdown().wait();
-        questController.shutdown().wait();
+        cardController.Shutdown().wait();
+        userController.Shutdown().wait();
+        questController.Shutdown().wait();
     }
     catch (std::exception &e) {
         std::wcout << U("Internal server ERROR") << std::endl;
