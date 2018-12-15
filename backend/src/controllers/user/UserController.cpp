@@ -4,7 +4,8 @@
 
 #include "UserController.h"
 #include "../NetworkUtils.h"
-#include "../../../src/user/model_manager/UserModelManager.h"
+#include "../../user/model_manager/UserModelManager.h"
+#include "../../utils/converters/ConvertNlohmannToWebJSON.h"
 
 void UserController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -264,7 +265,7 @@ void UserController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("create"),
             web::http::methods::POST,
-            ASSIGN_HANDLER(UserController, create)
+            ASSIGN_HANDLER(UserController, CreateUser)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
@@ -303,3 +304,19 @@ void UserController::ConfigureRouting() {
             ASSIGN_HANDLER(UserController, find_nickname)
     });
 }
+
+void UserController::CreateUser(const web::http::http_request& message) {
+
+    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+
+        UserModelManager::UserModelManager manager;
+        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
+
+        web::http::status_code status = ValidateManagerResponse(resp);
+
+        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+    };
+
+    ProcessPost(message, processLogic);
+}
+

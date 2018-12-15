@@ -1,5 +1,12 @@
 #include <iostream>
 
+#include <iostream>
+#include <mongocxx/client.hpp>
+#include <mongocxx/instance.hpp>
+#include <bsoncxx/stdx/make_unique.hpp>
+#include <engine/connections/DatabaseConnectionSingleton.h>
+#include <nlohmann/json.hpp>
+
 #include "src/controllers/card/CardController.h"
 #include "src/controllers/user/UserController.h"
 #include "src/controllers/quest/QuestController.h"
@@ -20,6 +27,11 @@ int main(int argc, char **argv) {
 
     QuestController questController;
     questController.setEndpoint("http://host_auto_ip4:8800/api/quest/");
+
+    auto instance = bsoncxx::stdx::make_unique<mongocxx::instance>();
+    auto uri = mongocxx::uri{"mongodb://localhost:27018"};
+    MongoAccess::MongoAccess::instance().configure(std::move(instance),
+                                                   bsoncxx::stdx::make_unique<mongocxx::pool>(std::move(uri)));
 
     try {
         // wait for server initialization...
