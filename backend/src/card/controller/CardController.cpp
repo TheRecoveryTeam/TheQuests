@@ -2,10 +2,15 @@
 // Created by dpudov on 08.11.18.
 //
 
-#include "CardController.h"
-#include "../NetworkUtils.h"
-#include "../../../src/card/model_manager/CardModelManager.h"
+
+#include <card/controller/CardController.h>
+#include <utils/controller/NetworkUtils.h>
+#include <card/model_manager/CardModelManager.h>
 #include <utils/converters/ConvertNlohmannToWebJSON.h>
+#include <utils/decorators/required_args/RequiredArgsDecorator.h>
+#include <utils/decorators/login_required/LoginRequiredDecorator.h>
+
+const std::string USER_ID = "user_id";
 
 void CardController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -93,19 +98,19 @@ void CardController::RemoveCard(web::http::http_request message) {
     ProcessPost(message, processLogic);
 }
 
-void CardController::DoAnswer(web::http::http_request message) {
-    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
-
-        CardModelManager::CardModelManager manager;
-        auto resp = nlohmann::json::parse(manager.GetNextCard(requestArgs.dump()));
-
-        web::http::status_code status = ValidateManagerResponse(resp);
-
-        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
-    };
-
-    ProcessGet(message, processLogic);
-}
+//void CardController::DoAnswer(web::http::http_request message) {
+//    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+//
+//        CardModelManager::CardModelManager manager;
+//        auto resp = nlohmann::json::parse(manager.GetNextCard(requestArgs.dump()));
+//
+//        web::http::status_code status = ValidateManagerResponse(resp);
+//
+//        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+//    };
+//
+//    ProcessGet(message, processLogic);
+//}
 
 void CardController::GetCard(web::http::http_request message) {
     RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
@@ -153,6 +158,50 @@ void CardController::List(web::http::http_request message) {
     ProcessGet(message, processLogic);
 }
 
+void CardController::Get(web::http::http_request message) {
+
+  RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
+    CardModelManager::CardModelManager manager;
+    auto resp = nlohmann::json::parse(manager.Get(request_args.dump()));
+
+    if (resp.find("links") != resp.end()) {
+      nlohmann::json unpacked_links;
+      for (const auto &link : resp["links"].get<std::map<std::string, std::string>>()) {
+        unpacked_links.push_back(link.first);
+      }
+      resp["links"] = unpacked_links;
+    }
+
+    auto status = ValidateManagerResponse(resp);
+    message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
+  };
+
+  auto required_args_decorator
+    = decorators::RequiredArgsDecorator({ "id" }, message, process_logic);
+
+  ProcessGet(message, required_args_decorator);
+}
+
+void CardController::DoAnswer(web::http::http_request message) {
+  RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
+    request_args["userId"] = request_args[USER_ID];
+    request_args.erase(USER_ID);
+    CardModelManager::CardModelManager manager;
+    auto resp = nlohmann::json::parse(manager.GetNextCard(request_args.dump()));
+
+    auto status = ValidateManagerResponse(resp);
+    message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
+  };
+
+  auto required_args_decorator
+      = decorators::RequiredArgsDecorator({ "id", "answer" }, message, process_logic);
+
+  auto login_required_decorator
+    = decorators::LoginRequiredDecorator(message, process_logic);
+
+  ProcessPost(message, login_required_decorator);
+}
+
 void CardController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("do_answer"),
@@ -187,7 +236,7 @@ void CardController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("get"),
             web::http::methods::GET,
-            ASSIGN_HANDLER(CardController, GetCard)
+            ASSIGN_HANDLER(CardController, Get)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{

@@ -5,8 +5,8 @@
 #ifndef THEQUESTS_CARDCONTROLLER_H
 #define THEQUESTS_CARDCONTROLLER_H
 
-#include "../AbstractController.h"
-#include "../Handler.h"
+#include <core/controller/AbstractController.h>
+#include <utils/controller/Handler.h>
 
 class CardController : public networkhelper::AbstractController {
 public:
@@ -33,6 +33,8 @@ private:
     void GetCard(web::http::http_request message);
 
     void List(web::http::http_request message);
+
+    void Get(web::http::http_request message);
 };
 
 
