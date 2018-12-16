@@ -11,9 +11,7 @@
 
 
 namespace converters {
-    web::json::value ConvertNlohmannToWebJSON(const nlohmann::json& from) {
-        return web::json::value::parse(from.dump());
-    }
+    web::json::value ConvertNlohmannToWebJSON(const nlohmann::json& from);
 }
 
 #endif //THEQUESTS_CONVERTNLOHMANNTOWEBJSON_H

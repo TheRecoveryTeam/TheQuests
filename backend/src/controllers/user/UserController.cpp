@@ -42,88 +42,6 @@ web::json::value UserController::responseNotImpl(const web::http::method &method
     return response;
 }
 
-void UserController::password_edit(web::http::http_request message) {
-    auto path = requestPath(message);
-    auto response = web::json::value::object();
-
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
-
-        try {
-            auto const &body = task.get();
-            if (path.empty() || body.is_null()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            UserModelManager::UserModelManager manager;
-            std::string db_response = manager.Create(body.as_string());
-            auto data = nlohmann::json::parse(db_response);;
-            if (data.find("error") != data.end()) {
-                response["message"] = web::json::value::string(data["error"].get<std::string>());
-                response["nicknameError"] = web::json::value::string(data["nicknameError"].get<std::string>());
-                status_code = web::http::status_codes::NotFound;
-            } else {
-                response["id"] = web::json::value::string(data["id"].get<std::string>());
-                response["token"] = web::json::value::string(data["token"].get<std::string>());
-            }
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("user logout is wrong!");
-            status_code = web::http::status_codes::BadRequest;
-        }
-    };
-
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-
-    message.reply(status_code, response);
-}
-
-void UserController::edit(web::http::http_request message) {
-    auto path = requestPath(message);
-    auto response = web::json::value::object();
-
-    auto status_code = web::http::status_codes::OK;
-    auto processRequest = [&response, &status_code, path](pplx::task<web::json::value> task) {
-
-        try {
-            auto const &body = task.get();
-            if (path.empty()) {
-                throw std::exception();
-            }
-            std::wcout << body.as_string().c_str() << std::endl;
-            if (!body.is_null()) {
-                UserModelManager::UserModelManager manager;
-                std::string db_response = manager.Create(body.as_string());
-                auto data = nlohmann::json::parse(db_response);;
-                if (data.find("error") != data.end()) {
-                    response["message"] = web::json::value::string(data["error"].get<std::string>());
-                    response["nicknameError"] = web::json::value::string(data["nicknameError"].get<std::string>());
-                    status_code = web::http::status_codes::NotFound;
-                }
-            } else {
-
-                throw std::exception();
-            }
-
-        }
-        catch (std::exception const &e) {
-            std::wcout << e.what() << std::endl;
-            response["message"] = web::json::value::string("user logout is wrong!");
-            status_code = web::http::status_codes::BadRequest;
-        }
-    };
-
-    message
-            .extract_json()
-            .then(processRequest)
-            .wait();
-    message.reply(status_code, response);
-}
-
 void UserController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("create"),
@@ -141,18 +59,6 @@ void UserController::ConfigureRouting() {
             U("logout"),
             web::http::methods::POST,
             ASSIGN_HANDLER(UserController, LogoutUser)
-    });
-
-    _routingEntries.push_back(networkhelper::RoutingEntry{
-            U("edit"),
-            web::http::methods::POST,
-            ASSIGN_HANDLER(UserController, edit)
-    });
-
-    _routingEntries.push_back(networkhelper::RoutingEntry{
-            U("password_edit"),
-            web::http::methods::POST,
-            ASSIGN_HANDLER(UserController, password_edit)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{

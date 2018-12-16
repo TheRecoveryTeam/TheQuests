@@ -167,7 +167,9 @@ add_executable(server
         src/utils/decorators/login_required/LoginRequiredDecorator.h
         src/utils/decorators/login_required/LoginRequiredDecorator.cpp
         src/utils/decorators/abstract_decorator/AbstractDecorator.cpp
-        src/utils/decorators/abstract_decorator/AbstractDecorator.h src/utils/decorators/required_args/RequiredArgsDecorator.cpp src/utils/decorators/required_args/RequiredArgsDecorator.h)
+        src/utils/decorators/abstract_decorator/AbstractDecorator.h
+        src/utils/decorators/required_args/RequiredArgsDecorator.cpp
+        src/utils/decorators/required_args/RequiredArgsDecorator.h src/utils/converters/ConvertNlohmannToWebJSON.cpp)
 
 target_include_directories(server PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
 target_compile_definitions(server PUBLIC ${LIBMONGOCXX_DEFINITIONS})

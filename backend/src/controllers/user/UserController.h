@@ -18,10 +18,6 @@ public:
 
     void ConfigureRouting() override;
 
-    void edit(web::http::http_request message);
-
-    void password_edit(web::http::http_request message);
-
     void CreateUser(const web::http::http_request& message);
 
     void FindEmail(const web::http::http_request& message);

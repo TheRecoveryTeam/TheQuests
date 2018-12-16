@@ -5,7 +5,7 @@
 #include "CardController.h"
 #include "../NetworkUtils.h"
 #include "../../../src/card/model_manager/CardModelManager.h"
-#include "../../utils/converters/ConvertNlohmannToWebJSON.h"
+#include <utils/converters/ConvertNlohmannToWebJSON.h>
 
 void CardController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -35,7 +35,7 @@ void CardController::InitHandlers() {
 }
 
 void CardController::AddNewCard(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
         CardModelManager::CardModelManager manager;
         auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
@@ -49,7 +49,7 @@ void CardController::AddNewCard(web::http::http_request message) {
 }
 
 void CardController::LinksUpsert(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
         CardModelManager::CardModelManager manager;
         // TODO: Call DB Function
@@ -64,7 +64,7 @@ void CardController::LinksUpsert(web::http::http_request message) {
 }
 
 void CardController::EditCard(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
         CardModelManager::CardModelManager manager;
         // TODO: Call DB Function
@@ -79,7 +79,7 @@ void CardController::EditCard(web::http::http_request message) {
 }
 
 void CardController::RemoveCard(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
         CardModelManager::CardModelManager manager;
         // TODO: Call DB Function
@@ -94,7 +94,7 @@ void CardController::RemoveCard(web::http::http_request message) {
 }
 
 void CardController::DoAnswer(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
 
         CardModelManager::CardModelManager manager;
         auto resp = nlohmann::json::parse(manager.GetNextCard(requestArgs.dump()));
@@ -108,7 +108,7 @@ void CardController::DoAnswer(web::http::http_request message) {
 }
 
 void CardController::GetCard(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
         CardModelManager::CardModelManager manager;
         auto items = nlohmann::json::parse(manager.Get(requestArgs.dump()));
 
@@ -131,7 +131,7 @@ void CardController::GetCard(web::http::http_request message) {
 }
 
 void CardController::List(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
         CardModelManager::CardModelManager manager;
         auto items = nlohmann::json::parse(manager.Get(requestArgs.dump()));
         // TODO: List from DB

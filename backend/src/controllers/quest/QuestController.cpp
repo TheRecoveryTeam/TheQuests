@@ -2,6 +2,8 @@
 // Created by dpudov on 12.11.18.
 //
 
+#include <utils/decorators/required_args/RequiredArgsDecorator.h>
+#include <utils/decorators/login_required/LoginRequiredDecorator.h>
 #include "QuestController.h"
 #include "../NetworkUtils.h"
 #include "../../../src/quest/model_manager/QuestModelManager.h"
@@ -33,107 +35,113 @@ void QuestController::InitHandlers() {
 }
 
 void QuestController::CreateQuest(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this](const nlohmann::json& request_args) {
 
         QuestModelManager::QuestModelManager manager;
-        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
+        auto resp = nlohmann::json::parse(manager.Create(request_args.dump()));
 
         web::http::status_code status = ValidateManagerResponse(resp);
 
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    ProcessPost(message, processLogic);
+    ProcessPost(message, process_logic);
 }
 
 void QuestController::DestroyQuest(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this](const nlohmann::json& request_args) {
 
         QuestModelManager::QuestModelManager manager;
         // TODO: Call db
-        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
+        auto resp = nlohmann::json::parse(manager.Create(request_args.dump()));
 
         web::http::status_code status = ValidateManagerResponse(resp);
 
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    ProcessPost(message, processLogic);
+    ProcessPost(message, process_logic);
 }
 
 void QuestController::EditQuest(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this](const nlohmann::json& request_args) {
 
         QuestModelManager::QuestModelManager manager;
         // TODO: Call db
-        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
+        auto resp = nlohmann::json::parse(manager.Create(request_args.dump()));
 
         web::http::status_code status = ValidateManagerResponse(resp);
 
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    ProcessPost(message, processLogic);
+    ProcessPost(message, process_logic);
 }
 
 void QuestController::EditQuestImage(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this](const nlohmann::json& request_args) {
 
         QuestModelManager::QuestModelManager manager;
         // TODO: Call db
-        auto resp = nlohmann::json::parse(manager.Create(requestArgs.dump()));
+        auto resp = nlohmann::json::parse(manager.Create(request_args.dump()));
 
         web::http::status_code status = ValidateManagerResponse(resp);
 
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    ProcessPost(message, processLogic);
+    ProcessPost(message, process_logic);
 }
 
 void QuestController::GetQuest(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this, message](const nlohmann::json& request_args) {
 
         QuestModelManager::QuestModelManager manager;
 
-        auto resp = nlohmann::json::parse(manager.GetWithHistory(requestArgs.dump()));
+        auto resp = nlohmann::json::parse(manager.GetWithHistory(request_args.dump()));
 
         web::http::status_code status = ValidateManagerResponse(resp);
 
-        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+        message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    ProcessGet(message, processLogic);
+
+    auto required_auth_decorator
+            = decorators::LoginRequiredDecorator(message, process_logic);
+    auto required_args_decorator
+            = decorators::RequiredArgsDecorator({ "id" }, message, required_auth_decorator);
+
+    ProcessGet(message, required_args_decorator);
 }
 
 void QuestController::Resources(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this](const nlohmann::json& request_args) {
 
         QuestModelManager::QuestModelManager manager;
         // TODO: Call db
-        auto resp = nlohmann::json::parse(manager.Get(requestArgs.dump()));
+        auto resp = nlohmann::json::parse(manager.Get(request_args.dump()));
 
         web::http::status_code status = ValidateManagerResponse(resp);
 
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    ProcessGet(message, processLogic);
+    ProcessGet(message, process_logic);
 }
 
 void QuestController::List(web::http::http_request message) {
-    requestLogicProcessor processLogic = [this](const nlohmann::json& requestArgs) {
+    RequestLogicProcessor process_logic = [this](const nlohmann::json& request_args) {
 
         QuestModelManager::QuestModelManager manager;
         // TODO: Call db
-        auto resp = nlohmann::json::parse(manager.Get(requestArgs.dump()));
+        auto resp = nlohmann::json::parse(manager.Get(request_args.dump()));
 
         web::http::status_code status = ValidateManagerResponse(resp);
 
         return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
     };
 
-    ProcessGet(message, processLogic);
+    ProcessGet(message, process_logic);
 }
 
 void QuestController::ConfigureRouting() {
