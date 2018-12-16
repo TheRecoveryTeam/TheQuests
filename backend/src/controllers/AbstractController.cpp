@@ -54,7 +54,6 @@ namespace networkhelper {
     }
 
     std::string AbstractController::GetCurrentUserId(const web::http::http_request& http_request, const std::string& token_type) const {
-
         auto token_key = GetTokenKey(http_request, token_type);
         if (token_key.empty()) {
             return "";
@@ -93,28 +92,31 @@ namespace networkhelper {
     }
 
     void AbstractController::ProcessPost(const web::http::http_request& request,
-                                         const AbstractController::requestLogicProcessor& logicProcessor) {
+                                         const AbstractController::RequestLogicProcessor& logic_processor) {
 
-        const auto& raw_body = request.extract_json().get();
+        try {
+            const auto& raw_body = request.extract_json().get();
 
-        nlohmann::json parsed_body;
+            nlohmann::json parsed_body;
 
-        if (!raw_body.is_null()) {
-            parsed_body = nlohmann::json::parse(raw_body.serialize());
+            if (!raw_body.is_null()) {
+                parsed_body = nlohmann::json::parse(raw_body.serialize());
+            }
+
+            logic_processor(parsed_body);
         }
-
-        auto [ status, response ] = logicProcessor(parsed_body);
-        request.reply(status, response);
+        catch (...) {
+            request.reply(web::http::status_codes::BadRequest);
+        }
     }
 
     void AbstractController::ProcessGet(const web::http::http_request& request,
-                                        const AbstractController::requestLogicProcessor& logicProcessor) {
+                                        const AbstractController::RequestLogicProcessor& logic_processor) {
         const auto& raw_query = web::uri::split_query(request.request_uri().query());
 
         auto parsed_query = nlohmann::json(raw_query);
 
-        auto [ status, response ] = logicProcessor(parsed_query);
-        request.reply(status, response);
+        logic_processor(parsed_query);
     }
 
     web::http::status_code AbstractController::ValidateManagerResponse(const nlohmann::json& manager_response) const {

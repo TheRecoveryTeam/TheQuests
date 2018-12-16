@@ -161,7 +161,13 @@ add_executable(server
         src/controllers/quest/QuestController.h
         src/controllers/user/UserController.cpp
         src/controllers/user/UserController.h
-        tests/controllers/CardControllerTest.cpp src/utils/converters/ConvertNlohmannToWebJSON.h)
+        tests/controllers/CardControllerTest.cpp
+        src/utils/converters/ConvertNlohmannToWebJSON.h
+        src/config/Config.h
+        src/utils/decorators/login_required/LoginRequiredDecorator.h
+        src/utils/decorators/login_required/LoginRequiredDecorator.cpp
+        src/utils/decorators/abstract_decorator/AbstractDecorator.cpp
+        src/utils/decorators/abstract_decorator/AbstractDecorator.h src/utils/decorators/required_args/RequiredArgsDecorator.cpp src/utils/decorators/required_args/RequiredArgsDecorator.h)
 
 target_include_directories(server PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
 target_compile_definitions(server PUBLIC ${LIBMONGOCXX_DEFINITIONS})
