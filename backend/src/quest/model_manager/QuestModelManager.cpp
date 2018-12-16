@@ -123,12 +123,6 @@ std::string QuestModelManager::QuestModelManager::List(const std::string &reques
     }
     query["authorId"] = {{"$oid", data["authorId"]}};
   }
-//  if (data.find("userId") != data.end()) {
-//    if (!DataManager::CheckIdCorrectness(data, std::vector<std::string>{"userId"})) {
-//      return nlohmann::json({{"error", "IncorrectId"}}).dump();
-//    }
-//    query["userId"] = {{"$oid", data["userId"]}};
-//  }
   int page = data["page"];
   int limit = data["limit"];
   int start = limit * (page - 1);

@@ -19,6 +19,8 @@ target_link_libraries(cardmodel
         ${LIBMONGOCXX_LIBRARIES}
         nlohmann_json::nlohmann_json
         OpenSSL::Crypto
+        abstractmodel
+        historymodel
         )
 
 file(GLOB quest_model_srcs ${PROJECT_SOURCE_DIR}/quest/model_manager/*.cpp)
@@ -33,6 +35,8 @@ target_link_libraries(questmodel
         nlohmann_json::nlohmann_json
         model_manager_utils
         OpenSSL::Crypto
+        abstractmodel
+        historymodel
         )
 
 file(GLOB history_model_srcs ${PROJECT_SOURCE_DIR}/history/model_manager/*.cpp)
@@ -45,6 +49,7 @@ target_include_directories(historymodel PUBLIC
 target_link_libraries(historymodel
         ${LIBMONGOCXX_LIBRARIES}
         nlohmann_json::nlohmann_json
+        abstractmodel
         )
 
 file(GLOB database_connection_srcs ${PROJECT_SOURCE_DIR}/engine/connections/*.cpp)
@@ -175,6 +180,7 @@ target_link_libraries(sessionmodel
         nlohmann_json::nlohmann_json
         model_manager_utils
         OpenSSL::Crypto
+        abstractmodel
         )
 
 
@@ -193,6 +199,7 @@ target_link_libraries(usermodel
         OpenSSL::Crypto
         OpenSSL::SSL
         sessionmodel
+        abstractmodel
         )
 
 

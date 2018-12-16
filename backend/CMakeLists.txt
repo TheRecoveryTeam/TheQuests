@@ -134,7 +134,7 @@ set(nlohmann_json_DIR "${THIRD_PARTY_DIR}/nlohmann_json-install/lib/cmake/nlohma
 # Все ниже закоментить и запустить make в папке cmake-build-debug.
 # Когда все библиотеки скачаются, раскоментить.
 # TODO: убрать этот костыль
-#
+
 find_package(libmongoc REQUIRED NAMES libmongoc libmongoc-1.0)
 find_package(libmongocxx REQUIRED NAMES libmongocxx libmongocxx-3.3.1)
 
@@ -178,10 +178,10 @@ target_link_libraries(server
         OpenSSL::Crypto
         OpenSSL::SSL
         cpprestsdk::cpprest
+        abstractmodel
         cardmodel
         questmodel
         historymodel
-        abstractmodel
         sessionmodel
         usermodel
         databaseconnection
