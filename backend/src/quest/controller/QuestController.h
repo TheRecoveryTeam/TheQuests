@@ -5,8 +5,9 @@
 #ifndef THEQUESTS_QUESTCONTROLLER_H
 #define THEQUESTS_QUESTCONTROLLER_H
 
-#include "../AbstractController.h"
-#include "../Handler.h"
+#include <core/controller/AbstractController.h>
+#include <utils/controller/Handler.h>
+
 
 class QuestController : public networkhelper::AbstractController {
 public:
@@ -32,6 +33,8 @@ private:
     void Resources(web::http::http_request message);
 
     void List(web::http::http_request message);
+
+    void Detail(web::http::http_request message);
 };
 
 

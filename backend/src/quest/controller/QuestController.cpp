@@ -4,10 +4,12 @@
 
 #include <utils/decorators/required_args/RequiredArgsDecorator.h>
 #include <utils/decorators/login_required/LoginRequiredDecorator.h>
-#include "QuestController.h"
-#include "../NetworkUtils.h"
-#include "../../../src/quest/model_manager/QuestModelManager.h"
-#include "../../utils/converters/ConvertNlohmannToWebJSON.h"
+#include <quest/controller/QuestController.h>
+#include <utils/controller/NetworkUtils.h>
+#include <quest/model_manager/QuestModelManager.h>
+#include <utils/converters/ConvertNlohmannToWebJSON.h>
+
+const std::string USER_ID = "user_id";
 
 void QuestController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -128,27 +130,68 @@ void QuestController::Resources(web::http::http_request message) {
 
     ProcessGet(message, process_logic);
 }
+//
+//void QuestController::List(web::http::http_request message) {
+//    RequestLogicProcessor process_logic = [this](const nlohmann::json& request_args) {
+//
+//        QuestModelManager::QuestModelManager manager;
+//        // TODO: Call db
+//        auto resp = nlohmann::json::parse(manager.Get(request_args.dump()));
+//
+//        web::http::status_code status = ValidateManagerResponse(resp);
+//
+//        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
+//    };
+//
+//    ProcessGet(message, process_logic);
+//}
+
+void QuestController::Detail(web::http::http_request message) {
+
+  RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
+    QuestModelManager::QuestModelManager manager;
+    auto resp = nlohmann::json::parse(manager.GetWithHistory(request_args.dump()));
+
+    auto status = ValidateManagerResponse(resp);
+    message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
+  };
+
+  auto required_args_decorator
+    = decorators::RequiredArgsDecorator({ "id" }, message, process_logic);
+
+  auto login_required_decorator
+    = decorators::LoginRequiredDecorator(message, required_args_decorator);
+
+  ProcessGet(message, login_required_decorator);
+}
 
 void QuestController::List(web::http::http_request message) {
-    RequestLogicProcessor process_logic = [this](const nlohmann::json& request_args) {
+  RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
+    if (request_args.find("authorId") != request_args.end()) {
+      request_args["authorId"] = request_args[USER_ID];
+      request_args.erase(USER_ID);
+    }
+    QuestModelManager::QuestModelManager manager;
+    auto resp = nlohmann::json::parse(manager.List(request_args.dump()));
 
-        QuestModelManager::QuestModelManager manager;
-        // TODO: Call db
-        auto resp = nlohmann::json::parse(manager.Get(request_args.dump()));
+    auto status = ValidateManagerResponse(resp);
+    message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
+  };
 
-        web::http::status_code status = ValidateManagerResponse(resp);
+  auto required_args_decorator
+    = decorators::RequiredArgsDecorator({ "page", "limit" }, message, process_logic);
 
-        return std::make_pair(status, converters::ConvertNlohmannToWebJSON(resp));
-    };
+  auto login_required_decorator
+    = decorators::LoginRequiredDecorator(message, required_args_decorator);
 
-    ProcessGet(message, process_logic);
+  ProcessGet(message, login_required_decorator);
 }
 
 void QuestController::ConfigureRouting() {
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("detail"),
             web::http::methods::GET,
-            ASSIGN_HANDLER(QuestController, GetQuest)
+            ASSIGN_HANDLER(QuestController, Detail)
     });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
@@ -157,11 +200,11 @@ void QuestController::ConfigureRouting() {
             ASSIGN_HANDLER(QuestController, Resources)
     });
 
-    _routingEntries.push_back(networkhelper::RoutingEntry{
-            U("list"),
-            web::http::methods::GET,
-            ASSIGN_HANDLER(QuestController, List)
-    });
+//    _routingEntries.push_back(networkhelper::RoutingEntry{
+//            U("list"),
+//            web::http::methods::GET,
+//            ASSIGN_HANDLER(QuestController, List)
+//    });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("edit_image"),
