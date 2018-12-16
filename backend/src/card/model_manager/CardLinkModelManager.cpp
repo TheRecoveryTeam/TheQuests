@@ -1,5 +1,5 @@
 #include <bsoncxx/builder/stream/document.hpp>
-#include "CardLinkModelManager.h"
+#include <card/model_manager/CardLinkModelManager.h>
 #include <mongocxx/client.hpp>
 #include <engine/connections/DatabaseConnectionSingleton.h>
 #include <nlohmann/json.hpp>

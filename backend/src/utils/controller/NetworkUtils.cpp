@@ -2,7 +2,7 @@
 // Created by dpudov on 12.11.18.
 //
 
-#include "NetworkUtils.h"
+#include <utils/controller/NetworkUtils.h>
 
 namespace networkhelper {
     HostInetInfo NetworkUtils::queryHostInetInfo() {

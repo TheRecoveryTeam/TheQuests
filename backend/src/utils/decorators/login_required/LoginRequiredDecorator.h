@@ -8,7 +8,7 @@
 #include <algorithm>
 #include <cpprest/http_listener.h>
 #include <nlohmann/json.hpp>
-#include "../abstract_decorator/AbstractDecorator.h"
+#include <utils/decorators/abstract_decorator/AbstractDecorator.h>
 
 namespace decorators {
     class LoginRequiredDecorator : public decorators::AbstractDecorator {

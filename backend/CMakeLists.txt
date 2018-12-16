@@ -8,13 +8,16 @@ file(GLOB SOURCES
 
 set(SOURCE_FILES main.cpp)
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
-set(CMAKE_BINARY_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug)
+message(STATUS ${CMAKE_BINARY_DIR})
 set(THIRD_PARTY_DIR ${CMAKE_BINARY_DIR}/thirdparty)
 
 
 if (APPLE)
-    set(BOOST_ROOT /opt/local/include/boost/)
+    set(BOOST_ROOT /usr/local/Cellar/boost/1.68.0)
+    set(OPENSSL_INCLUDE_DIR /usr/local/Cellar/openssl/1.0.2p/include)
+    set(OPENSSL_SOURCE_DIR /usr/local/Cellar/openssl/1.0.2p/lib)
 endif ()
+
 
 include(ExternalProject)
 
@@ -26,6 +29,7 @@ if (NOT DEFINED CMAKE_CONFIGURATION_TYPES)
             -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
             )
 endif ()
+
 
 ExternalProject_Add(libmongoc
         GIT_REPOSITORY "https://github.com/TheRecoveryTeam/mongo-c-driver.git"
@@ -80,12 +84,15 @@ ExternalProject_Add(cpprestsdk
         SOURCE_DIR "${THIRD_PARTY_DIR}/cpprestsdk"
         BINARY_DIR "${THIRD_PARTY_DIR}/cpprestsdk-build"
         INSTALL_DIR "${THIRD_PARTY_DIR}/cpprestsdk-install"
+        CMAKE_ARGS
         CMAKE_CACHE_ARGS
         ${common_cmake_cache_args}
         -DCMAKE_INSTALL_PREFIX:PATH=${THIRD_PARTY_DIR}/cpprestsdk-install
         -DBUILD_SHARED_LIBS:BOOL=ON
         -DENABLE_TESTS:BOOL=OFF
         -DENABLE_EXAMPLES:BOOL=OFF
+        -DBOOST_SYSTEM_NO_DEPRECATED:BOOL=ON
+
         )
 set(cpprestsdk_DIR "${THIRD_PARTY_DIR}/cpprestsdk-install/lib/cpprestsdk")
 
@@ -127,66 +134,67 @@ set(nlohmann_json_DIR "${THIRD_PARTY_DIR}/nlohmann_json-install/lib/cmake/nlohma
 # Все ниже закоментить и запустить make в папке cmake-build-debug.
 # Когда все библиотеки скачаются, раскоментить.
 # TODO: убрать этот костыль
-
+#
 find_package(libmongoc REQUIRED NAMES libmongoc libmongoc-1.0)
 find_package(libmongocxx REQUIRED NAMES libmongocxx libmongocxx-3.3.1)
 
 find_package(Boost REQUIRED)
-find_package(Boost REQUIRED system)
+find_package(Boost COMPONENTS thread chrono system REQUIRED)
 find_package(cpprestsdk REQUIRED)
 find_package(nlohmann_json 3.4.0 REQUIRED)
-find_package(OpenSSL REQUIRED)
+
+include_directories(${OPENSSL_INCLUDE_DIR})
 
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/)
 target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES}
-        cardmodel questmodel abstractmodel sessionmodel usermodel databaseconnection)
+        cardmodel questmodel abstractmodel sessionmodel usermodel databaseconnection abstractcontroller)
 target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
 target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 
 add_executable(server
         main.cpp
-        src/controllers/AbstractController.h
-        src/controllers/card/CardController.cpp
-        src/controllers/card/CardController.h
-        src/controllers/AbstractController.cpp
-        src/controllers/NetworkUtils.h
-        src/controllers/MicroService.h
-        src/controllers/NetworkUtils.cpp
-        src/controllers/RuntimeUtils.h
-        src/controllers/UserInterruptHandler.h
-        src/controllers/Handler.h
-        src/controllers/quest/QuestController.cpp
-        src/controllers/quest/QuestController.h
-        src/controllers/user/UserController.cpp
-        src/controllers/user/UserController.h
-        tests/controllers/CardControllerTest.cpp
-        src/utils/converters/ConvertNlohmannToWebJSON.h
         src/config/Config.h
-        src/utils/decorators/login_required/LoginRequiredDecorator.h
-        src/utils/decorators/login_required/LoginRequiredDecorator.cpp
-        src/utils/decorators/abstract_decorator/AbstractDecorator.cpp
-        src/utils/decorators/abstract_decorator/AbstractDecorator.h
-        src/utils/decorators/required_args/RequiredArgsDecorator.cpp
-        src/utils/decorators/required_args/RequiredArgsDecorator.h src/utils/converters/ConvertNlohmannToWebJSON.cpp)
+        src/utils/controller/RuntimeUtils.h
+        src/utils/controller/UserInterruptHandler.h
+        src/utils/controller/Handler.h
+        )
 
-target_include_directories(server PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
+message(STATUS ${Boost_INCLUDE_DIRS})
+message(STATUS ${OPENSSL_INCLUDE_DIR})
+message(STATUS ${OPENSSL_LIBRARIES})
+message(STATUS ${OPENSSL_VERSION})
+target_include_directories(server PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
 target_compile_definitions(server PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 target_link_libraries(server
         gtest_main
         nlohmann_json::nlohmann_json
-        cpprest
         ${Boost_LIBRARIES}
+        Boost::system
+        Boost::thread
+        Boost::chrono
         ${LIBMONGOCXX_LIBRARIES}
         OpenSSL::Crypto
+        OpenSSL::SSL
+        cpprestsdk::cpprest
         cardmodel
         questmodel
         historymodel
         abstractmodel
         sessionmodel
         usermodel
-        databaseconnection)
+        databaseconnection
+        abstractcontroller
+        cardcontroller
+        questcontroller
+        usercontroller
+        controller_utils
+        converters_utils
+        abstract_decorator_utils
+        login_required_utils
+        required_args_utils
+        microservice)
 
 
 set(TEST_BUILD_NAME tests_target)

@@ -7,11 +7,12 @@
 #include <engine/connections/DatabaseConnectionSingleton.h>
 #include <nlohmann/json.hpp>
 
-#include "src/controllers/card/CardController.h"
-#include "src/controllers/user/UserController.h"
-#include "src/controllers/quest/QuestController.h"
-#include "src/controllers/UserInterruptHandler.h"
-#include "src/controllers/RuntimeUtils.h"
+#include <card/controller/CardController.h>
+#include <user/controller/UserController.h>
+#include <quest/controller/QuestController.h>
+#include <utils/controller/UserInterruptHandler.h>
+#include <utils/controller/RuntimeUtils.h>
+
 
 using namespace networkhelper;
 using namespace web;

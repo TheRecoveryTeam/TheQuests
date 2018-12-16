@@ -2,7 +2,8 @@
 // Created by vitaly on 15.12.18.
 //
 
-#include "AbstractDecorator.h"
+#include <utils/decorators/abstract_decorator/AbstractDecorator.h>
+
 
 decorators::AbstractDecorator::AbstractDecorator(const web::http::http_request& request,
                                                  const std::function<void(nlohmann::json&)>& next) :

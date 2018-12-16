@@ -5,7 +5,7 @@
 #include <string>
 #include <config/Config.h>
 #include <session/model_manager/SessionModelManager.h>
-#include "./LoginRequiredDecorator.h"
+#include <utils/decorators/login_required/LoginRequiredDecorator.h>
 
 void decorators::LoginRequiredDecorator::operator()(nlohmann::json& response_args) const {
     auto headers = request.headers();

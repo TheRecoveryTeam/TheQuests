@@ -5,8 +5,8 @@
 #ifndef THEQUESTS_USERCONTROLLER_H
 #define THEQUESTS_USERCONTROLLER_H
 
-#include "../AbstractController.h"
-#include "../Handler.h"
+#include <core/controller/AbstractController.h>
+#include <utils/controller/Handler.h>
 
 class UserController : public networkhelper::AbstractController {
 public:
@@ -14,9 +14,9 @@ public:
         std::wcout << U("UserController initiated\n");
     }
 
-    void InitHandlers() override;
-
     void ConfigureRouting() override;
+
+    void InitHandlers() override;
 
     void CreateUser(const web::http::http_request& message);
 

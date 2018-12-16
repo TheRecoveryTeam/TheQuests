@@ -7,8 +7,9 @@
 #include <utils/decorators/login_required/LoginRequiredDecorator.h>
 #include <utils/converters/ConvertNlohmannToWebJSON.h>
 #include <user/model_manager/UserModelManager.h>
-#include "UserController.h"
-#include "../NetworkUtils.h"
+#include <user/controller/UserController.h>
+#include <utils/controller/NetworkUtils.h>
+
 
 void UserController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -90,7 +91,7 @@ void UserController::CreateUser(const web::http::http_request& message) {
         = decorators::RequiredArgsDecorator({ "email", "nickname", "password" },
                 message, process_logic);
 
-    ProcessPost(message, process_logic);
+    ProcessPost(message, required_args_decorator);
 }
 
 void UserController::FindEmail(const web::http::http_request& message) {

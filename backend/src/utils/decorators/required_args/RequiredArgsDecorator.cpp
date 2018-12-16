@@ -2,7 +2,7 @@
 // Created by vitaly on 16.12.18.
 //
 
-#include "RequiredArgsDecorator.h"
+#include <utils/decorators/required_args/RequiredArgsDecorator.h>
 
 decorators::RequiredArgsDecorator::RequiredArgsDecorator(const std::vector<std::string>& required_args,
                                                          const web::http::http_request& request,

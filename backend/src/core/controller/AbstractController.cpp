@@ -3,10 +3,10 @@
 //
 
 #include <nlohmann/json.hpp>
-#include "AbstractController.h"
-#include "NetworkUtils.h"
-#include "../../src/session/model_manager/SessionModelManager.h"
-#include "../../utils/converters/ConvertNlohmannToWebJSON.h"
+#include <core/controller/AbstractController.h>
+#include <utils/controller/NetworkUtils.h>
+#include <session/model_manager/SessionModelManager.h>
+#include <utils/converters/ConvertNlohmannToWebJSON.h>
 
 namespace networkhelper {
 

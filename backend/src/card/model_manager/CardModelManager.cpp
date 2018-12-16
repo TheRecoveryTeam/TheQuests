@@ -1,10 +1,11 @@
 #include <bsoncxx/builder/stream/document.hpp>
-#include "CardModelManager.h"
+#include <card/model_manager/CardModelManager.h>
 #include <mongocxx/client.hpp>
 #include <engine/connections/DatabaseConnectionSingleton.h>
 #include <nlohmann/json.hpp>
 #include <bsoncxx/exception/exception.hpp>
 #include <bsoncxx/json.hpp>
+
 
 CardModelManager::CardModelManager::CardModelManager() : AbstractModelManager::AbstractModelManager("Card") {
   quest_manager_ = new QuestModelManager::QuestModelManager();
