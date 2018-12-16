@@ -24,7 +24,9 @@ bool DataManager::CheckIdCorrectness(const nlohmann::json &data, std::vector<std
 std::string DataManager::UnpackOid(nlohmann::json &data, std::vector<std::string> keys) {
   for (auto& key : keys) {
     if (data.find(key) != data.end()) {
-      data[key] = data[key]["$oid"];
+      if (data[key].find("$oid") != data[key].end()) {
+        data[key] = data[key]["$oid"];
+      }
     }
   }
   return data.dump();

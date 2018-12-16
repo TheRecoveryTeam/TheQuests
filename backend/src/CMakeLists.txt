@@ -18,6 +18,7 @@ target_include_directories(cardmodel PUBLIC
 target_link_libraries(cardmodel
         ${LIBMONGOCXX_LIBRARIES}
         nlohmann_json::nlohmann_json
+        OpenSSL::Crypto
         )
 
 file(GLOB quest_model_srcs ${PROJECT_SOURCE_DIR}/quest/model_manager/*.cpp)
@@ -31,6 +32,7 @@ target_link_libraries(questmodel
         ${LIBMONGOCXX_LIBRARIES}
         nlohmann_json::nlohmann_json
         model_manager_utils
+        OpenSSL::Crypto
         )
 
 file(GLOB history_model_srcs ${PROJECT_SOURCE_DIR}/history/model_manager/*.cpp)

@@ -27,13 +27,15 @@ class CardModelManagerTests : public ::testing::Test {
       {"title", "quest1"},
       {"description", "about quest1"},
       {"image", "image1"},
-      {"resources", {"strength", "health", "wisdom"}}
+      {"resources", {"strength", "health", "wisdom"}},
+      {"authorId", {{"$oid", bsoncxx::oid().to_string()}}}
     }));
     quests.push_back(nlohmann::json({
       {"title", "quest2"},
       {"description", "about quest2"},
       {"image", "image2"},
-      {"resources", {"strength", "wisdom"}}
+      {"resources", {"strength", "wisdom"}},
+      {"authorId", {{"$oid", bsoncxx::oid().to_string()}}}
     }));
     for (const auto &quest : quests) {
       bsoncxx::stdx::optional<mongocxx::result::insert_one>
@@ -192,6 +194,7 @@ TEST_F(CardModelManagerTests, getCardWithExistingId) {
       {"id", (*card_id_list)[0]}
   };
   nlohmann::json received_card = nlohmann::json::parse(card_manager->Get(query.dump()));
+  std::cout << received_card << std::endl;
   ASSERT_EQ((*card_id_list)[0], received_card["id"]) << "Wrong card received";
 }
 
