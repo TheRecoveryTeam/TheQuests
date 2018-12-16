@@ -2,12 +2,13 @@
 // Created by dpudov on 12.11.18.
 //
 
+#include <cpprest/http_client.h>
 #include <utils/decorators/required_args/RequiredArgsDecorator.h>
 #include <utils/decorators/login_required/LoginRequiredDecorator.h>
+#include <utils/converters/ConvertNlohmannToWebJSON.h>
+#include <user/model_manager/UserModelManager.h>
 #include "UserController.h"
 #include "../NetworkUtils.h"
-#include "../../user/model_manager/UserModelManager.h"
-#include "../../utils/converters/ConvertNlohmannToWebJSON.h"
 
 void UserController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -241,7 +242,7 @@ void UserController::LoginUser(const web::http::http_request& message) {
 
 void UserController::LogoutUser(const web::http::http_request& message) {
 
-    RequestLogicProcessor process_login = [this, message](nlohmann::json& request_args) {
+    RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
         UserModelManager::UserModelManager manager;
 
         manager.Logout(request_args.dump());
@@ -250,8 +251,9 @@ void UserController::LogoutUser(const web::http::http_request& message) {
     };
 
     auto login_required_decorator
-        = decorators::LoginRequiredDecorator(message, process_login);
+        = decorators::LoginRequiredDecorator(message, process_logic);
 
     ProcessPost(message, login_required_decorator);
 }
+
 
