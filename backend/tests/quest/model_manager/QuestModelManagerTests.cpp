@@ -15,6 +15,18 @@ class QuestModelManagerTests : public ::testing::Test {
   void SetUp() {
     auto client = MongoAccess::MongoAccess::instance().get_connection();
     auto collection = (*client)["testdb"]["Quest"];
+    user_manager = new UserModelManager::UserModelManager();
+    nlohmann::json new_user = {
+        {"email", "testquest@mail.ru"},
+        {"nickname", "forQuests"}
+    };
+    if (!user_manager->Contains(new_user.dump())) {
+      new_user["password"] = "123";
+      author_id = nlohmann::json::parse(user_manager->Create(new_user.dump()))["id"];
+    } else {
+      new_user["password"] = "123";
+      author_id = nlohmann::json::parse(user_manager->Login(new_user.dump()))["id"];
+    }
     quest_manager = new QuestModelManager::QuestModelManager();
     id_list = new std::vector<std::string>;
     std::vector<nlohmann::json> quests;
@@ -22,19 +34,22 @@ class QuestModelManagerTests : public ::testing::Test {
       {"title", "quest1"},
       {"description", "about quest1"},
       {"image", "image1"},
-      {"resources", {"strength", "health", "wisdom"}}
+      {"resources", {"strength", "health", "wisdom"}},
+      {"authorId", {{"$oid", author_id}}}
     }));
     quests.push_back(nlohmann::json({
       {"title", "quest2"},
       {"description", "about quest2"},
       {"image", "image2"},
-      {"resources", {"strength", "wisdom"}}
+      {"resources", {"strength", "wisdom"}},
+      {"authorId", {{"$oid", author_id}}}
     }));
     quests.push_back(nlohmann::json({
       {"title", "quest3"},
       {"description", "about quest3"},
       {"image", "image3"},
-      {"resources", {"strength", "health", "wisdom", "respect"}}
+      {"resources", {"strength", "health", "wisdom", "respect"}},
+      {"authorId", {{"$oid", author_id}}}
     }));
     for (const auto &quest : quests) {
       bsoncxx::stdx::optional<mongocxx::result::insert_one>
@@ -44,10 +59,14 @@ class QuestModelManagerTests : public ::testing::Test {
   }
   void TearDown() {
     delete id_list;
+    delete quest_manager;
+//    delete user_manager;
   }
 
+  std::string author_id;
   std::vector<std::string> *id_list;
   QuestModelManager::QuestModelManager *quest_manager;
+  UserModelManager::UserModelManager *user_manager;
 };
 
 TEST_F(QuestModelManagerTests, addCorrectQuest) {
@@ -100,4 +119,34 @@ TEST_F(QuestModelManagerTests, getQuestWithoutId) {
   nlohmann::json query = {};
   nlohmann::json received_quest = nlohmann::json::parse(quest_manager->Get(query.dump()));
   ASSERT_TRUE(received_quest.find("error") != received_quest.end()) << "Doesn't return error on incorrect data";
+}
+
+TEST_F(QuestModelManagerTests, getQuestList) {
+  nlohmann::json query = {
+      {"page", 2},
+      {"limit", 2}
+  };
+  auto result = nlohmann::json::parse(quest_manager->List(query.dump()));
+  ASSERT_TRUE(result.find("error") == result.end()) << "Return error on correct query";
+}
+
+TEST_F(QuestModelManagerTests, getAuthorQuestList) {
+  nlohmann::json query = {
+      {"page", 2},
+      {"limit", 2},
+      {"authorId", author_id}
+  };
+  auto result = nlohmann::json::parse(quest_manager->List(query.dump()));
+  ASSERT_TRUE(result.find("error") == result.end()) << "Return error on correct query";
+}
+
+TEST_F(QuestModelManagerTests, getUserQuestList) {
+  nlohmann::json query = {
+      {"page", 2},
+      {"limit", 2},
+      {"authorId", author_id}
+  };
+  auto result = nlohmann::json::parse(quest_manager->List(query.dump()));
+  std::cout << result << std::endl;
+  ASSERT_TRUE(result.find("error") == result.end()) << "Return error on correct query";
 }
