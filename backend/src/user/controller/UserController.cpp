@@ -73,6 +73,12 @@ void UserController::ConfigureRouting() {
             web::http::methods::GET,
             ASSIGN_HANDLER(UserController, FindNickname)
     });
+
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("oauth_process"),
+            web::http::methods::POST,
+            ASSIGN_HANDLER(UserController, OauthProcess)
+    });
 }
 
 void UserController::CreateUser(const web::http::http_request& message) {
@@ -161,4 +167,23 @@ void UserController::LogoutUser(const web::http::http_request& message) {
         = decorators::LoginRequiredDecorator(message, process_logic);
 
     ProcessPost(message, login_required_decorator);
+}
+
+void UserController::OauthProcess(const web::http::http_request& message) {
+
+    RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
+        UserModelManager::UserModelManager manager;
+
+        auto resp = nlohmann::json::parse(manager.CreateByOauth2(request_args.dump()));
+
+        auto status = ValidateManagerResponse(resp);
+
+        message.reply(status, resp.dump());
+    };
+
+    auto required_args_decorator
+         = decorators::RequiredArgsDecorator({ "nickname", "oauthToken", "oauthId", "oauthService" },
+                 message, process_logic);
+
+    ProcessPost(message, required_args_decorator);
 }

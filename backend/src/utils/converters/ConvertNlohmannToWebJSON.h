@@ -8,10 +8,11 @@
 
 #include <nlohmann/json.hpp>
 #include <cpprest/json.h>
+#include <string>
 
 
 namespace converters {
-    web::json::value ConvertNlohmannToWebJSON(const nlohmann::json& from);
+   std::string ConvertNlohmannToWebJSON(const nlohmann::json& from);
 }
 
 #endif //THEQUESTS_CONVERTNLOHMANNTOWEBJSON_H

@@ -5,6 +5,6 @@
 #include <utils/converters/ConvertNlohmannToWebJSON.h>
 
 
-web::json::value converters::ConvertNlohmannToWebJSON(const nlohmann::json& from) {
-    return web::json::value::parse(from.dump());
+std::string converters::ConvertNlohmannToWebJSON(const nlohmann::json& from) {
+    return from.dump();
 }
