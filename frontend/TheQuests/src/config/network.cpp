@@ -7,9 +7,7 @@ QString config::network::oauth::getOauthUrl(const QString& oauthBase, const QStr
     QUrlQuery query;
     query.addQueryItem("client_id", clientId);
     query.addQueryItem("display", "mobile");
-    query.addQueryItem("redirect_uri", QString("%1%2")
-                       .arg(config::network::BASE_URL)
-                       .arg(redirectPath));
+    query.addQueryItem("redirect_uri", redirectPath);
     query.addQueryItem("resoponse_type", "code");
     query.addQueryItem("v", apiV);
 
