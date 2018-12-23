@@ -26,6 +26,7 @@ namespace quest {
     const QString GET_RESOURCES = "/api/quest.resources";
     const QString GET_QUEST_LIST = "/api/quest.list";
     const QString CREATE = "api/quest.create";
+    const QString QUEST_LIST = "api/quest.list";
 }
 
 }

@@ -10,7 +10,7 @@ namespace network {
         POST,
     };
 
-    const QString BASE_URL = "http://localhost:3000";
+    const QString BASE_URL = "http://127.0.0.1:8008";
     const QString ERROR_KEY = "__error__";
     const QString ITEMS_KEY = "__items__";
 

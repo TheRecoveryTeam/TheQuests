@@ -22,14 +22,20 @@ data_structures::UserLoginResponse UserMapper::convertUserLogin(const QJsonObjec
             && obj["email"].isString()
             && obj["nickname"].isString()
             && obj["token"].isString()) {
-        return data_structures::UserLoginResponse(
+        auto resp = data_structures::UserLoginResponse(
                 obj["id"].toString(),
                 obj["nickname"].toString(),
                 obj["email"].toString(),
                 obj["token"].toString());
+
+        if (obj["avatarPath"].isString()) {
+            resp.avatarPath = obj["avatarPath"].toString();
+            qDebug() << resp.avatarPath;
+        }
+        return resp;
     }
     else {
         // TODO;
+        return data_structures::UserLoginResponse();
     }
-    return data_structures::UserLoginResponse();
 }

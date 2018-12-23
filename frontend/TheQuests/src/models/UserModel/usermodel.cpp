@@ -11,6 +11,17 @@ UserModel *UserModel::createInstance()
     return new UserModel();
 }
 
+const QString& UserModel::getAvatarPath() const
+{
+    return avatarPath;
+}
+
+void UserModel::setAvatarPath(const QString& value)
+{
+    avatarPath = value;
+    emit avatarPathChanged(avatarPath);
+}
+
 UserModel *UserModel::instance()
 {
     return Singleton<UserModel>::instance(UserModel::createInstance);
@@ -73,10 +84,12 @@ bool UserModel::isAuthenticated() const
 void UserModel::setAll(const QString &id,
                        const QString &nickname,
                        const QString &email,
-                       const QString &token)
+                       const QString &token,
+                       const QString &avatarPath)
 {
     setId(id);
     setNickname(nickname);
     setEmail(email);
     setToken(token);
+    setAvatarPath(avatarPath);
 }

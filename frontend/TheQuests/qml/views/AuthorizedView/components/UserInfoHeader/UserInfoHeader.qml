@@ -72,6 +72,10 @@ Rectangle {
                     anchors.fill: parent
                     sideLen: parent.width
                     image.placeholderColor: '#24A1CD'
+                    source: UserModel.avatarPath
+                    Component.onCompleted: function () {
+                        console.log("avatarPath: ", UserModel.avatarPath);
+                    }
                 }
                 IconButton {
                     anchors {

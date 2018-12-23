@@ -16,7 +16,7 @@
 #include "src/config/apiurls.h"
 #include "src/config/questcardtypes.h"
 #include "src/mappers/CardMapper/cardmapper.h"
-#include "src/mappers/CardMapper/resourcesmapper.h"
+#include "src/mappers/ResourcesMapper/resourcesmapper.h"
 #include "src/models/structures/carddetail.h"
 
 CardController* CardController::instance()

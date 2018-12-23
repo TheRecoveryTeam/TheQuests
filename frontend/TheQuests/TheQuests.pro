@@ -13,7 +13,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        src/main.cpp \
+    src/main.cpp \
     src/controllers/AbstractController/abstractcontoller.cpp \
     src/controllers/CardController/cardcontroller.cpp \
     src/controllers/QuestController/questcontroller.cpp \
@@ -38,9 +38,9 @@ SOURCES += \
     src/engine/App/app.cpp \
     src/engine/HttpRequester/httprequester.cpp \
     src/mappers/CardMapper/cardmapper.cpp \
-    src/mappers/CardMapper/questlistmapper.cpp \
-    src/mappers/CardMapper/questmapper.cpp \
-    src/mappers/CardMapper/resourcesmapper.cpp \
+    src/mappers/QuestMapper/questlistmapper.cpp \
+    src/mappers/QuestMapper/questmapper.cpp \
+    src/mappers/ResourcesMapper/resourcesmapper.cpp \
     src/mappers/UserMapper/usermapper.cpp \
     src/models/CardModel/cardmodel.cpp \
     src/models/CardModel/controllers/abstractcardcontroller.cpp \
@@ -101,9 +101,9 @@ HEADERS += \
     src/engine/App/app.h \
     src/engine/HttpRequester/httprequester.h \
     src/mappers/CardMapper/cardmapper.h \
-    src/mappers/CardMapper/questlistmapper.h \
-    src/mappers/CardMapper/questmapper.h \
-    src/mappers/CardMapper/resourcesmapper.h \
+    src/mappers/QuestMapper/questlistmapper.h \
+    src/mappers/QuestMapper/questmapper.h \
+    src/mappers/ResourcesMapper/resourcesmapper.h \
     src/mappers/UserMapper/usermapper.h \
     src/models/CardModel/cardmodel.h \
     src/models/CardModel/controllers/abstractcardcontroller.h \
@@ -126,4 +126,5 @@ HEADERS += \
     src/utils/singleton.h \
     src/data_structures/network/UserCheckAuthRequest/usercheckauthrequest.h \
     src/models/ResourceListModel/resourcelistmodel.h \
-    src/models/CardModel/controllers/FinishCardController/finishcardcontroller.h
+    src/models/CardModel/controllers/FinishCardController/finishcardcontroller.h \
+    src/config/questlisttypes.h

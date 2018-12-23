@@ -14,6 +14,7 @@ class UserModel : public QObject
     Q_PROPERTY(const QString& email READ getEmail NOTIFY emailChanged)
     Q_PROPERTY(const QString& token READ getToken NOTIFY tokenChanged)
     Q_PROPERTY(bool isAuthenticated READ isAuthenticated NOTIFY tokenChanged)
+    Q_PROPERTY(const QString& avatarPath READ getAvatarPath NOTIFY avatarPathChanged)
 
 public:
     static UserModel* instance();
@@ -36,13 +37,18 @@ public:
     void setAll(const QString& id,
                 const QString& nickname,
                 const QString& email,
-                const QString& token);
+                const QString& token,
+                const QString& avatarPath = "");
+
+    const QString& getAvatarPath() const;
+    void setAvatarPath(const QString& value);
 
 signals:
     void idChanged(const QString&);
     void nicknameChanged(const QString&);
     void emailChanged(const QString&);
     void tokenChanged(const QString&);
+    void avatarPathChanged(const QString&);
 
 private:
     explicit UserModel(QObject *parent = nullptr);
@@ -52,6 +58,7 @@ private:
     QString nickname;
     QString email;
     QString token;
+    QString avatarPath;
 };
 
 #endif // USERMODEL_H
