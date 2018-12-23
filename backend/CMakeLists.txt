@@ -146,28 +146,19 @@ find_package(nlohmann_json 3.4.0 REQUIRED)
 include_directories(${OPENSSL_INCLUDE_DIR})
 
 include_directories(${PROJECT_SOURCE_DIR}/src/)
-add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/src/)
-target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json cpprestsdk::cpprest ${Boost_LIBRARIES} ${Boost_SYSTEM_LIBRARY} ${LIBMONGOCXX_LIBRARIES}
-        cardmodel questmodel abstractmodel sessionmodel usermodel databaseconnection abstractcontroller)
-target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS})
-target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
 
-add_executable(server
+add_executable(${PROJECT_NAME}
         main.cpp
-        src/config/Config.h
-        src/utils/controller/RuntimeUtils.h
-        src/utils/controller/UserInterruptHandler.h
-        src/utils/controller/Handler.h
         )
 
 message(STATUS ${Boost_INCLUDE_DIRS})
 message(STATUS ${OPENSSL_INCLUDE_DIR})
 message(STATUS ${OPENSSL_LIBRARIES})
 message(STATUS ${OPENSSL_VERSION})
-target_include_directories(server PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
-target_compile_definitions(server PUBLIC ${LIBMONGOCXX_DEFINITIONS})
-target_link_libraries(server
+target_include_directories(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_INCLUDE_DIRS} ${Boost_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
+target_compile_definitions(${PROJECT_NAME} PUBLIC ${LIBMONGOCXX_DEFINITIONS})
+target_link_libraries(${PROJECT_NAME}
         gtest_main
         nlohmann_json::nlohmann_json
         ${Boost_LIBRARIES}
@@ -225,6 +216,17 @@ target_link_libraries(${TEST_BUILD_NAME}
         abstractmodel
         sessionmodel
         usermodel
-        databaseconnection)
+        databaseconnection
+        abstractcontroller
+        cardcontroller
+        questcontroller
+        usercontroller
+        controller_utils
+        converters_utils
+        abstract_decorator_utils
+        login_required_utils
+        required_args_utils
+        microservice
+        )
 
 add_test(NAME CardModelManagerTest COMMAND test)
