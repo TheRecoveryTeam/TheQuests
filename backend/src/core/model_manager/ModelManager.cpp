@@ -4,7 +4,7 @@
 AbstractModelManager::AbstractModelManager::AbstractModelManager(const std::string &collection_name) {
   collection_name_ = collection_name;
   auto client = MongoAccess::MongoAccess::instance().get_connection();
-  collection_ = (*client)["TheQuests"][collection_name_];
+  collection_ = (*client)["TheQuestsDB"][collection_name_];
 }
 
 std::string AbstractModelManager::AbstractModelManager::Get(const std::string &request,

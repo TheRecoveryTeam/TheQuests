@@ -39,10 +39,10 @@ std::string QuestModelManager::QuestModelManager::GetWithHistory(const std::stri
     {"userId", data["userId"]}
   };
   auto history = nlohmann::json::parse(history_manager_->GetUserHistory(history_query.dump()));
-  if (history.find("error") == history.end()) {
+  if (history.find("error") != history.end()) {
     return history.dump();
   }
-  if (history.find("warning") == history.end()) {
+  if (history.find("warning") != history.end()) {
     nlohmann::json new_history = {
       {"questId", data["id"]},
       {"userId", data["userId"]},
@@ -123,8 +123,10 @@ std::string QuestModelManager::QuestModelManager::List(const std::string &reques
     }
     query["authorId"] = {{"$oid", data["authorId"]}};
   }
-  int page = data["page"];
-  int limit = data["limit"];
+  std::string strPage = data["page"];
+  int page = std::stoi(strPage);
+  std::string strLimit = data["limit"];
+  int limit = std::stoi(strLimit);
   int start = limit * (page - 1);
   int end = limit * page;
   mongocxx::options::find opts{};

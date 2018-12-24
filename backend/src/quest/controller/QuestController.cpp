@@ -155,11 +155,11 @@ void QuestController::Detail(web::http::http_request message) {
     message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
   };
 
-  auto required_args_decorator
-    = decorators::RequiredArgsDecorator({ "id" }, message, process_logic);
+//  decorators::AbstractDecorator required_args_decorator
+//    = decorators::RequiredArgsDecorator({ "id" }, message, process_logic);
 
   auto login_required_decorator
-    = decorators::LoginRequiredDecorator(message, required_args_decorator);
+    = decorators::LoginRequiredDecorator(message, process_logic);
 
   ProcessGet(message, login_required_decorator);
 }
@@ -177,11 +177,11 @@ void QuestController::List(web::http::http_request message) {
     message.reply(status, converters::ConvertNlohmannToWebJSON(resp));
   };
 
-  auto required_args_decorator
-    = decorators::RequiredArgsDecorator({ "page", "limit" }, message, process_logic);
+//  auto required_args_decorator
+//    = decorators::RequiredArgsDecorator({ "page", "limit" }, message, process_logic);
 
   auto login_required_decorator
-    = decorators::LoginRequiredDecorator(message, required_args_decorator);
+    = decorators::LoginRequiredDecorator(message, process_logic);
 
   ProcessGet(message, login_required_decorator);
 }
