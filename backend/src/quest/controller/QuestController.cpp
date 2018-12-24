@@ -200,11 +200,11 @@ void QuestController::ConfigureRouting() {
             ASSIGN_HANDLER(QuestController, Resources)
     });
 
-//    _routingEntries.push_back(networkhelper::RoutingEntry{
-//            U("list"),
-//            web::http::methods::GET,
-//            ASSIGN_HANDLER(QuestController, List)
-//    });
+    _routingEntries.push_back(networkhelper::RoutingEntry{
+            U("list"),
+            web::http::methods::GET,
+            ASSIGN_HANDLER(QuestController, List)
+    });
 
     _routingEntries.push_back(networkhelper::RoutingEntry{
             U("edit_image"),
