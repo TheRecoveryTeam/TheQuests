@@ -9,8 +9,7 @@
 #include <utils/converters/ConvertNlohmannToWebJSON.h>
 #include <utils/decorators/required_args/RequiredArgsDecorator.h>
 #include <utils/decorators/login_required/LoginRequiredDecorator.h>
-
-const std::string USER_ID = "user_id";
+#include <config/Config.h>
 
 void CardController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -184,8 +183,8 @@ void CardController::Get(web::http::http_request message) {
 
 void CardController::DoAnswer(web::http::http_request message) {
   RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
-    request_args["userId"] = request_args[USER_ID];
-    request_args.erase(USER_ID);
+    request_args["userId"] = request_args[config::fields::USER_ID];
+    request_args.erase(config::fields::USER_ID);
     CardModelManager::CardModelManager manager;
     auto resp = nlohmann::json::parse(manager.GetNextCard(request_args.dump()));
 

@@ -9,7 +9,7 @@
 
 namespace config {
     namespace fields {
-        const std::string USER_ID = "user_id";
+        const std::string USER_ID = "userId";
         const std::string TOKEN = "token";
     }
 }

@@ -8,8 +8,7 @@
 #include <utils/controller/NetworkUtils.h>
 #include <quest/model_manager/QuestModelManager.h>
 #include <utils/converters/ConvertNlohmannToWebJSON.h>
-
-const std::string USER_ID = "user_id";
+#include <config/Config.h>
 
 void QuestController::InitHandlers() {
     _listener.support([this](const web::http::http_request &message) {
@@ -168,8 +167,8 @@ void QuestController::Detail(web::http::http_request message) {
 void QuestController::List(web::http::http_request message) {
   RequestLogicProcessor process_logic = [this, message](nlohmann::json& request_args) {
     if (request_args.find("authorId") != request_args.end()) {
-      request_args["authorId"] = request_args[USER_ID];
-      request_args.erase(USER_ID);
+      request_args["authorId"] = request_args[config::fields::USER_ID];
+      request_args.erase(config::fields::USER_ID);
     }
     QuestModelManager::QuestModelManager manager;
     auto resp = nlohmann::json::parse(manager.List(request_args.dump()));
