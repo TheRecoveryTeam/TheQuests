@@ -1,5 +1,58 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file alias="main.qml">qml/main.qml</file>
+    </qresource>
+    <qresource prefix="/js">
+        <file>db.js</file>
+    </qresource>
+    <qresource prefix="/components">
+        <file alias="BackgroundGradient/BackgroundGradient.qml">qml/components/BackgroundGradient/BackgroundGradient.qml</file>
+        <file alias="Card/CardToolbar.qml">qml/components/Card/CardToolbar.qml</file>
+        <file alias="Card/Card.qml">qml/components/Card/index.qml</file>
+        <file alias="Card/CardDescription.qml">qml/components/Card/CardDescription.qml</file>
+        <file alias="Title/Title.qml">qml/components/Title/Title.qml</file>
+        <file alias="SimpleText/SimpleText.qml">qml/components/SimpleText/SimpleText.qml</file>
+        <file alias="CustomButton/CustomButton.qml">qml/components/CustomButton/CustomButton.qml</file>
+        <file alias="CustomButton/IconButton.qml">qml/components/CustomButton/IconButton.qml</file>
+        <file alias="CustomButton/WhiteCustomButton.qml">qml/components/CustomButton/WhiteCustomButton.qml</file>
+        <file alias="ImageContainer/ImageContainer.qml">qml/components/ImageContainer/ImageContainer.qml</file>
+        <file alias="TexturedRect/TexturedRect.qml">qml/components/TexturedRect/TexturedRect.qml</file>
+        <file alias="form/FormContainer/FormContainer.qml">qml/components/form/FormContainer/FormContainer.qml</file>
+        <file alias="form/TextInput/TextInput.qml">qml/components/form/TextInput/TextInput.qml</file>
+        <file alias="ImageCircled/ImageCircled.qml">qml/components/ImageCircled/ImageCircled.qml</file>
+        <file alias="Divider/Divider.qml">qml/components/Divider/Divider.qml</file>
+        <file alias="CustomHeader/CustomHeader.qml">qml/components/CustomHeader/CustomHeader.qml</file>
+        <file alias="QuestShort/QuestShort.qml">qml/components/QuestShort/QuestShort.qml</file>
+        <file alias="IconText/IconText.qml">qml/components/IconText/IconText.qml</file>
+        <file alias="CustomButton/OutlinedIconButton.qml">qml/components/CustomButton/OutlinedIconButton.qml</file>
+        <file alias="ResourceView/ResourceView.qml">qml/components/ResourceView/ResourceView.qml</file>
+    </qresource>
+    <qresource prefix="/views">
+        <file alias="AuthenticationView/AuthenticationView.qml">qml/views/AuthenticationView/AuthenticationView.qml</file>
+        <file alias="AuthenticationView/components/LogoText/LogoText.qml">qml/views/AuthenticationView/components/LogoText/LogoText.qml</file>
+        <file alias="AuthenticationView/components/LoginFormView/LoginFormView.qml">qml/views/AuthenticationView/components/LoginView/LoginView.qml</file>
+        <file alias="AuthenticationView/components/SignUpFormView/SignUpFormView.qml">qml/views/AuthenticationView/components/SignUpFormView/SignUpFormView.qml</file>
+        <file alias="AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml">qml/views/AuthenticationView/components/SignUpFinishFormView/SignUpFinishFormView.qml</file>
+        <file alias="AuthenticationView/components/VKAuthPage/VKAuthPage.qml">qml/views/AuthenticationView/components/VKAuthPage/VKAuthPage.qml</file>
+
+        <file alias="AuthorizedView/AuthorizedView.qml">qml/views/AuthorizedView/AuthorizedView.qml</file>
+        <file alias="AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml">qml/views/AuthorizedView/components/UserInfoHeader/UserInfoHeader.qml</file>
+        <file alias="AuthorizedView/components/SettingsPage/SettingsPage.qml">qml/views/AuthorizedView/components/SettingsPage/SettingsPage.qml</file>
+
+        <file alias="AuthorizedView/components/QuestPage/QuestPage.qml">qml/views/AuthorizedView/components/QuestPage/QuestPage.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/QuestToolbar/QuestToolbar.qml">qml/views/AuthorizedView/components/QuestPage/components/QuestToolbar/QuestToolbar.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/CardView/CardView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/CardView.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/CardControllerView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/CardContollerView.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/ChooseControllerView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/ChooseControllerView.qml</file>
+        <file alias="AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/FinishControllerView.qml">qml/views/AuthorizedView/components/QuestPage/components/CardView/components/CardControllerView/components/FinishControllerView.qml</file>
+    </qresource>
+    <qresource prefix="/media">
+        <file alias="RobotoSlab-Bold.ttf">qml/media/RobotoSlab-Bold.ttf</file>
+        <file alias="Exo2-Regular.ttf">qml/media/Exo2-Regular.ttf</file>
+        <file alias="MaterialIcons-Regular.ttf">qml/media/MaterialIcons-Regular.ttf</file>
+        <file alias="king.jpg">qml/media/kingImage.jpg</file>
+        <file alias="vk-logo.svg">qml/media/vk-logo.svg</file>
+        <file alias="pointStars.svg">qml/media/4-point-stars.svg</file>
     </qresource>
 </RCC>

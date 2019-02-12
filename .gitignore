@@ -1,4 +1,3 @@
-
 # Created by https://www.gitignore.io/api/c,qt,c++,qml,macos,cmake,jetbrains,qtcreator,visualstudio,jetbrains+all,jetbrains+iml,visualstudiocode
 
 ### C ###
@@ -698,3 +697,6 @@ ASALocalRun/
 # End of https://www.gitignore.io/api/c,qt,c++,qml,macos,cmake,jetbrains,qtcreator,visualstudio,jetbrains+all,jetbrains+iml,visualstudiocode
 
 *build-TheQuests*
+*-prefix/
+cmake-build-debug/thirdparty/
+data/
